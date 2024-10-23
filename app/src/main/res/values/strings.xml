@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">TestXML</string>
+    <string name="welcome_title">Добро пожаловать\n в MovieCatalog</string>
+    <string name="sign_in_title">Вход в аккаунт</string>
+    <string name="register_string">Регистрация</string>
+    <string name="feed_menu">Лента</string>
+    <string name="films_menu">Фильмы</string>
+    <string name="favourite_menu">Избранное</string>
+    <string name="profile_menu">Профиль</string>
+</resources>
