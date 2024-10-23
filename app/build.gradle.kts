@@ -37,6 +37,12 @@ android {
     viewBinding{
         enable = true
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.3"
+    }
 }
 
 dependencies {
@@ -80,4 +86,11 @@ dependencies {
 
     //picasso
     implementation("com.squareup.picasso:picasso:2.8")
+
+    //compose features
+    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui-android:1.7.4")
 }

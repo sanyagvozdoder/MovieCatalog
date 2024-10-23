@@ -11,6 +11,7 @@
         android:icon="@drawable/film">
     </item>
     <item
+        android:id="@+id/nav_favorite"
         android:title="@string/favourite_menu"
         android:icon="@drawable/favourite">
     </item>

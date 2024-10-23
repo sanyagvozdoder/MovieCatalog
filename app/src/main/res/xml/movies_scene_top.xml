@@ -5,7 +5,7 @@
     <Transition
         motion:constraintSetStart="@id/start"
         motion:constraintSetEnd="@+id/next"
-        motion:duration="1000"
+        motion:duration="5000"
         android:id="@+id/forward">
         <OnSwipe
             motion:dragDirection="dragLeft"

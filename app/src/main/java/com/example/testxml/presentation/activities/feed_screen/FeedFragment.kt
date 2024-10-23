@@ -1,7 +1,6 @@
 package com.example.testxml.presentation.activities.feed_screen
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -9,7 +8,7 @@ import android.view.animation.AccelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.testxml.R
-import com.example.testxml.data.remote.dto.Movy
+import com.example.testxml.data.remote.dto.Movie
 import com.example.testxml.databinding.FeedFragmentBinding
 import com.example.testxml.presentation.activities.feed_screen.components.PosterAdapter
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
@@ -41,7 +40,7 @@ class FeedFragment: Fragment(R.layout.feed_fragment) {
         val genre2 = binding.genre2
         val genre3 = binding.genre3
 
-        fun updateCurrentMovie(movie: Movy?){
+        fun updateCurrentMovie(movie: Movie?){
             if (movie != null) {
                 title.text = movie.name
                 info.text = movie.country + " • " + movie.year

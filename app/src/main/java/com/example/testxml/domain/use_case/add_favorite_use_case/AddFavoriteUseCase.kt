@@ -19,7 +19,6 @@ class AddFavoriteUseCase constructor(
         try {
             emit(StateMachineWithoutData.Loading())
             val response = getFromSharedPrefs(context)?.let { repository.addFavorite(id, "Bearer "+ it) }
-            Log.d("penis",response.toString())
             if (response != null) {
                 if (response.isSuccessful){
                     emit(StateMachineWithoutData.Success())

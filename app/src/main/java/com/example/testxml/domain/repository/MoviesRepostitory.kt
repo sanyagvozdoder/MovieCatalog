@@ -1,7 +1,8 @@
 package com.example.testxml.domain.repository
 
+import com.example.testxml.data.remote.dto.Movie
+import com.example.testxml.data.remote.dto.MovieListDto
 import com.example.testxml.data.remote.dto.MoviePageDto
-import com.example.testxml.data.remote.dto.Token
 import retrofit2.Response
 
 interface MoviesRepostitory {
@@ -10,4 +11,6 @@ interface MoviesRepostitory {
     suspend fun getMovieDetails()
 
     suspend fun addFavorite(id:String,token:String):Response<Unit>
+
+    suspend fun getFavoriteMovies(token: String):Response<MovieListDto>
 }

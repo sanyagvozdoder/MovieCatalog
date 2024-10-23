@@ -1,7 +1,7 @@
 package com.example.testxml.data.remote.dto
 
 
-data class Movy(
+data class Movie(
     val country: String,
     val genres: List<Genre>,
     val id: String,

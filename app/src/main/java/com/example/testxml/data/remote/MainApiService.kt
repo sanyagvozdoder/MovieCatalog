@@ -2,6 +2,8 @@ package com.example.testxml.data.remote
 
 import com.example.testxml.data.remote.dto.LoginUserDto
 import com.example.testxml.data.remote.dto.MoviePageDto
+import com.example.testxml.data.remote.dto.Movie
+import com.example.testxml.data.remote.dto.MovieListDto
 import com.example.testxml.data.remote.dto.RegisterUserDto
 import com.example.testxml.data.remote.dto.Token
 import retrofit2.Response
@@ -26,4 +28,7 @@ interface MainApiService {
 
     @POST("api/favorites/{id}/add")
     suspend fun addFavoriteMovie(@Path("id") id:String, @Header("Authorization") token:String):Response<Unit>
+
+    @GET("api/favorites")
+    suspend fun getFavoritesMovies(@Header("Authorization") token:String):Response<MovieListDto>
 }

@@ -7,7 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testxml.common.StateMachine
-import com.example.testxml.data.remote.dto.Movy
+import com.example.testxml.data.remote.dto.Movie
+import com.example.testxml.data.remote.dto.MoviePageDto
 import com.example.testxml.domain.use_case.add_favorite_use_case.AddFavoriteUseCase
 import com.example.testxml.domain.use_case.get_movies_use_case.GetMoviesUseCase
 import com.example.testxml.presentation.activities.feed_screen.util.MovieStateHandler
@@ -18,10 +19,10 @@ class FeedViewModel constructor(
     private val getMoviesUseCase: GetMoviesUseCase = GetMoviesUseCase(),
     private val addFavoritesUseCase: AddFavoriteUseCase = AddFavoriteUseCase()
 ):ViewModel() {
-    private val _state = MutableLiveData(MovieStateHandler())
-    val state: LiveData<MovieStateHandler> = _state
+    private val _state = MutableLiveData(MovieStateHandler<MoviePageDto>())
+    val state: LiveData<MovieStateHandler<MoviePageDto>> = _state
 
-    val _movies = mutableListOf<Movy>()
+    val _movies = mutableListOf<Movie>()
 
     var pageCount:Int = 0
 
