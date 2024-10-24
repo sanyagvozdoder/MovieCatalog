@@ -7,4 +7,7 @@
     <string name="films_menu">Фильмы</string>
     <string name="favourite_menu">Избранное</string>
     <string name="profile_menu">Профиль</string>
+    <string name="favorite_movies_screen">Мне нравится</string>
+    <string name="all_movies_screen">Все</string>
+    <string name="random_movie_screen">Случайный фильм</string>
 </resources>
