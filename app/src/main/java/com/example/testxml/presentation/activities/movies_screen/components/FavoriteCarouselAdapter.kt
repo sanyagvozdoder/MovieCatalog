@@ -22,7 +22,6 @@ class FavoriteCarouselAdapter : RecyclerView.Adapter<FavoriteCarouselAdapter.Pos
     }
 
     override fun getItemCount(): Int {
-        Log.d("penis", moviesList.size.toString())
         return moviesList.size
     }
 
@@ -34,7 +33,6 @@ class FavoriteCarouselAdapter : RecyclerView.Adapter<FavoriteCarouselAdapter.Pos
     fun setMovies(movies: List<String>) {
         moviesList.clear()
         moviesList.addAll(movies)
-        Log.d("penis", "setting")
         notifyDataSetChanged()
     }
 }

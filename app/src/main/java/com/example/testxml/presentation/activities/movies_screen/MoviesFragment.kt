@@ -38,26 +38,26 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
             adapter = customAdapter
         }
 
-        carousel.addOnScrollListener(object:RecyclerView.OnScrollListener(){
+        carousel.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
+                val distanceFromStart = recyclerView.getChildAt(0).left
 
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                val firstVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition()
+                val scaleFactorNext = 1.1f - (distanceFromStart / recyclerView.width.toFloat()) * 0.1f
+                val scaleFactor = 1.1f - (scaleFactorNext - 1)
 
                 for (i in 0 until recyclerView.childCount) {
-                    val child = recyclerView.getChildAt(i)
-
-                    if (recyclerView.getChildAdapterPosition(child) == firstVisiblePosition) {
-                        child.animate()
-                            .scaleX(1.2f)
-                            .scaleY(1.1f)
-                            .start()
-                    } else {
-                        child.animate()
-                            .scaleX(1.0f)
-                            .scaleY(1.0f)
-                            .start()
+                    if(i == 0) {
+                        recyclerView.getChildAt(0).scaleX = scaleFactor
+                        recyclerView.getChildAt(0).scaleY = scaleFactor
+                    }
+                    else if(i == 1){
+                        recyclerView.getChildAt(1).scaleX = scaleFactorNext
+                        recyclerView.getChildAt(1).scaleY = scaleFactorNext
+                    }
+                    else{
+                        recyclerView.getChildAt(i).scaleX = 1.0f
+                        recyclerView.getChildAt(i).scaleY = 1.0f
                     }
                 }
             }
