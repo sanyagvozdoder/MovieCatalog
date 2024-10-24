@@ -5,6 +5,8 @@ import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.testxml.R
 import com.example.testxml.databinding.MoviesFragmentBinding
 import com.example.testxml.presentation.activities.movies_screen.components.FavoriteCarouselAdapter
+import com.example.testxml.presentation.activities.movies_screen.components.TopCarouselAdapter
 
 
 class MoviesFragment : Fragment(R.layout.movies_fragment) {
@@ -24,12 +27,12 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
         binding = MoviesFragmentBinding.bind(view)
 
         viewModel.getFavorites(requireContext())
+        viewModel.getMovies(1)
 
         val carousel = binding.favoriteCarousel
         val manager = LinearLayoutManager(requireContext())
         manager.orientation = LinearLayoutManager.HORIZONTAL
         manager.isSmoothScrollbarEnabled = true
-
 
         val customAdapter = FavoriteCarouselAdapter()
 
@@ -65,9 +68,47 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
             }
         })
 
+        val topCarousel = binding.topCarousel
+        val topManager = object:LinearLayoutManager(requireContext()){
+            override fun canScrollHorizontally(): Boolean {
+                return true
+            }
+        }
+        topManager.orientation = LinearLayoutManager.HORIZONTAL
+
+        val topAdapter = TopCarouselAdapter()
+
+        topCarousel.apply {
+            layoutManager = topManager
+            adapter = topAdapter
+        }
+
+        val handler = Handler(Looper.getMainLooper())
+        var position = 0
+
+        val runnable = object : Runnable {
+            override fun run() {
+                if (position == topAdapter.itemCount) {
+                    position = 0
+                }
+                topCarousel.smoothScrollToPosition(position)
+                position++
+                handler.postDelayed(this, 5000)
+            }
+        }
+
+        handler.postDelayed(runnable, 0)
+
+
         viewModel.favoriteState.observe(viewLifecycleOwner) { state ->
             if (state.isSuccess && state.movies != null) {
                 customAdapter.setMovies(state.movies.map { it.poster })
+            }
+        }
+
+        viewModel.topState.observe(viewLifecycleOwner){state->
+            if (state.isSuccess && state.movies != null){
+                topAdapter.setMovies(state.movies)
             }
         }
 

@@ -3,6 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="dark_gradient">#BB242121</color>
     <color name="light_gray">#66222222</color>
+    <color name="gray_alpha">#001A1A1A</color>
+    <color name="gray_alpha_non">#FF1A1A1A</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#FF1E1E1E</color>
     <color name="dark_input">#333333</color>
