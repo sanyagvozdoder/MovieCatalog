@@ -6,17 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.testxml.common.StateMachine
 import com.example.testxml.common.StateMachineWithoutData
 import com.example.testxml.data.remote.dto.LoginUserDto
 import com.example.testxml.domain.use_case.login_user_use_case.LoginUserUseCase
 import com.example.testxml.presentation.utils.StateHandler
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class SignInViewModel constructor(

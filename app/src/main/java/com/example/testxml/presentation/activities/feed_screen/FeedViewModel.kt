@@ -39,15 +39,12 @@ class FeedViewModel constructor(
                         }
                         if (_movies.isNotEmpty()){
                             _movies += curState.data?.movies ?: listOf()
-                            Log.d("penis", "added newItems")
-                            Log.d("penis", _movies.map { it.name }.toString())
                         }else{
                             _movies.addAll(curState?.data?.movies ?: listOf())
                         }
                         _state.value = MovieStateHandler(isSuccess = true, movies = curState.data)
                     }
                 }
-                Log.d("penis",_state.value.toString())
             }
         }
     }

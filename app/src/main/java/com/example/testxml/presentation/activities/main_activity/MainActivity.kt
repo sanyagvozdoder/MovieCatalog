@@ -2,12 +2,10 @@ package com.example.testxml.presentation.activities.main_activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.testxml.R
 import com.example.testxml.databinding.CoordinatorMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity:AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

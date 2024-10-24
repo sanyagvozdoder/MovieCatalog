@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testxml.common.StateMachineWithoutData
-import com.example.testxml.data.remote.dto.LoginUserDto
 import com.example.testxml.data.remote.dto.RegisterUserDto
 import com.example.testxml.domain.use_case.register_user_use_case.RegisterUserUseCase
 import com.example.testxml.presentation.activities.sign_up_activity.util.Month

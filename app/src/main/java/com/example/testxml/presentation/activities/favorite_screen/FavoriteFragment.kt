@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.material3.Text
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -27,7 +26,7 @@ class FavoriteFragment: Fragment(R.layout.favorites_fragment) {
                 )
                 setContent {
                     Text(
-                        text = "ПИДАРААААААААААСССС",
+                        text = "ПРИВЕТ))",
                         style = TextStyle(fontSize = 30.sp),
                         color = Color.White
                     )
