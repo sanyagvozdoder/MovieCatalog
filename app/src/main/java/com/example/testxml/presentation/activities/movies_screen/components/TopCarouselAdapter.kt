@@ -1,7 +1,9 @@
 package com.example.testxml.presentation.activities.movies_screen.components
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -20,13 +22,6 @@ class TopCarouselAdapter : RecyclerView.Adapter<TopCarouselAdapter.PosterViewHol
         val genre1View:TextView = itemView.findViewById(R.id.genre1)
         val genre2View:TextView = itemView.findViewById(R.id.genre2)
         val genre3View:TextView = itemView.findViewById(R.id.genre3)
-        val progressBar = listOf(
-            itemView.findViewById<ProgressBar>(R.id.progress_1),
-            itemView.findViewById<ProgressBar>(R.id.progress_2),
-            itemView.findViewById<ProgressBar>(R.id.progress_3),
-            itemView.findViewById<ProgressBar>(R.id.progress_4),
-            itemView.findViewById<ProgressBar>(R.id.progress_5)
-        )
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PosterViewHolder {
@@ -40,11 +35,12 @@ class TopCarouselAdapter : RecyclerView.Adapter<TopCarouselAdapter.PosterViewHol
     }
 
     override fun onBindViewHolder(holder: PosterViewHolder, position: Int) {
-        Picasso.get().load(moviesList[position].poster).into(holder.posterImageView)
+        Log.d("penisss", holder.titleView.visibility.toString())
         holder.titleView.text = moviesList[position].name
         holder.genre1View.text = moviesList[position].genres[0].name
         holder.genre2View.text = moviesList[position].genres[1].name
         holder.genre3View.text = moviesList[position].genres[2].name
+        Picasso.get().load(moviesList[position].poster).into(holder.posterImageView)
     }
 
     fun setMovies(movies: List<MovieTopCarousel>) {

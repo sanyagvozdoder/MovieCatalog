@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-
     <ImageView
         android:id="@+id/poster_image"
         android:layout_width="match_parent"
@@ -19,74 +18,24 @@
         android:id="@+id/poster_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/gradient_for_carousel"/>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/poster_background"
-        app:layout_constraintEnd_toEndOf="@+id/poster_background"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/poster_background"
-        app:layout_constraintTop_toTopOf="@+id/poster_background"
-        app:layout_constraintVertical_bias="0.062">
-
-        <ProgressBar
-            android:id="@+id/progress_1"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="70dp"
-            android:progressDrawable="@drawable/orange_gradient"
-            android:layout_marginEnd="4dp"
-            android:layout_height="4dp"
-            android:progress="100" />
-
-        <ProgressBar
-            android:id="@+id/progress_2"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="70dp"
-            android:layout_height="4dp"
-            android:layout_marginEnd="4dp"
-            android:progress="0" />
-
-        <ProgressBar
-            android:id="@+id/progress_3"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="70dp"
-            android:layout_height="4dp"
-            android:layout_marginEnd="4dp"
-            android:progress="0" />
-
-        <ProgressBar
-            android:id="@+id/progress_4"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="70dp"
-            android:layout_height="4dp"
-            android:layout_marginEnd="4dp"
-            android:progress="0" />
-
-        <ProgressBar
-            android:id="@+id/progress_5"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="70dp"
-            android:layout_height="4dp"
-            android:layout_marginEnd="4dp"
-            android:progress="0" />
-    </LinearLayout>
+        android:background="@drawable/gradient_for_carousel" />
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="324dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="536dp"
+        android:ellipsize="end"
         android:fontFamily="@font/manrope_bold"
-        android:text="Название"
+        android:maxLines="2"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintHorizontal_bias="0.356"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.778" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_watch"
@@ -113,10 +62,10 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.146"
+        app:layout_constraintHorizontal_bias="0.088"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintVertical_bias="0.302">
+        app:layout_constraintVertical_bias="0.298">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -132,7 +81,6 @@
                 android:fontFamily="@font/manrope_medium"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="2dp"
-                android:text="фэнтези"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
@@ -146,7 +94,6 @@
                 android:fontFamily="@font/manrope_medium"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="2dp"
-                android:text="детектив"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
@@ -161,7 +108,6 @@
             android:fontFamily="@font/manrope_medium"
             android:paddingHorizontal="12dp"
             android:paddingVertical="2dp"
-            android:text="детектив"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="16sp" />

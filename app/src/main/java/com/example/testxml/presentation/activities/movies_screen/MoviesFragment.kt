@@ -1,6 +1,7 @@
 package com.example.testxml.presentation.activities.movies_screen
 
 import android.R.attr.width
+import android.animation.ValueAnimator
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -8,6 +9,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.widget.ProgressBar
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -83,6 +86,33 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
             adapter = topAdapter
         }
 
+        val progressList = listOf<ProgressBar>(
+            binding.progress1,
+            binding.progress2,
+            binding.progress3,
+            binding.progress4,
+            binding.progress5
+        )
+
+        progressList.forEach {
+            it.isIndeterminate = false
+            it.progressDrawable = getDrawable(requireContext(), R.drawable.progress_bar_colors)
+        }
+
+        fun animateProgressBar(progressBar: ProgressBar) {
+            val valueAnimator = ValueAnimator.ofInt(0, 100)
+            valueAnimator.duration = 5000L
+
+            valueAnimator.addUpdateListener { animation ->
+                progressBar.progress = animation.animatedValue as Int
+                if(progressBar.id == R.id.progress_5 && progressBar.progress == 100){
+                    progressBar.progress = 0
+                }
+            }
+
+            valueAnimator.start()
+        }
+
         val handler = Handler(Looper.getMainLooper())
         var position = 0
 
@@ -90,9 +120,15 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
             override fun run() {
                 if (position == topAdapter.itemCount) {
                     position = 0
+                    progressList.forEach {
+                        it.progress = 0
+                    }
                 }
+
                 topCarousel.smoothScrollToPosition(position)
+                animateProgressBar(progressList[position])
                 position++
+
                 handler.postDelayed(this, 5000)
             }
         }
