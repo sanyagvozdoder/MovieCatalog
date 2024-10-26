@@ -8,7 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.testxml.common.StateMachine
 import com.example.testxml.data.remote.dto.Movie
 import com.example.testxml.data.remote.dto.MoviePageDto
+import com.example.testxml.data.remote.dto.toMovieGridCarousel
 import com.example.testxml.data.remote.dto.toMovieTopCarousel
+import com.example.testxml.domain.models.MovieGridCarousel
 import com.example.testxml.domain.models.MovieTopCarousel
 import com.example.testxml.domain.use_case.get_favorite_use_case.GetFavoriteMoviesUseCase
 import com.example.testxml.domain.use_case.get_movies_use_case.GetMoviesUseCase
@@ -25,6 +27,9 @@ class MoviesViewModel constructor(
     private val _topState = MutableLiveData(MovieStateHandler<List<MovieTopCarousel>>())
     val topState: LiveData<MovieStateHandler<List<MovieTopCarousel>>> = _topState
 
+    private val _gridState = MutableLiveData(MovieStateHandler<List<MovieGridCarousel>>())
+    val gridState: LiveData<MovieStateHandler<List<MovieGridCarousel>>> = _gridState
+
     fun getFavorites(context: Context){
         viewModelScope.launch {
             getFavoriteMoviesUseCase(context).collect{curState->
@@ -38,6 +43,27 @@ class MoviesViewModel constructor(
     }
 
     fun getMovies(page:Int){
+        viewModelScope.launch {
+            getMoviesUseCase(page).collect{curState->
+                when(curState){
+                    is StateMachine.Error -> _gridState.value = MovieStateHandler(isErrorOccured = true, message = curState.message ?: "Неизвестная ошибка")
+                    is StateMachine.Loading -> _gridState.value = MovieStateHandler(isLoading = true)
+                    is StateMachine.Success -> {
+                        val listMovies = mutableListOf<MovieGridCarousel>()
+                        curState.data?.movies?.forEachIndexed{index, movie ->
+                            listMovies.add(movie.toMovieGridCarousel())
+                            if(favoriteState.value?.movies?.any { it.id == movie.id } == true){
+                                listMovies[index].isFavorite = true
+                            }
+                        }
+                        _gridState.value = MovieStateHandler(isSuccess = true, movies = listMovies)
+                    }
+                }
+            }
+        }
+    }
+
+    fun getTopMovies(page:Int){
         viewModelScope.launch {
             getMoviesUseCase(page).collect{curState->
                 when(curState){

@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.core.widget.NestedScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/scroll_view"
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:scrollbars="none"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@color/background"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/background">
 
         <FrameLayout
             android:id="@+id/carousel_container"
@@ -21,7 +24,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/top_carousel"
                 android:layout_width="match_parent"
-                android:layout_height="485dp"
+                android:layout_height="455dp"
                 app:layout_constraintBottom_toTopOf="@+id/random_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -35,9 +38,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:gravity="center_horizontal"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="@+id/poster_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
@@ -51,8 +54,7 @@
                     android:layout_width="70dp"
                     android:layout_height="4dp"
                     android:layout_marginEnd="4dp"
-                    android:progress="0"
-                    />
+                    android:progress="0" />
 
                 <ProgressBar
                     android:id="@+id/progress_2"
@@ -109,7 +111,7 @@
             android:id="@+id/random_button"
             android:layout_width="363dp"
             android:layout_height="97dp"
-            android:layout_marginBottom="84dp"
+            android:layout_marginTop="28dp"
             android:background="@drawable/orange_gradient"
             android:drawableLeft="@drawable/game_die"
             android:fontFamily="@font/manrope_bold"
@@ -118,11 +120,10 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/favorite_carousel"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.506"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/carousel_container"
-            app:layout_constraintVertical_bias="0.897" />
+            app:layout_constraintTop_toBottomOf="@+id/carousel_container" />
 
         <Button
             android:id="@+id/all_button"
@@ -149,12 +150,38 @@
             android:layout_width="match_parent"
             android:layout_height="260dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginTop="76dp"
             android:paddingHorizontal="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.696"
-            tools:layout_editor_absoluteX="16dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/random_button">
 
         </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/all_films_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/manrope_bold"
+            android:text="@string/all_films_movies_screen"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/all_carousel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.052"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/favorite_carousel" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/all_carousel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="51dp"
+            android:minHeight="200dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/favorite_carousel" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

@@ -1,6 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.TestXML" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowSplashScreenBackground">@color/background</item>
         <item name="android:windowSplashScreenIconBackgroundColor">@color/background</item>
         <item name="android:windowSplashScreenAnimationDuration">2000</item>
