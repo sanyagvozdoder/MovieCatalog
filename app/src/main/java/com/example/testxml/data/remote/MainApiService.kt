@@ -4,6 +4,7 @@ import com.example.testxml.data.remote.dto.LoginUserDto
 import com.example.testxml.data.remote.dto.MoviePageDto
 import com.example.testxml.data.remote.dto.Movie
 import com.example.testxml.data.remote.dto.MovieListDto
+import com.example.testxml.data.remote.dto.ProfileDto
 import com.example.testxml.data.remote.dto.RegisterUserDto
 import com.example.testxml.data.remote.dto.Token
 import retrofit2.Response
@@ -11,6 +12,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface MainApiService {
@@ -31,4 +33,10 @@ interface MainApiService {
 
     @GET("api/favorites")
     suspend fun getFavoritesMovies(@Header("Authorization") token:String):Response<MovieListDto>
+
+    @GET("api/account/profile")
+    suspend fun getProfileInfo(@Header("Authorization") token:String):Response<ProfileDto>
+
+    @PUT("api/account/profile")
+    suspend fun updateProfileInfo(@Header("Authorization") token:String, profile:ProfileDto):Response<Unit>
 }

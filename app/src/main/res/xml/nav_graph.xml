@@ -22,9 +22,8 @@
         android:name="com.example.testxml.presentation.activities.favorite_screen.FavoriteFragment"
         android:label="Favorite" />
 
-    <!--<fragment
+    <fragment
         android:id="@+id/nav_profile"
-        android:name="com.example.app.ui.NotificationsFragment"
-        android:label="Profile"
-         />-->
+        android:name="com.example.testxml.presentation.activities.profile_screen.ProfileFragment"
+        android:label="Profile" />
 </navigation>
