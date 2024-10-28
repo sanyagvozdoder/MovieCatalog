@@ -88,7 +88,6 @@
                     android:layout_marginEnd="4dp"
                     android:progress="0" />
             </LinearLayout>
-
         </FrameLayout>
 
 
@@ -183,5 +182,12 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/favorite_carousel" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            app:layout_constraintTop_toBottomOf="@+id/all_carousel"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

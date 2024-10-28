@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
 class SignInViewModel constructor(
     private val signInUseCase: LoginUserUseCase = LoginUserUseCase()
 ): ViewModel() {
-    private val _state = MutableLiveData(StateHandler())
-    val state: LiveData<StateHandler> = _state
+    private val _state = MutableLiveData(StateHandler<Unit>())
+    val state: LiveData<StateHandler<Unit>> = _state
 
     fun signIn(context: Context, login: String, password:String){
         viewModelScope.launch {

@@ -10,10 +10,10 @@ class ProfileRepositoryImpl constructor(
     private val api:MainApiService = MainApiClient.apiService
 ):ProfileRepository {
     override suspend fun getProfileInfo(token: String): Response<ProfileDto> {
-        return api.getProfileInfo(token)
+        return api.getProfileInfo("Bearer $token")
     }
 
     override suspend fun updateProfileInfo(token: String, profileDto: ProfileDto): Response<Unit> {
-        return api.updateProfileInfo(token, profileDto)
+        return api.updateProfileInfo("Bearer $token", profileDto)
     }
 }

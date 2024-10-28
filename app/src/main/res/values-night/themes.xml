@@ -9,4 +9,9 @@
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
     </style>
 
+    <style name="CustomAlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="colorAccent">@color/orange</item>
+        <item name="android:background">@color/background</item>
+        <item name="android:textColorPrimary">@color/orange</item>
+    </style>
 </resources>

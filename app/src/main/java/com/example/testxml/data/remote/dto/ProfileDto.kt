@@ -3,7 +3,7 @@ package com.example.testxml.data.remote.dto
 import com.example.testxml.domain.models.Profile
 
 data class ProfileDto(
-    val avatarLink: String,
+    val avatarLink: String?,
     val birthDate: String,
     val email: String,
     val gender: Int,

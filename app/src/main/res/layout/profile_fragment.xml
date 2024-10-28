@@ -33,10 +33,11 @@
         app:layout_constraintTop_toTopOf="@+id/imageView2">
 
         <ImageView
+            android:id="@+id/avatar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/image_welcome1" />
+            android:src="@drawable/blank_avatar" />
     </androidx.cardview.widget.CardView>
 
 
@@ -46,32 +47,30 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintEnd_toStartOf="@+id/logout_button"
         app:layout_constraintHorizontal_bias="0.231"
         app:layout_constraintStart_toEndOf="@+id/cardView"
         app:layout_constraintTop_toTopOf="@+id/imageView2">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/greet_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/manrope"
-            android:text="Доброе утро,"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/manrope_bold"
-            android:text="Васечка Пупкин"
             android:textColor="@color/white"
             android:textSize="24sp" />
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/logout_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="136dp"
@@ -208,7 +207,6 @@
             android:gravity="center_vertical"
             android:inputType="text"
             android:padding="14dp"
-            android:text="vasya_pupkin"
             android:textColor="@color/white"
             android:textSize="14sp" />
 
@@ -232,7 +230,6 @@
             android:gravity="center_vertical"
             android:inputType="textEmailAddress"
             android:padding="14dp"
-            android:text="test@example.com"
             android:textColor="@color/white"
             android:textSize="14sp" />
 
@@ -256,7 +253,6 @@
             android:gravity="center_vertical"
             android:inputType="text"
             android:padding="14dp"
-            android:text="Васечка Пупкин"
             android:textColor="@color/white"
             android:textSize="14sp" />
 
@@ -281,7 +277,6 @@
             android:gravity="center_vertical"
             android:inputType="date"
             android:padding="14dp"
-            android:text="11 сентября 2005"
             android:textColor="@color/white"
             android:textSize="14sp" />
 
@@ -294,6 +289,7 @@
             android:textSize="14sp" />
 
         <LinearLayout
+            android:id="@+id/sex"
             android:layout_width="379dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -304,7 +300,7 @@
                 android:layout_width="184dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:background="@drawable/orange_sex_gradient_left"
+                android:background="@drawable/default_sex_shape_left"
                 android:backgroundTint="@null"
                 android:fontFamily="@font/manrope_bold"
                 android:gravity="center"

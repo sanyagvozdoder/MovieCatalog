@@ -165,7 +165,7 @@ class SignUpActivity:AppCompatActivity() {
         passwordBuilder
             .setMessage("Ваши пароли не совпадают")
             .setTitle("Некорректный пароль")
-            .setPositiveButton("Понятно"){dialog, which ->
+            .setPositiveButton("Понятно"){ _, _ ->
                 confirmPassword.setText("")
             }
         val passDialog = passwordBuilder.create()

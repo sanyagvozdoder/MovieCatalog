@@ -17,8 +17,8 @@ import kotlinx.coroutines.launch
 class SignUpViewModel constructor(
     val registerUserUseCase: RegisterUserUseCase = RegisterUserUseCase()
 ):ViewModel() {
-    private val _state = MutableLiveData(StateHandler())
-    val state: LiveData<StateHandler> = _state
+    private val _state = MutableLiveData(StateHandler<Unit>())
+    val state: LiveData<StateHandler<Unit>> = _state
 
     fun signUp(context: Context, login: String, password:String, birthDate:String, email:String, gender: Sex, name:String){
         val date = convertDate(birthDate)

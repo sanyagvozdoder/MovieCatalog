@@ -38,5 +38,5 @@ interface MainApiService {
     suspend fun getProfileInfo(@Header("Authorization") token:String):Response<ProfileDto>
 
     @PUT("api/account/profile")
-    suspend fun updateProfileInfo(@Header("Authorization") token:String, profile:ProfileDto):Response<Unit>
+    suspend fun updateProfileInfo(@Header("Authorization") token:String, @Body profile:ProfileDto):Response<Unit>
 }
