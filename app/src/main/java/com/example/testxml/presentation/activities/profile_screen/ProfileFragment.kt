@@ -22,7 +22,7 @@ import java.util.Calendar
 
 class ProfileFragment : Fragment(R.layout.profile_fragment) {
     private lateinit var binding: ProfileFragmentBinding
-    val viewModel:ProfileViewModel by viewModels()
+    private val viewModel:ProfileViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,8 +80,8 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
         viewModel.profileState.observe(viewLifecycleOwner){state->
             if(state.isSuccess && state.value != null){
-                if(state.value.avatarLink != null){
-                    Picasso.get().load(state.value.avatarLink).into(avatar)
+                if(state.value?.avatarLink != null){
+                    Picasso.get().load(state.value!!.avatarLink).into(avatar)
                 }
 
                 val calendar = Calendar.getInstance()
@@ -93,14 +93,14 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
                     else -> "Доброй ночи,"
                 }
 
-                nameText.text = state.value.name
+                nameText.text = state.value!!.name
 
-                login.setText(state.value.nickName)
-                name.setText(state.value.name)
-                email.setText(state.value.email)
-                date.setText(state.value.birthDate)
+                login.setText(state.value!!.nickName)
+                name.setText(state.value!!.name)
+                email.setText(state.value!!.email)
+                date.setText(state.value!!.birthDate)
 
-                when(state.value.gender){
+                when(state.value!!.gender){
                     0 -> man.background = requireContext().getDrawable(R.drawable.orange_sex_gradient_left)
                     1 -> woman.background = requireContext().getDrawable(R.drawable.orange_sex_gradient_right)
                 }

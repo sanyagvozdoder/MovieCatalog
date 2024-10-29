@@ -1,10 +1,7 @@
-package com.example.testxml.domain.use_case.add_favorite_use_case
+package com.example.testxml.domain.use_case.delete_favorite_use_case
 
-import android.content.Context
 import android.util.Log
-import com.example.testxml.common.StateMachine
 import com.example.testxml.common.StateMachineWithoutData
-import com.example.testxml.common.sharedprefs.getFromSharedPrefs
 import com.example.testxml.data.repository.MoviesRepositoryImpl
 import com.example.testxml.domain.repository.MoviesRepostitory
 import kotlinx.coroutines.flow.Flow
@@ -12,19 +9,24 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class AddFavoriteUseCase constructor(
+class DeleteFavoriteUseCase constructor(
     private val repository: MoviesRepostitory = MoviesRepositoryImpl()
 ) {
     operator fun invoke(id:String): Flow<StateMachineWithoutData> = flow {
         try {
             emit(StateMachineWithoutData.Loading())
-            val response = repository.addFavorite(id)
+            val response = repository.deleteFavorite(id)
+
             Log.d("checkFavorite", response.toString())
-            if (response.isSuccessful){
+
+            if (response.isSuccessful) {
                 emit(StateMachineWithoutData.Success())
-            }
-            else{
-                emit(StateMachineWithoutData.Error(response.errorBody()?.string() ?: "Неизвестная ошибка"))
+            } else {
+                emit(
+                    StateMachineWithoutData.Error(
+                        response.errorBody()?.string() ?: "Неизвестная ошибка"
+                    )
+                )
             }
         }catch (e: HttpException) {
             emit(StateMachineWithoutData.Error(e.message ?: "Неизвестная ошибка"))

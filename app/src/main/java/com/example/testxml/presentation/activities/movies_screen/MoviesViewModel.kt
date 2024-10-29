@@ -30,9 +30,9 @@ class MoviesViewModel constructor(
     private val _gridState = MutableLiveData(MovieStateHandler<List<MovieGridCarousel>>())
     val gridState: LiveData<MovieStateHandler<List<MovieGridCarousel>>> = _gridState
 
-    fun getFavorites(context: Context){
+    fun getFavorites(){
         viewModelScope.launch {
-            getFavoriteMoviesUseCase(context).collect{curState->
+            getFavoriteMoviesUseCase().collect{curState->
                 _favoritesState.value = when(curState){
                     is StateMachine.Error -> MovieStateHandler(isErrorOccured = true, message = curState?.message ?: "")
                     is StateMachine.Loading -> MovieStateHandler(isLoading = true)

@@ -49,9 +49,9 @@ class FeedViewModel constructor(
         }
     }
 
-    fun addFavorites(id:String, context: Context){
+    fun addFavorites(id:String){
         viewModelScope.launch {
-            addFavoritesUseCase(id,context).collect()
+            addFavoritesUseCase(id).collect()
         }
     }
 }

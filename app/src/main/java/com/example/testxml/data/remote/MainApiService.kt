@@ -10,6 +10,7 @@ import com.example.testxml.data.remote.dto.RegisterUserDto
 import com.example.testxml.data.remote.dto.Token
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -31,6 +32,9 @@ interface MainApiService {
 
     @POST("api/favorites/{id}/add")
     suspend fun addFavoriteMovie(@Path("id") id:String, @Header("Authorization") token:String):Response<Unit>
+
+    @DELETE("api/favorites/{id}/delete")
+    suspend fun deleteFavoriteMovie(@Path("id") id:String, @Header("Authorization") token:String):Response<Unit>
 
     @GET("api/favorites")
     suspend fun getFavoritesMovies(@Header("Authorization") token:String):Response<MovieListDto>

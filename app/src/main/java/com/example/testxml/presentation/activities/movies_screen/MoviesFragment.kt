@@ -32,12 +32,12 @@ import com.example.testxml.presentation.activities.movies_screen.components.TopC
 
 class MoviesFragment : Fragment(R.layout.movies_fragment) {
     private lateinit var binding: MoviesFragmentBinding
-    val viewModel: MoviesViewModel by viewModels()
+    private val viewModel: MoviesViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = MoviesFragmentBinding.bind(view)
 
-        viewModel.getFavorites(requireContext())
+        viewModel.getFavorites()
         viewModel.getTopMovies(1)
 
         val carousel = binding.favoriteCarousel

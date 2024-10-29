@@ -2,6 +2,7 @@ package com.example.testxml.data.repository
 
 import com.example.testxml.data.remote.KinopoiskApiClient
 import com.example.testxml.data.remote.KinopoiskApiService
+import com.example.testxml.data.remote.dto.MovieListResponseDto
 import com.example.testxml.data.remote.dto.PersonResponseDto
 import com.example.testxml.domain.repository.KinopoiskRepository
 import retrofit2.Response
@@ -13,5 +14,9 @@ class KinopoiskRepositoryImpl constructor(
 
     override suspend fun getPerson(name: String): Response<PersonResponseDto> {
         return api.getPerson(token,name)
+    }
+
+    override suspend fun getMovieInfo(title: String, year: Int): Response<MovieListResponseDto> {
+        return api.getMovieInfo(token,title,year,year)
     }
 }

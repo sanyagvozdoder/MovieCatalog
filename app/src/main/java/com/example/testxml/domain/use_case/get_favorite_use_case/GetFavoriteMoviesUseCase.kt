@@ -15,14 +15,12 @@ import java.io.IOException
 class GetFavoriteMoviesUseCase constructor(
     private val repository: MoviesRepostitory = MoviesRepositoryImpl()
 ) {
-    operator fun invoke(context: Context): Flow<StateMachine<List<Movie>>> = flow {
+    operator fun invoke(): Flow<StateMachine<List<Movie>>> = flow {
         try {
             emit(StateMachine.Loading())
-            val response = getFromSharedPrefs(context)?.let { repository.getFavoriteMovies("Bearer "+ it) }
-            Log.d("penis", "getFavor" + response.toString())
+            val response = repository.getFavoriteMovies()
             if (response != null) {
                 if (response.isSuccessful){
-                    Log.d("penis", response.body()?.movies.toString())
                     emit(StateMachine.Success(response.body()?.movies))
                 }
                 else{

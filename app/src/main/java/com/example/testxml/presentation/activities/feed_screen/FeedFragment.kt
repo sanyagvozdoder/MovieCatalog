@@ -74,7 +74,7 @@ class FeedFragment: Fragment(R.layout.feed_fragment) {
 
             override fun onCardSwiped(direction: Direction?) {
                 if (direction == Direction.Right){
-                    viewModel.addFavorites(viewModel._movies[currentIndex-1].id, requireContext())
+                    viewModel.addFavorites(viewModel._movies[currentIndex-1].id)
                 }
                 if (customAdapter.itemCount - currentIndex == 2){
                     viewModel.getMovies(viewModel.state.value?.movies?.pageInfo?.currentPage?.plus(1) ?: 1)
@@ -126,7 +126,7 @@ class FeedFragment: Fragment(R.layout.feed_fragment) {
                 updateCurrentMovie(viewModel.state.value?.movies?.movies?.get(currentIndex++))
                 customAdapter.setMovies(state.movies.movies.map { it.poster })
                 stateForObserve = 1
-                viewModel.addFavorites(viewModel._movies[0].genres[0].id, requireContext())
+                viewModel.addFavorites(viewModel._movies[0].genres[0].id)
             }
             else if(state.isSuccess){
                 state.movies?.movies?.forEach{customAdapter.addMovie(it.poster)}

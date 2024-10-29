@@ -9,9 +9,11 @@ import retrofit2.Response
 interface MoviesRepostitory {
     suspend fun getMovies(page:Int):Response<MoviePageDto>
 
-    suspend fun addFavorite(id:String,token:String):Response<Unit>
+    suspend fun addFavorite(id:String):Response<Unit>
 
-    suspend fun getFavoriteMovies(token: String):Response<MovieListDto>
+    suspend fun deleteFavorite(id:String):Response<Unit>
+
+    suspend fun getFavoriteMovies():Response<MovieListDto>
 
     suspend fun getMovieDetail(id: String):Response<MovieDetailDto>
 }
