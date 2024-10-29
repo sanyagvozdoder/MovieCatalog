@@ -20,7 +20,9 @@ class MovieDetailsActivity:AppCompatActivity() {
 
         setContent {
             MaterialTheme {
-                MovieDetailsScreen()
+                if (filmId != null) {
+                    MovieDetailsScreen(filmId)
+                }
             }
         }
     }

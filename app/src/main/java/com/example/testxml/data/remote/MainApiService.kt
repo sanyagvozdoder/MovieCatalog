@@ -41,6 +41,6 @@ interface MainApiService {
     @PUT("api/account/profile")
     suspend fun updateProfileInfo(@Header("Authorization") token:String, @Body profile:ProfileDto):Response<Unit>
 
-    @GET("api/movie/details/{id}")
+    @GET("api/movies/details/{id}")
     suspend fun getMovieDetails(@Path("id") id:String):Response<MovieDetailDto>
 }

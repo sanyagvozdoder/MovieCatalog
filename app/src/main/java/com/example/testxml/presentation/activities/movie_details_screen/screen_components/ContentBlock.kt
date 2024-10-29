@@ -20,6 +20,6 @@ fun ContentBlock(
 ){
     Box(
         content = content,
-        modifier = modifier.fillMaxWidth(0.9f)
+        modifier = modifier
     )
 }

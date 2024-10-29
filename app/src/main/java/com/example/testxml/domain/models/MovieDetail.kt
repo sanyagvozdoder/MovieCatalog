@@ -4,19 +4,19 @@ import com.example.testxml.data.remote.dto.Genre
 import com.example.testxml.data.remote.dto.ReviewDetail
 
 data class MovieDetail(
-    val ageLimit: Int,
-    val budget: Int,
+    val ageLimit: String,
+    val budget: String,
     val country: String,
     val description: String,
     val director: String,
-    val fees: Int,
+    val fees: String,
     val genres: List<Genre>,
     val id: String,
     val name: String,
     val poster: String,
     val reviews: List<ReviewDetail>,
     val tagline: String,
-    val time: Int,
+    val time: String,
     val year: Int,
     val appRating:Float
 )

@@ -1,5 +1,6 @@
 package com.example.testxml.domain.use_case.movie_details_use_case
 
+import android.util.Log
 import com.example.testxml.common.StateMachine
 import com.example.testxml.data.remote.dto.MovieDetailDto
 import com.example.testxml.data.remote.dto.MoviePageDto
@@ -17,6 +18,8 @@ class GetMovieDetailsUseCase constructor(
         try {
             emit(StateMachine.Loading())
             val response = repository.getMovieDetail(id)
+
+            Log.d("penisS", response.toString())
             if (response.isSuccessful){
                 emit(StateMachine.Success(response.body()))
             }
@@ -28,6 +31,5 @@ class GetMovieDetailsUseCase constructor(
         } catch (e: IOException) {
             emit(StateMachine.Error(e.message ?: "Проверьте свое интернет подключение"))
         }
-
     }
 }
