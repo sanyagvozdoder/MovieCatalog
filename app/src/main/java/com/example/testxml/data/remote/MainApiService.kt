@@ -3,6 +3,7 @@ package com.example.testxml.data.remote
 import com.example.testxml.data.remote.dto.LoginUserDto
 import com.example.testxml.data.remote.dto.MoviePageDto
 import com.example.testxml.data.remote.dto.Movie
+import com.example.testxml.data.remote.dto.MovieDetailDto
 import com.example.testxml.data.remote.dto.MovieListDto
 import com.example.testxml.data.remote.dto.ProfileDto
 import com.example.testxml.data.remote.dto.RegisterUserDto
@@ -39,4 +40,7 @@ interface MainApiService {
 
     @PUT("api/account/profile")
     suspend fun updateProfileInfo(@Header("Authorization") token:String, @Body profile:ProfileDto):Response<Unit>
+
+    @GET("api/movie/details/{id}")
+    suspend fun getMovieDetails(@Path("id") id:String):Response<MovieDetailDto>
 }

@@ -1,5 +1,6 @@
 package com.example.testxml.presentation.activities.feed_screen
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
@@ -7,10 +8,12 @@ import android.view.View.VISIBLE
 import android.view.animation.AccelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
 import com.example.testxml.R
 import com.example.testxml.data.remote.dto.Movie
 import com.example.testxml.databinding.FeedFragmentBinding
 import com.example.testxml.presentation.activities.feed_screen.components.PosterAdapter
+import com.example.testxml.presentation.activities.movie_details_screen.MovieDetailsActivity
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
@@ -107,10 +110,16 @@ class FeedFragment: Fragment(R.layout.feed_fragment) {
 
         cardManager.setSwipeAnimationSetting(setting)
 
+        customAdapter.setOnItemClickListener {
+            startActivity(Intent(requireContext(),MovieDetailsActivity::class.java)
+                .putExtra(MovieDetailsActivity.key, viewModel._movies[currentIndex-1].id))
+        }
+
         cardStackView.apply {
             this.layoutManager = cardManager
             this.adapter = customAdapter
         }
+
 
         viewModel.state.observe(viewLifecycleOwner){state->
             if (state.isSuccess && state.movies != null && stateForObserve == 0 ){

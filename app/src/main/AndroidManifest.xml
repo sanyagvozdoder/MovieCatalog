@@ -30,6 +30,8 @@
         <activity
             android:name=".presentation.activities.sign_up_activity.SignUpActivity">
         </activity>
+        <activity android:name=".presentation.activities.movie_details_screen.MovieDetailsActivity">
+        </activity>
     </application>
 
 </manifest>

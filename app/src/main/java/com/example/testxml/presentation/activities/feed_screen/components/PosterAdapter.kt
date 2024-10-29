@@ -10,11 +10,15 @@ import com.squareup.picasso.Picasso
 
 class PosterAdapter : RecyclerView.Adapter<PosterAdapter.PosterViewHolder>() {
     private val moviesList = mutableListOf<String>()
+    private lateinit var onItemClickListener: (Int)->Unit
 
     class PosterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val posterImageView: ImageView = itemView.findViewById(R.id.poster_image)
     }
 
+    fun setOnItemClickListener(onItemClickListener: (Int)->Unit) {
+        this.onItemClickListener = onItemClickListener
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PosterViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.recycler_content, parent, false)
@@ -24,6 +28,9 @@ class PosterAdapter : RecyclerView.Adapter<PosterAdapter.PosterViewHolder>() {
     override fun onBindViewHolder(holder: PosterViewHolder, position: Int) {
         val posterUrl = moviesList[position]
         Picasso.get().load(posterUrl).into(holder.posterImageView)
+        holder.posterImageView.setOnClickListener (View.OnClickListener{
+            onItemClickListener(position)
+        })
     }
 
     override fun getItemCount(): Int {

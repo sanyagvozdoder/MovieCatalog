@@ -12,4 +12,5 @@
     <color name="hint_text">#999999</color>
     <color name="light_gray_0">#00222222</color>
     <color name="orange">#FF6633</color>
+    <color name="red">#DF2800</color>
 </resources>
