@@ -32,8 +32,6 @@ fun MovieDetailDto.toMovieDetail():MovieDetail{
         formatTime = mins.toString() + "мин"
     }
 
-
-
     return MovieDetail(
         ageLimit = this.ageLimit.toString() + "+",
         budget= "$ " + formatMoney(this.budget),

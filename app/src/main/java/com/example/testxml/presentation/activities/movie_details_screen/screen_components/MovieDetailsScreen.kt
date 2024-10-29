@@ -6,6 +6,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.absolutePadding
@@ -49,6 +51,7 @@ import com.example.testxml.R
 import com.example.testxml.presentation.activities.movie_details_screen.MovieDetailsViewModel
 import com.squareup.picasso.Picasso
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MovieDetailsScreen (
     id:String
@@ -57,6 +60,7 @@ fun MovieDetailsScreen (
         MovieDetailsViewModel(id)
     }
     val mainApiState = viewModel.mainState.collectAsState()
+    val personState = viewModel.personState.collectAsState()
 
     val lazyState = rememberLazyListState()
 
@@ -444,11 +448,11 @@ fun MovieDetailsScreen (
                             ) {
                                 AsyncImage(
                                     model = ImageRequest.Builder(LocalContext.current)
-                                        .data(mainApiState.value.value?.poster)
+                                        .data(personState.value.value)
                                         .crossfade(true)
                                         .build(),
                                     contentDescription = null,
-                                    contentScale = ContentScale.FillBounds,
+                                    contentScale = ContentScale.Crop,
                                     modifier = Modifier
                                         .size(48.dp)
                                         .clip(CircleShape),
@@ -495,32 +499,30 @@ fun MovieDetailsScreen (
 
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        Row(
-                            modifier = Modifier.fillMaxWidth()
+                        FlowRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             if(mainApiState.value.value != null){
                                 for (i in 0..<mainApiState.value.value!!.genres.size){
-                                    if (i <= 2){
-                                        ContentBlock(
-                                            modifier = Modifier
-                                                .background(
-                                                    colorResource(id = R.color.background),
-                                                    shape = RoundedCornerShape(8.dp)
-                                                )
-                                                .padding(horizontal = 12.dp, vertical = 8.dp)
-                                        ) {
-                                            Text(
-                                                text = mainApiState.value.value!!.genres[i].name,
-                                                color = colorResource(id = R.color.white),
-                                                fontSize = 16.sp
+                                    ContentBlock(
+                                        modifier = Modifier
+                                            .background(
+                                                colorResource(id = R.color.background),
+                                                shape = RoundedCornerShape(8.dp)
                                             )
-                                        }
-                                        Spacer(modifier = Modifier.width(8.dp))
+                                            .padding(horizontal = 12.dp, vertical = 8.dp)
+                                    ) {
+                                        Text(
+                                            text = mainApiState.value.value!!.genres[i].name,
+                                            color = colorResource(id = R.color.white),
+                                            fontSize = 16.sp
+                                        )
                                     }
+                                    Spacer(modifier = Modifier.width(8.dp))
                                 }
                             }
                         }
-
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))

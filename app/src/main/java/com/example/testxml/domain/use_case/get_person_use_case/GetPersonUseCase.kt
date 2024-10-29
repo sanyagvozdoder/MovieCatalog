@@ -1,23 +1,22 @@
-package com.example.testxml.domain.use_case.movie_details_use_case
+package com.example.testxml.domain.use_case.get_person_use_case
 
 import android.util.Log
 import com.example.testxml.common.StateMachine
-import com.example.testxml.data.remote.dto.MovieDetailDto
-import com.example.testxml.data.remote.dto.MoviePageDto
-import com.example.testxml.data.repository.MoviesRepositoryImpl
-import com.example.testxml.domain.repository.MoviesRepostitory
+import com.example.testxml.data.remote.dto.PersonResponseDto
+import com.example.testxml.data.repository.KinopoiskRepositoryImpl
+import com.example.testxml.domain.repository.KinopoiskRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class GetMovieDetailsUseCase constructor(
-    private val repository: MoviesRepostitory = MoviesRepositoryImpl()
+class GetPersonUseCase constructor(
+    private val repository: KinopoiskRepository = KinopoiskRepositoryImpl()
 ) {
-    operator fun invoke(id:String) : Flow<StateMachine<MovieDetailDto>> = flow {
+    operator fun invoke(name:String) : Flow<StateMachine<PersonResponseDto>> = flow {
         try {
             emit(StateMachine.Loading())
-            val response = repository.getMovieDetail(id)
+            val response = repository.getPerson(name)
 
             if (response.isSuccessful){
                 emit(StateMachine.Success(response.body()))
