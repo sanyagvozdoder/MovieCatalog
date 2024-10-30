@@ -3,6 +3,9 @@ package com.example.testxml.data.remote.dto
 import android.util.Log
 import com.example.testxml.domain.models.MovieGridCarousel
 import com.example.testxml.domain.models.MovieTopCarousel
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 
 
 data class Movie(
@@ -26,9 +29,13 @@ fun Movie.toMovieTopCarousel(): MovieTopCarousel {
 
 
 fun Movie.toMovieGridCarousel(): MovieGridCarousel {
+
+    val format = DecimalFormat("#,##0.0", DecimalFormatSymbols(Locale.FRANCE))
+    val averageRating = this.reviews.sumOf { it.rating }.toFloat() / this.reviews.size
+
     return MovieGridCarousel(
         poster = this.poster,
-        rating = String.format("%.1f", this.reviews.sumOf { it.rating }.toFloat() / this.reviews.size).toFloat(),
+        rating = format.format(averageRating).replace(",", ".").toFloat(),
         isFavorite = false
     )
 }

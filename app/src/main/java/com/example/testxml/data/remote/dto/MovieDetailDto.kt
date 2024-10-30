@@ -1,6 +1,10 @@
 package com.example.testxml.data.remote.dto
 
 import com.example.testxml.domain.models.MovieDetail
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
+import java.util.Locale
 
 data class MovieDetailDto(
     val ageLimit: Int,
@@ -32,6 +36,9 @@ fun MovieDetailDto.toMovieDetail():MovieDetail{
         formatTime = mins.toString() + "мин"
     }
 
+    val format = DecimalFormat("#,##0.0", DecimalFormatSymbols(Locale.FRANCE))
+    val averageRating = this.reviews.sumOf { it.rating }.toFloat() / this.reviews.size
+
     return MovieDetail(
         ageLimit = this.ageLimit.toString() + "+",
         budget= "$ " + formatMoney(this.budget),
@@ -47,7 +54,7 @@ fun MovieDetailDto.toMovieDetail():MovieDetail{
         tagline= this.tagline,
         time= formatTime,
         year= this.year,
-        appRating = String.format("%.1f", this.reviews.sumOf { it.rating }.toFloat() / this.reviews.size).toFloat()
+        appRating = format.format(averageRating).replace(",", ".").toFloat()
     )
 }
 
