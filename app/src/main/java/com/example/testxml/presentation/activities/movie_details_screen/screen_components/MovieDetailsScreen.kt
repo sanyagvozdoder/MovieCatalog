@@ -1,5 +1,6 @@
 package com.example.testxml.presentation.activities.movie_details_screen.screen_components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,6 +33,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -63,45 +65,73 @@ import coil3.request.crossfade
 import com.example.testxml.R
 import com.example.testxml.common.font.Manrope
 import com.example.testxml.presentation.activities.movie_details_screen.MovieDetailsViewModel
+import com.example.testxml.presentation.activities.movie_details_screen.util.ReviewMode
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.observeOn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.coroutineContext
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun MovieDetailsScreen (
-    id:String
+fun MovieDetailsScreen(
+    id: String
 ) {
-    val viewModel:MovieDetailsViewModel = viewModel {
+    val viewModel: MovieDetailsViewModel = viewModel {
         MovieDetailsViewModel(id)
     }
+
 
     val mainApiState = viewModel.mainState.collectAsState()
     val personState = viewModel.personState.collectAsState()
     val ratingState = viewModel.ratingState.collectAsState()
     val favoriteState = viewModel.favoriteState.collectAsState()
+    val saverReviewState = viewModel.savedReviewState.collectAsState()
+    //val deleteReviewState = viewModel.deletedReviewState.collectAsState()
+    val profileState = viewModel.profileState.collectAsState()
+    val reviews = viewModel.reviews.collectAsState()
 
-    val scrollCoroutine = CoroutineScope(Dispatchers.Default)
     val lazyState = rememberLazyListState()
 
     var isDialogVisible by remember {
         mutableStateOf(false)
     }
 
-    var isTitleVisible by remember{
+    var currentMode by remember{
+        mutableStateOf(ReviewMode.ADD)
+    }
+
+    var isTitleVisible by remember {
         mutableStateOf<Boolean>(false)
     }
-    var currentIndex by remember{
+    var currentIndex by remember {
         mutableStateOf(0)
     }
 
-    LaunchedEffect(lazyState){
-        snapshotFlow {lazyState.firstVisibleItemIndex}.collect{
-            isTitleVisible = it>0
+    var isUserReviewExists by remember {
+        mutableStateOf(false)
+    }
+
+    if (profileState.value.isSuccess && mainApiState.value.isSuccess){
+        isUserReviewExists = mainApiState.value.value?.reviews?.any {
+            it?.author?.userId == profileState.value.value
+        } == true
+
+        if (isUserReviewExists){
+            currentMode = ReviewMode.EDIT
+        }
+        else{
+            currentMode = ReviewMode.ADD
+        }
+    }
+
+    LaunchedEffect(lazyState) {
+        snapshotFlow { lazyState.firstVisibleItemIndex }.collect {
+            isTitleVisible = it > 0
         }
     }
 
@@ -150,7 +180,7 @@ fun MovieDetailsScreen (
                     )
                 }
                 Spacer(modifier = Modifier.width(16.dp))
-                if(isTitleVisible){
+                if (isTitleVisible) {
                     Text(
                         text = mainApiState.value.value?.name ?: "",
                         modifier = Modifier.fillMaxWidth(0.8f),
@@ -164,9 +194,9 @@ fun MovieDetailsScreen (
                     )
                 }
             }
-            
+
             IconButton(
-                modifier = if(favoriteState.value.value == false) {
+                modifier = if (favoriteState.value.value == false) {
                     Modifier
                         .size(40.dp)
                         .background(
@@ -174,8 +204,7 @@ fun MovieDetailsScreen (
                             shape = RoundedCornerShape(8.dp)
                         )
                         .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
-                }
-                else{
+                } else {
                     Modifier
                         .size(40.dp)
                         .background(
@@ -190,15 +219,14 @@ fun MovieDetailsScreen (
                         .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
                 },
                 onClick = {
-                    if(favoriteState.value.value == false){
+                    if (favoriteState.value.value == false) {
                         viewModel.addFavorites(id)
-                    }
-                    else if(favoriteState.value.value == true){
+                    } else if (favoriteState.value.value == true) {
                         viewModel.deleteFavorites(id)
                     }
                 }) {
                 Icon(
-                    painter = if(favoriteState.value.value == false)
+                    painter = if (favoriteState.value.value == false)
                         painterResource(id = R.drawable.ic_hollow_like)
                     else
                         painterResource(id = R.drawable.ic_fulfilled_like),
@@ -245,7 +273,7 @@ fun MovieDetailsScreen (
                             fontSize = 36.sp,
                         )
                         Text(
-                            text = mainApiState.value.value?.tagline?:"",
+                            text = mainApiState.value.value?.tagline ?: "",
                             fontFamily = Manrope,
                             fontWeight = FontWeight.Medium,
                             color = colorResource(id = R.color.white),
@@ -266,7 +294,8 @@ fun MovieDetailsScreen (
                             shape = RoundedCornerShape(16.dp)
                         )
                 ) {
-                    Text(text = mainApiState.value.value?.description ?: "",
+                    Text(
+                        text = mainApiState.value.value?.description ?: "",
                         color = colorResource(id = R.color.white),
                         fontFamily = Manrope,
                         fontWeight = FontWeight.Medium,
@@ -277,7 +306,7 @@ fun MovieDetailsScreen (
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
-            item{
+            item {
                 DefaultBlock(painter = painterResource(id = R.drawable.ic_star), text = "Рейтинг") {
                     Row(
                         modifier = Modifier.fillMaxWidth()
@@ -292,7 +321,11 @@ fun MovieDetailsScreen (
                         ) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.padding(start = 12.dp, top = 8.dp, bottom = 8.dp)
+                                modifier = Modifier.padding(
+                                    start = 12.dp,
+                                    top = 8.dp,
+                                    bottom = 8.dp
+                                )
                             ) {
                                 Image(
                                     painter = painterResource(id = R.drawable.app_icon),
@@ -322,7 +355,11 @@ fun MovieDetailsScreen (
                         ) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.padding(start = 12.dp, top = 8.dp, bottom = 8.dp)
+                                modifier = Modifier.padding(
+                                    start = 12.dp,
+                                    top = 8.dp,
+                                    bottom = 8.dp
+                                )
                             ) {
                                 Image(
                                     painter = painterResource(id = R.drawable.ic_kinopoisk),
@@ -352,7 +389,11 @@ fun MovieDetailsScreen (
                         ) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.padding(start = 12.dp, top = 8.dp, bottom = 8.dp)
+                                modifier = Modifier.padding(
+                                    start = 12.dp,
+                                    top = 8.dp,
+                                    bottom = 8.dp
+                                )
                             ) {
                                 Image(
                                     painter = painterResource(id = R.drawable.ic_imdb),
@@ -369,14 +410,17 @@ fun MovieDetailsScreen (
                                 )
                             }
                         }
-                    }    
+                    }
                 }
-                
+
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
             item {
-                DefaultBlock(painter = painterResource(id = R.drawable.ic_info), text = "Информация") {
+                DefaultBlock(
+                    painter = painterResource(id = R.drawable.ic_info),
+                    text = "Информация"
+                ) {
                     Row(
                         modifier = Modifier.fillMaxWidth()
                     ) {
@@ -505,8 +549,11 @@ fun MovieDetailsScreen (
                 Spacer(modifier = Modifier.height(12.dp))
             }
 
-            item{
-                DefaultBlock(painter = painterResource(id = R.drawable.ic_finance), text = "Режиссёр") {
+            item {
+                DefaultBlock(
+                    painter = painterResource(id = R.drawable.ic_finance),
+                    text = "Режиссёр"
+                ) {
                     ContentBlock(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -544,17 +591,17 @@ fun MovieDetailsScreen (
                         }
                     }
                 }
-                
+
                 Spacer(modifier = Modifier.height(16.dp))
             }
-            item{
+            item {
                 DefaultBlock(painter = painterResource(id = R.drawable.ic_genres), text = "Жанры") {
                     FlowRow(
                         modifier = Modifier.fillMaxWidth(),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        if(mainApiState.value.value != null){
-                            for (i in 0..<mainApiState.value.value!!.genres.size){
+                        if (mainApiState.value.value != null) {
+                            for (i in 0..<mainApiState.value.value!!.genres.size) {
                                 ContentBlock(
                                     modifier = Modifier
                                         .background(
@@ -576,11 +623,14 @@ fun MovieDetailsScreen (
                         }
                     }
                 }
-                
+
                 Spacer(modifier = Modifier.height(16.dp))
             }
-            item{
-                DefaultBlock(painter = painterResource(id = R.drawable.ic_finance), text = "Финансы") {
+            item {
+                DefaultBlock(
+                    painter = painterResource(id = R.drawable.ic_finance),
+                    text = "Финансы"
+                ) {
                     Row(
                         modifier = Modifier.fillMaxWidth()
                     ) {
@@ -647,7 +697,7 @@ fun MovieDetailsScreen (
 
                 Spacer(modifier = Modifier.height(16.dp))
             }
-            item{
+            item {
                 DefaultBlock(
                     painter = painterResource(id = R.drawable.ic_review),
                     text = "Отзывы"
@@ -671,7 +721,11 @@ fun MovieDetailsScreen (
                                     Row {
                                         AsyncImage(
                                             model = ImageRequest.Builder(LocalContext.current)
-                                                .data(mainApiState.value.value?.reviews?.get(currentIndex)?.author?.avatar)
+                                                .data(
+                                                    reviews.value?.get(
+                                                        currentIndex
+                                                    )?.author?.avatar
+                                                )
                                                 .crossfade(true)
                                                 .build(),
                                             contentDescription = null,
@@ -686,14 +740,18 @@ fun MovieDetailsScreen (
                                         Spacer(modifier = Modifier.width(8.dp))
                                         Column {
                                             Text(
-                                                text = mainApiState.value.value?.reviews?.get(currentIndex)?.author?.nickName.toString(),
+                                                text = reviews.value?.get(
+                                                    currentIndex
+                                                )?.author?.nickName.toString(),
                                                 fontFamily = Manrope,
                                                 fontWeight = FontWeight.Medium,
                                                 color = colorResource(id = R.color.white),
                                                 fontSize = 12.sp
                                             )
                                             Text(
-                                                text = mainApiState.value.value?.reviews?.get(currentIndex)?.createDateTime.toString(),
+                                                text = mainApiState.value.value?.reviews?.get(
+                                                    currentIndex
+                                                )?.createDateTime.toString(),
                                                 fontFamily = Manrope,
                                                 fontWeight = FontWeight.Medium,
                                                 color = colorResource(id = R.color.hint_text),
@@ -743,12 +801,12 @@ fun MovieDetailsScreen (
                                 }
                                 Spacer(modifier = Modifier.height(8.dp))
                                 Text(
-                                    text = mainApiState.value.value?.reviews?.get(currentIndex)?.reviewText.toString(),
+                                    text = reviews.value?.get(currentIndex)?.reviewText.toString(),
                                     fontFamily = Manrope,
                                     fontWeight = FontWeight.Medium,
                                     color = colorResource(id = R.color.desc),
                                     fontSize = 14.sp
-                                    )
+                                )
                             }
                         }
 
@@ -758,37 +816,80 @@ fun MovieDetailsScreen (
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            TextButton(
-                                modifier = Modifier
-                                    .background(
-                                        brush = Brush.horizontalGradient(
-                                            colors = listOf(
-                                                colorResource(id = R.color.red),
-                                                colorResource(id = R.color.orange)
+                            if (
+                                (isUserReviewExists && mainApiState.value.value?.reviews?.get(currentIndex)?.author?.userId == profileState.value.value)
+                                ||
+                                (!isUserReviewExists)
+                                ){
+                                TextButton(
+                                    modifier = Modifier
+                                        .background(
+                                            brush = Brush.horizontalGradient(
+                                                colors = listOf(
+                                                    colorResource(id = R.color.red),
+                                                    colorResource(id = R.color.orange)
+                                                )
+                                            ),
+                                            shape = RoundedCornerShape(8.dp)
+                                        )
+                                        .height(40.dp)
+                                        .padding(horizontal = 10.dp),
+                                    onClick = {
+                                        isDialogVisible = true
+                                    }
+                                ) {
+                                    Text(
+                                        text =
+                                        if (mainApiState.value.value?.reviews?.get(currentIndex)?.author?.userId != profileState.value.value)
+                                            "Добавить отзыв"
+                                        else
+                                            "Изменить отзыв",
+                                        fontFamily = Manrope,
+                                        fontWeight = FontWeight.Bold,
+                                        color = colorResource(id = R.color.white),
+                                        fontSize = 16.sp
+                                    )
+                                }
+                                Spacer(modifier = Modifier.width(4.dp))
+                            }
+                            if(isUserReviewExists && mainApiState.value.value?.reviews?.get(currentIndex)?.author?.userId == profileState.value.value){
+                                IconButton(
+                                    modifier = Modifier
+                                        .size(40.dp)
+                                        .background(
+                                            color = colorResource(id = R.color.background),
+                                            shape = RoundedCornerShape(8.dp)
+                                        )
+                                        .clip(
+                                            RoundedCornerShape(
+                                                bottomStart = 24.dp,
+                                                bottomEnd = 24.dp
                                             )
                                         ),
-                                        shape = RoundedCornerShape(8.dp)
+                                    enabled = currentIndex != 0,
+                                    onClick = {
+                                        mainApiState.value.value?.reviews?.get(currentIndex)?.id?.let {
+                                            viewModel.deleteReview(id,
+                                                it
+                                            )
+                                        }
+                                    }) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_delete),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .width(20.dp)
+                                            .height(20.dp),
+                                        tint = if (currentIndex == 0) colorResource(id = R.color.hint_text) else colorResource(
+                                            id = R.color.white
+                                        )
                                     )
-                                    .height(40.dp)
-                                    .padding(horizontal = 20.dp),
-                                onClick = {
-                                    scrollCoroutine.launch {
-                                        lazyState.scrollToItem(0)
-                                    }
-                                    isDialogVisible = true
                                 }
-                            ){
-                                Text(
-                                    text = "Добавить отзыв",
-                                    fontFamily = Manrope,
-                                    fontWeight = FontWeight.Bold,
-                                    color = colorResource(id = R.color.white),
-                                    fontSize = 16.sp
-                                )
                             }
-                            
+
+
                             Spacer(modifier = Modifier.width(24.dp))
-                            
+
                             Row {
                                 IconButton(
                                     modifier = Modifier
@@ -806,14 +907,21 @@ fun MovieDetailsScreen (
                                             )
                                         ),
                                     enabled = currentIndex != 0,
-                                    onClick = { currentIndex--}) {
+                                    onClick = {
+                                        currentIndex--
+                                        currentMode =
+                                            if (mainApiState.value.value?.reviews?.get(currentIndex)?.author?.userId != profileState.value.value) ReviewMode.ADD
+                                            else ReviewMode.EDIT
+                                    }) {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_back),
                                         contentDescription = null,
                                         modifier = Modifier
                                             .width(8.dp)
                                             .height(16.dp),
-                                        tint = if(currentIndex == 0) colorResource(id = R.color.hint_text) else colorResource(id = R.color.white)
+                                        tint = if (currentIndex == 0) colorResource(id = R.color.hint_text) else colorResource(
+                                            id = R.color.white
+                                        )
                                     )
                                 }
                                 Spacer(modifier = Modifier.width(4.dp))
@@ -838,17 +946,24 @@ fun MovieDetailsScreen (
                                     enabled = currentIndex != (mainApiState.value.value?.reviews?.size?.minus(
                                         1
                                     ) ?: 0),
-                                    onClick = { currentIndex++ }) {
+                                    onClick = {
+                                        currentIndex++
+                                        currentMode =
+                                            if (mainApiState.value.value?.reviews?.get(currentIndex)?.author?.userId.toString() != profileState.value.value.toString()) ReviewMode.ADD
+                                            else ReviewMode.EDIT
+                                    }) {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_forward),
                                         contentDescription = null,
                                         modifier = Modifier
                                             .width(8.dp)
                                             .height(16.dp),
-                                        tint = if(currentIndex == (mainApiState.value.value?.reviews?.size?.minus(
+                                        tint = if (currentIndex == (mainApiState.value.value?.reviews?.size?.minus(
                                                 1
                                             ) ?: 0)
-                                        ) colorResource(id = R.color.hint_text) else colorResource(id = R.color.white)
+                                        ) colorResource(id = R.color.hint_text) else colorResource(
+                                            id = R.color.white
+                                        )
                                     )
                                 }
                             }
@@ -860,12 +975,56 @@ fun MovieDetailsScreen (
         }
     }
 
-    if(isDialogVisible){
-        CustomDialog(
-            onDismissRequest = {
-                isDialogVisible = false
-            }
-        )
+    val obs = viewModel.deletedReviewState.observeAsState()
+
+    if(obs.value?.isSuccess == true){
+        viewModel.emitNothingDeleted()
+        if(currentIndex>0){
+            currentIndex--
+        }
+        viewModel.updateReviewsOnly()
+    }
+
+
+    if (isDialogVisible) {
+        if (currentMode == ReviewMode.ADD) {
+            CustomDialog(
+                onDismissRequest = {
+                    isDialogVisible = false
+                },
+                mode = currentMode,
+                onAccept = fun(
+                    isAnonymous: Boolean,
+                    rating: Int,
+                    reviewText: String
+                ) {
+                    viewModel.addReview(id, isAnonymous, rating, reviewText)
+                    isDialogVisible = false
+                    viewModel.updateReviewsOnly()
+                }
+            )
+        } else {
+            CustomDialog(
+                onDismissRequest = {
+                    isDialogVisible = false
+                },
+                mode = currentMode,
+                onAccept = fun(isAnonymous: Boolean, rating: Int, reviewText: String) {
+                    mainApiState.value.value?.reviews?.get(currentIndex)?.id.let {
+                        if (it != null) {
+                            viewModel.editReview(
+                                id, it, isAnonymous, rating, reviewText
+                            )
+                        }
+                    }
+                    isDialogVisible = false
+                    viewModel.updateReviewsOnly()
+                },
+                ratingValue = mainApiState.value.value?.reviews?.get(currentIndex)?.rating ?: 5,
+                reviewText = mainApiState.value.value?.reviews?.get(currentIndex)?.reviewText ?: "",
+                isAnonymous = mainApiState.value.value?.reviews?.get(currentIndex)?.isAnonymous ?: false
+            )
+        }
     }
 }
 

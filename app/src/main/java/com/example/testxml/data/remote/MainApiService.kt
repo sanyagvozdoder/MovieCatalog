@@ -8,6 +8,7 @@ import com.example.testxml.data.remote.dto.MovieListDto
 import com.example.testxml.data.remote.dto.ProfileDto
 import com.example.testxml.data.remote.dto.RegisterUserDto
 import com.example.testxml.data.remote.dto.Token
+import com.example.testxml.data.remote.dto.UserReviewDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -47,4 +48,13 @@ interface MainApiService {
 
     @GET("api/movies/details/{id}")
     suspend fun getMovieDetails(@Path("id") id:String):Response<MovieDetailDto>
+
+    @POST("api/movie/{movieId}/review/add")
+    suspend fun addReview(@Header("Authorization") token:String, @Path("movieId") movieId:String, @Body userReview:UserReviewDto):Response<Unit>
+
+    @PUT("api/movie/{movieId}/review/{id}/edit")
+    suspend fun editReview(@Header("Authorization") token:String, @Path("movieId") movieId:String, @Path("id") reviewId:String, @Body userReview:UserReviewDto):Response<Unit>
+
+    @DELETE("api/movie/{movieId}/review/{id}/delete")
+    suspend fun deleteReview(@Header("Authorization") token:String, @Path("movieId") movieId:String, @Path("id") reviewId:String):Response<Unit>
 }

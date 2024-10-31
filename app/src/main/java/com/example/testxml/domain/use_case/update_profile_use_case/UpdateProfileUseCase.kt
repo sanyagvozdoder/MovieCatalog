@@ -16,11 +16,10 @@ import java.io.IOException
 class UpdateProfileUseCase constructor(
     private val repository: ProfileRepository = ProfileRepositoryImpl()
 ) {
-    operator fun invoke(token: String, profile: Profile): Flow<StateMachineWithoutData> = flow {
+    operator fun invoke(profile: Profile): Flow<StateMachineWithoutData> = flow {
         try {
             emit(StateMachineWithoutData.Loading())
             val response = repository.updateProfileInfo(
-                token,
                 ProfileDto(
                     avatarLink = profile.avatarLink,
                     birthDate = profile.birthDate,

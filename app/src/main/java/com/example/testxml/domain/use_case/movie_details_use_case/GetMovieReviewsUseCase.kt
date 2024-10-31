@@ -1,25 +1,25 @@
-package com.example.testxml.domain.use_case.get_profile_use_case
+package com.example.testxml.domain.use_case.movie_details_use_case
 
-import android.util.Log
 import com.example.testxml.common.StateMachine
-import com.example.testxml.data.remote.dto.ProfileDto
-import com.example.testxml.data.repository.ProfileRepositoryImpl
-import com.example.testxml.domain.repository.ProfileRepository
+import com.example.testxml.data.remote.dto.MovieDetailDto
+import com.example.testxml.data.remote.dto.ReviewDetail
+import com.example.testxml.data.repository.MoviesRepositoryImpl
+import com.example.testxml.domain.repository.MoviesRepostitory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class GetProfileUseCase constructor(
-    private val repository: ProfileRepository = ProfileRepositoryImpl()
+class GetMovieReviewsUseCase constructor(
+    private val repository: MoviesRepostitory = MoviesRepositoryImpl()
 ) {
-    operator fun invoke() : Flow<StateMachine<ProfileDto>> = flow {
+    operator fun invoke(id:String) : Flow<StateMachine<List<ReviewDetail>>> = flow {
         try {
             emit(StateMachine.Loading())
-            val response = repository.getProfileInfo()
-            Log.d("penis",response.toString())
+            val response = repository.getMovieDetail(id)
+
             if (response.isSuccessful){
-                emit(StateMachine.Success(response.body()))
+                emit(StateMachine.Success(response.body()?.reviews))
             }
             else{
                 emit(StateMachine.Error(response.errorBody()?.string() ?: "Неизвестная ошибка"))

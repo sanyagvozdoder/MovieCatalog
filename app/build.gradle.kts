@@ -92,6 +92,11 @@ dependencies {
     //colorfulslider
     implementation("com.github.SmartToolFactory:Compose-Colorful-Sliders:1.2.2")
 
+    //state compose
+    implementation("androidx.compose.runtime:runtime-livedata:1.7.5")
+
+    implementation("androidx.compose.runtime:runtime-rxjava3:1.7.5")
+
     //coil for async
     implementation("io.coil-kt.coil3:coil-compose:3.0.0-rc02")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.0-rc02")

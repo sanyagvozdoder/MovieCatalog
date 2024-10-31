@@ -1,25 +1,22 @@
-package com.example.testxml.domain.use_case.add_favorite_use_case
+package com.example.testxml.domain.use_case.edit_review_use_case
 
-import android.content.Context
 import android.util.Log
-import com.example.testxml.common.StateMachine
 import com.example.testxml.common.StateMachineWithoutData
-import com.example.testxml.common.sharedprefs.getFromSharedPrefs
-import com.example.testxml.data.repository.MoviesRepositoryImpl
-import com.example.testxml.domain.repository.MoviesRepostitory
+import com.example.testxml.data.remote.dto.UserReviewDto
+import com.example.testxml.data.repository.ReviewRepositoryImpl
+import com.example.testxml.domain.repository.ReviewRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class AddFavoriteUseCase constructor(
-    private val repository: MoviesRepostitory = MoviesRepositoryImpl()
+class EditReviewUseCase constructor(
+    private val repository: ReviewRepository = ReviewRepositoryImpl()
 ) {
-    operator fun invoke(id:String): Flow<StateMachineWithoutData> = flow {
+    operator fun invoke(movieId: String, reviewId:String, userReview: UserReviewDto): Flow<StateMachineWithoutData> = flow {
         try {
             emit(StateMachineWithoutData.Loading())
-            val response = repository.addFavorite(id)
-
+            val response = repository.editReview(movieId, reviewId,userReview)
             if (response.isSuccessful){
                 emit(StateMachineWithoutData.Success())
             }

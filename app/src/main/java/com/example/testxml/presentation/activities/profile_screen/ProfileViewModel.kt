@@ -29,9 +29,9 @@ class ProfileViewModel constructor(
 
     var updatedAvatarLink:String? = null
 
-    fun getProfile(token:String){
+    fun getProfile(){
         viewModelScope.launch {
-            getProfileUseCase(token).collect{curState->
+            getProfileUseCase().collect{curState->
                 _profileState.value = when(curState){
                     is StateMachine.Error -> StateHandler(isErrorOccured = true, message = curState.message.toString())
                     is StateMachine.Loading -> StateHandler(isLoading = true)
@@ -41,10 +41,10 @@ class ProfileViewModel constructor(
         }
     }
 
-    fun updateProfile(token: String, avatarLink:String){
+    fun updateProfile(avatarLink:String){
         viewModelScope.launch{
             profileState.value?.value?.copy(avatarLink = avatarLink)?.let {
-                updateProfileUseCase(token, it).collect{curState->
+                updateProfileUseCase(it).collect{curState->
                     when(curState){
                         is StateMachineWithoutData.Error -> _updateState.value = StateHandler(isErrorOccured = true, message = curState.message.toString())
                         is StateMachineWithoutData.Loading -> _updateState.value = StateHandler(isLoading = true)

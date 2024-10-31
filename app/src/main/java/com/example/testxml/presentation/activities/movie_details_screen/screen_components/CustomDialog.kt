@@ -54,6 +54,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.testxml.R
 import com.example.testxml.common.font.Manrope
+import com.example.testxml.presentation.activities.movie_details_screen.util.ReviewMode
 import com.smarttoolfactory.slider.ColorfulIconSlider
 import com.smarttoolfactory.slider.ColorfulSlider
 import com.smarttoolfactory.slider.MaterialSliderColors
@@ -65,15 +66,20 @@ import kotlin.math.floor
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomDialog(
-    onDismissRequest:()->Unit
+    onDismissRequest:()->Unit,
+    mode:ReviewMode,
+    reviewText:String = "",
+    ratingValue:Int = 5,
+    isAnonymous:Boolean = false,
+    onAccept:(Boolean,Int,String)->Unit
 ){
     var rating by remember {
-        mutableStateOf<Int>(5)
+        mutableStateOf<Int>(ratingValue)
     }
 
-    var descValue by remember { mutableStateOf("") }
+    var descValue by remember { mutableStateOf(reviewText) }
 
-    var isSwitchChecked by remember { mutableStateOf(false) }
+    var isSwitchChecked by remember { mutableStateOf(isAnonymous) }
 
     Dialog(
         onDismissRequest = onDismissRequest,
@@ -93,7 +99,7 @@ fun CustomDialog(
                 modifier = Modifier.wrapContentHeight(Alignment.CenterVertically)
             ) {
                 Text(
-                    text = "Добавить отзыв",
+                    text = if(mode == ReviewMode.ADD) "Добавить отзыв" else "Редактировать отзыв",
                     color = colorResource(id = R.color.white),
                     fontFamily = Manrope,
                     fontWeight = FontWeight.Bold,
@@ -301,7 +307,9 @@ fun CustomDialog(
                     modifier = Modifier.fillMaxWidth().offset(y = (-8).dp).absolutePadding(bottom = 0.dp)
                 ) {
                     TextButton(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            onAccept(isSwitchChecked, rating, descValue)
+                        },
                         modifier = Modifier
                             .background(brush = Brush.horizontalGradient(
                                 colors = listOf(

@@ -2,24 +2,38 @@ package com.example.testxml.presentation.activities.movie_details_screen
 
 import android.content.Context
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testxml.common.StateMachine
 import com.example.testxml.common.StateMachineWithoutData
 import com.example.testxml.data.remote.dto.Movie
 import com.example.testxml.data.remote.dto.MovieDetailDto
+import com.example.testxml.data.remote.dto.MoviePageDto
 import com.example.testxml.data.remote.dto.Person
 import com.example.testxml.data.remote.dto.PersonResponseDto
+import com.example.testxml.data.remote.dto.ReviewDetail
+import com.example.testxml.data.remote.dto.UserReviewDto
 import com.example.testxml.data.remote.dto.toMovieDetail
+import com.example.testxml.data.remote.dto.toProfile
 import com.example.testxml.domain.models.MovieDetail
+import com.example.testxml.domain.models.Profile
+import com.example.testxml.domain.models.UserReview
 import com.example.testxml.domain.use_case.add_favorite_use_case.AddFavoriteUseCase
+import com.example.testxml.domain.use_case.add_review_use_case.AddReviewUseCase
 import com.example.testxml.domain.use_case.delete_favorite_use_case.DeleteFavoriteUseCase
+import com.example.testxml.domain.use_case.delete_review_use_case.DeleteReviewUseCase
+import com.example.testxml.domain.use_case.edit_review_use_case.EditReviewUseCase
 import com.example.testxml.domain.use_case.get_favorite_use_case.GetFavoriteMoviesUseCase
 import com.example.testxml.domain.use_case.get_movie_info_use_case.GetMovieInfoUseCase
 import com.example.testxml.domain.use_case.get_person_use_case.GetPersonUseCase
+import com.example.testxml.domain.use_case.get_profile_use_case.GetProfileUseCase
 import com.example.testxml.domain.use_case.movie_details_use_case.GetMovieDetailsUseCase
+import com.example.testxml.domain.use_case.movie_details_use_case.GetMovieReviewsUseCase
 import com.example.testxml.presentation.activities.feed_screen.util.MovieStateHandler
 import com.example.testxml.presentation.utils.StateHandler
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,7 +48,12 @@ class MovieDetailsViewModel constructor(
     private val getMovieInfoUseCase: GetMovieInfoUseCase = GetMovieInfoUseCase(),
     private val getFavoriteMoviesUseCase: GetFavoriteMoviesUseCase = GetFavoriteMoviesUseCase(),
     private val addFavoritesUseCase: AddFavoriteUseCase = AddFavoriteUseCase(),
-    private val deleteFavoriteUseCase: DeleteFavoriteUseCase = DeleteFavoriteUseCase()
+    private val deleteFavoriteUseCase: DeleteFavoriteUseCase = DeleteFavoriteUseCase(),
+    private val addReviewUseCase: AddReviewUseCase = AddReviewUseCase(),
+    private val editReviewUseCase: EditReviewUseCase = EditReviewUseCase(),
+    private val deleteReviewUseCase: DeleteReviewUseCase = DeleteReviewUseCase(),
+    private val getProfileUseCase: GetProfileUseCase = GetProfileUseCase(),
+    private val getMovieReviewsUseCase: GetMovieReviewsUseCase = GetMovieReviewsUseCase()
 ):ViewModel() {
     private val _mainState = MutableStateFlow(StateHandler<MovieDetail>())
     val mainState = _mainState.asStateFlow()
@@ -48,9 +67,26 @@ class MovieDetailsViewModel constructor(
     private val _favoritesState = MutableStateFlow(StateHandler<Boolean>())
     val favoriteState = _favoritesState.asStateFlow()
 
+    private val _savedReviewState = MutableStateFlow(StateHandler<Unit>())
+    val savedReviewState = _savedReviewState.asStateFlow()
+
+    private val _deletedReviewState = MutableLiveData(StateHandler<Unit>())
+    val deletedReviewState:LiveData<StateHandler<Unit>> = _deletedReviewState
+
+    fun emitNothingDeleted(){
+        _deletedReviewState.value = StateHandler(isNothing = true)
+    }
+
+    private val _profileState = MutableStateFlow(StateHandler<String>())
+    val profileState = _profileState
+
+    private val _reviews = MutableStateFlow(listOf<ReviewDetail>())
+    val reviews = _reviews.asStateFlow()
+
     init {
         getMovieDetails(id)
         getFavorites()
+        getProfile()
     }
     fun getMovieDetails(id:String){
         viewModelScope.launch {
@@ -60,6 +96,7 @@ class MovieDetailsViewModel constructor(
                     is StateMachine.Loading -> _mainState.value = StateHandler(isLoading = true)
                     is StateMachine.Success -> {
                         _mainState.value = StateHandler(isSuccess = true, value = curState.data?.toMovieDetail())
+
                         getPerson(curState.data?.director.toString().split(",")[0])
                         curState.data?.let {
                             getMovieInfo(
@@ -67,6 +104,24 @@ class MovieDetailsViewModel constructor(
                                 it.year
                             )
                         }
+
+                        _reviews.value = curState?.data?.reviews!!
+                        Log.d("reviews", _reviews.value.size.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    fun updateReviewsOnly(){
+        viewModelScope.launch {
+            getMovieReviewsUseCase(id).collect{curState->
+                when(curState){
+                    is StateMachine.Error -> Unit
+                    is StateMachine.Loading -> Unit
+                    is StateMachine.Success -> {
+                        _reviews.value = curState?.data!!
+                        Log.d("reviews", _reviews.value.size.toString())
                     }
                 }
             }
@@ -129,6 +184,55 @@ class MovieDetailsViewModel constructor(
                     is StateMachineWithoutData.Error -> Unit
                     is StateMachineWithoutData.Loading -> Unit
                     is StateMachineWithoutData.Success -> _favoritesState.value = StateHandler(isSuccess = true, value = false)
+                }
+            }
+        }
+    }
+
+    fun addReview(movieId:String, isAnonymous:Boolean, rating:Int,reviewText:String){
+        viewModelScope.launch {
+            addReviewUseCase(movieId, UserReviewDto(isAnonymous,rating,reviewText)).collect{curState->
+                _savedReviewState.value = when(curState){
+                    is StateMachineWithoutData.Error -> StateHandler(isErrorOccured = true, message = curState?.message ?: "")
+                    is StateMachineWithoutData.Loading -> StateHandler(isLoading = true)
+                    is StateMachineWithoutData.Success -> StateHandler(isSuccess = true)
+                }
+            }
+        }
+    }
+
+    fun editReview(movieId:String, reviewId:String, isAnonymous:Boolean, rating:Int,reviewText:String){
+        viewModelScope.launch {
+            editReviewUseCase(movieId,reviewId, UserReviewDto(isAnonymous,rating,reviewText)).collect{curState->
+                _savedReviewState.value = when(curState){
+                    is StateMachineWithoutData.Error -> StateHandler(isErrorOccured = true, message = curState?.message ?: "")
+                    is StateMachineWithoutData.Loading -> StateHandler(isLoading = true)
+                    is StateMachineWithoutData.Success -> StateHandler(isSuccess = true)
+                }
+            }
+        }
+    }
+
+    fun deleteReview(movieId:String, reviewId:String){
+        viewModelScope.launch {
+            deleteReviewUseCase(movieId, reviewId).collect{curState->
+                when(curState){
+                    is StateMachineWithoutData.Error -> Unit
+                    is StateMachineWithoutData.Loading -> Unit
+                    is StateMachineWithoutData.Success -> _deletedReviewState.value = StateHandler(isSuccess = true)
+                }
+
+            }
+        }
+    }
+
+    fun getProfile(){
+        viewModelScope.launch {
+            getProfileUseCase().collect{curState->
+                _profileState.value = when(curState){
+                    is StateMachine.Error -> StateHandler(isErrorOccured = true, message = curState.message.toString())
+                    is StateMachine.Loading -> StateHandler(isLoading = true)
+                    is StateMachine.Success -> StateHandler(isSuccess = true, value = curState.data?.toProfile()?.id)
                 }
             }
         }

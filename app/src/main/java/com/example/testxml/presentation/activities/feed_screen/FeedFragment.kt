@@ -61,11 +61,6 @@ class FeedFragment: Fragment(R.layout.feed_fragment) {
             }
         }
 
-        savedInstanceState?.let{
-            currentIndex = it.getInt("currentIndex")
-            updateCurrentMovie(viewModel._movies[currentIndex])
-        }
-
         val customAdapter = PosterAdapter()
 
         val cardManager = CardStackLayoutManager(requireContext(), object:CardStackListener{
@@ -132,10 +127,5 @@ class FeedFragment: Fragment(R.layout.feed_fragment) {
                 state.movies?.movies?.forEach{customAdapter.addMovie(it.poster)}
             }
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt("currentIndex", currentIndex)
     }
 }

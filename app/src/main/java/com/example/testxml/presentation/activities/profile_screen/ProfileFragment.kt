@@ -28,7 +28,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
         super.onViewCreated(view, savedInstanceState)
         binding = ProfileFragmentBinding.bind(view)
 
-        getFromSharedPrefs(requireContext())?.let { viewModel.getProfile(it) }
+        viewModel.getProfile()
 
         val greet = binding.greetText
         val nameText = binding.nameText
@@ -65,7 +65,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
             .setTitle("Добавить изображения")
             .setView(editText)
             .setPositiveButton("Сохранить") { dialog, _ ->
-                getFromSharedPrefs(requireContext())?.let { viewModel.updateProfile(it, editText.text.toString()) }
+                viewModel.updateProfile(editText.text.toString())
                 dialog.dismiss()
             }
             .setNegativeButton("Отмена") { dialog, _ ->
