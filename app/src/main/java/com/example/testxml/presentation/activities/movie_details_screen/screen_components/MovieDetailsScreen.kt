@@ -109,6 +109,7 @@ fun MovieDetailsScreen (
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(id = R.color.background))
+
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
