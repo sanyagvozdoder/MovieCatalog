@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -100,6 +101,19 @@ dependencies {
     //coil for async
     implementation("io.coil-kt.coil3:coil-compose:3.0.0-rc02")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.0-rc02")
+
+    //room database
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("androidx.room:room-rxjava3:$roomVersion")
+
+
+
+
+
 
     //compose features
     implementation(platform("androidx.compose:compose-bom:2023.08.00"))
