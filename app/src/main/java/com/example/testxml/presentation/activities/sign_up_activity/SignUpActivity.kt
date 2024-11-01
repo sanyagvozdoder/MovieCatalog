@@ -34,7 +34,7 @@ class SignUpActivity:AppCompatActivity() {
         }
 
         val date = bottomsheet.findViewById<EditText>(R.id.date)
-        date.setShowSoftInputOnFocus(false)
+        date.showSoftInputOnFocus = false
         val login = bottomsheet.findViewById<EditText>(R.id.login)
         val email = bottomsheet.findViewById<EditText>(R.id.email)
         val name = bottomsheet.findViewById<EditText>(R.id.name)

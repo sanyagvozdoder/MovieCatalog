@@ -35,11 +35,14 @@ import com.example.testxml.domain.use_case.get_profile_use_case.GetProfileUseCas
 import com.example.testxml.domain.use_case.movie_details_use_case.GetMovieDetailsUseCase
 import com.example.testxml.domain.use_case.movie_details_use_case.GetMovieReviewsUseCase
 import com.example.testxml.presentation.activities.feed_screen.util.MovieStateHandler
+import com.example.testxml.presentation.activities.sign_up_activity.util.Month
 import com.example.testxml.presentation.utils.StateHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class MovieDetailsViewModel constructor(
     val id:String,
@@ -67,13 +70,24 @@ class MovieDetailsViewModel constructor(
     private val _favoritesState = MutableStateFlow(StateHandler<Boolean>())
     val favoriteState = _favoritesState.asStateFlow()
 
-    private val _savedReviewState = MutableStateFlow(StateHandler<Unit>())
-    val savedReviewState = _savedReviewState.asStateFlow()
-
     private val _deletedReviewState = MutableLiveData(StateHandler<Unit>())
     val deletedReviewState:LiveData<StateHandler<Unit>> = _deletedReviewState
 
+    private val _addedReviewState = MutableLiveData(StateHandler<Unit>())
+    val addedReviewState:LiveData<StateHandler<Unit>> = _addedReviewState
+
+    private val _editedReviewState = MutableLiveData(StateHandler<Unit>())
+    val editedReviewState:LiveData<StateHandler<Unit>> = _editedReviewState
+
     fun emitNothingDeleted(){
+        _deletedReviewState.value = StateHandler(isNothing = true)
+    }
+
+    fun emitNothingAdded(){
+        _deletedReviewState.value = StateHandler(isNothing = true)
+    }
+
+    fun emitNothingEdited(){
         _deletedReviewState.value = StateHandler(isNothing = true)
     }
 
@@ -105,6 +119,7 @@ class MovieDetailsViewModel constructor(
                             )
                         }
 
+                        curState?.data?.reviews?.forEach {it.createDateTime = castDate(it.createDateTime) }
                         _reviews.value = curState?.data?.reviews!!
                         Log.d("reviews", _reviews.value.size.toString())
                     }
@@ -120,6 +135,7 @@ class MovieDetailsViewModel constructor(
                     is StateMachine.Error -> Unit
                     is StateMachine.Loading -> Unit
                     is StateMachine.Success -> {
+                        curState?.data?.forEach {it.createDateTime = castDate(it.createDateTime) }
                         _reviews.value = curState?.data!!
                         Log.d("reviews", _reviews.value.size.toString())
                     }
@@ -192,10 +208,10 @@ class MovieDetailsViewModel constructor(
     fun addReview(movieId:String, isAnonymous:Boolean, rating:Int,reviewText:String){
         viewModelScope.launch {
             addReviewUseCase(movieId, UserReviewDto(isAnonymous,rating,reviewText)).collect{curState->
-                _savedReviewState.value = when(curState){
-                    is StateMachineWithoutData.Error -> StateHandler(isErrorOccured = true, message = curState?.message ?: "")
-                    is StateMachineWithoutData.Loading -> StateHandler(isLoading = true)
-                    is StateMachineWithoutData.Success -> StateHandler(isSuccess = true)
+                when(curState){
+                    is StateMachineWithoutData.Error -> Unit
+                    is StateMachineWithoutData.Loading -> Unit
+                    is StateMachineWithoutData.Success -> _addedReviewState.value = StateHandler(isSuccess = true)
                 }
             }
         }
@@ -204,10 +220,10 @@ class MovieDetailsViewModel constructor(
     fun editReview(movieId:String, reviewId:String, isAnonymous:Boolean, rating:Int,reviewText:String){
         viewModelScope.launch {
             editReviewUseCase(movieId,reviewId, UserReviewDto(isAnonymous,rating,reviewText)).collect{curState->
-                _savedReviewState.value = when(curState){
-                    is StateMachineWithoutData.Error -> StateHandler(isErrorOccured = true, message = curState?.message ?: "")
-                    is StateMachineWithoutData.Loading -> StateHandler(isLoading = true)
-                    is StateMachineWithoutData.Success -> StateHandler(isSuccess = true)
+                when(curState){
+                    is StateMachineWithoutData.Error -> Unit
+                    is StateMachineWithoutData.Loading -> Unit
+                    is StateMachineWithoutData.Success -> _editedReviewState.value = StateHandler(isSuccess = true)
                 }
             }
         }
@@ -236,5 +252,19 @@ class MovieDetailsViewModel constructor(
                 }
             }
         }
+    }
+
+    fun castDate(date:String):String{
+        val dateTime = LocalDateTime.parse(date)
+
+        val formatter = DateTimeFormatter.ofPattern("dd MM yyyy")
+        val formattedDate = dateTime.format(formatter)
+
+        val month = dateTime.monthValue
+        val monthName = Month.values()[month-1]
+
+        val finalDate = dateTime.dayOfMonth.toString()+ " " + monthName + " " + dateTime.year.toString()
+
+        return finalDate
     }
 }

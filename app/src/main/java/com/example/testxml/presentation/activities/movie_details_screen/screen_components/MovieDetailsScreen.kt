@@ -90,8 +90,6 @@ fun MovieDetailsScreen(
     val personState = viewModel.personState.collectAsState()
     val ratingState = viewModel.ratingState.collectAsState()
     val favoriteState = viewModel.favoriteState.collectAsState()
-    val saverReviewState = viewModel.savedReviewState.collectAsState()
-    //val deleteReviewState = viewModel.deletedReviewState.collectAsState()
     val profileState = viewModel.profileState.collectAsState()
     val reviews = viewModel.reviews.collectAsState()
 
@@ -117,7 +115,7 @@ fun MovieDetailsScreen(
     }
 
     if (profileState.value.isSuccess && mainApiState.value.isSuccess){
-        isUserReviewExists = mainApiState.value.value?.reviews?.any {
+        isUserReviewExists = reviews.value?.any {
             it?.author?.userId == profileState.value.value
         } == true
 
@@ -141,18 +139,37 @@ fun MovieDetailsScreen(
             .background(colorResource(id = R.color.background))
 
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(mainApiState.value.value?.poster)
-                .crossfade(true)
-                .build(),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.5f)
-                .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)),
-        )
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(0.5f)
+            .clip(
+                RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
+            ),
+            contentAlignment = Alignment.BottomCenter
+        ){
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(mainApiState.value.value?.poster)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxSize(),
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight(0.3f)
+                    .fillMaxWidth()
+                    .background(brush = Brush.verticalGradient(
+                    listOf(
+                        colorResource(id = R.color.gray_alpha),
+                        colorResource(id = R.color.gray_alpha_non)
+                    )
+                ))
+            )
+        }
+
 
         Row(
             modifier = Modifier
@@ -722,9 +739,13 @@ fun MovieDetailsScreen(
                                         AsyncImage(
                                             model = ImageRequest.Builder(LocalContext.current)
                                                 .data(
-                                                    reviews.value?.get(
-                                                        currentIndex
-                                                    )?.author?.avatar
+                                                    if(reviews.value?.get(currentIndex)?.isAnonymous == false || reviews.value?.get(currentIndex)?.author?.userId == profileState.value.value){
+                                                            reviews.value?.get(
+                                                                currentIndex
+                                                            )?.author?.avatar
+                                                    } else {
+                                                        null
+                                                    }
                                                 )
                                                 .crossfade(true)
                                                 .build(),
@@ -740,16 +761,22 @@ fun MovieDetailsScreen(
                                         Spacer(modifier = Modifier.width(8.dp))
                                         Column {
                                             Text(
-                                                text = reviews.value?.get(
-                                                    currentIndex
-                                                )?.author?.nickName.toString(),
+                                                text = if(reviews.value?.get(currentIndex)?.isAnonymous == false || reviews.value?.get(currentIndex)?.author?.userId == profileState.value.value ){
+                                                    reviews.value?.get(
+                                                        currentIndex
+                                                    )?.author?.nickName.toString()
+                                                }
+                                                else{
+                                                    "Анонимный пользователь"
+                                                }
+                                                ,
                                                 fontFamily = Manrope,
                                                 fontWeight = FontWeight.Medium,
                                                 color = colorResource(id = R.color.white),
                                                 fontSize = 12.sp
                                             )
                                             Text(
-                                                text = mainApiState.value.value?.reviews?.get(
+                                                text = reviews.value?.get(
                                                     currentIndex
                                                 )?.createDateTime.toString(),
                                                 fontFamily = Manrope,
@@ -763,12 +790,12 @@ fun MovieDetailsScreen(
                                         modifier = Modifier
                                             .background(
                                                 color = Color(
-                                                    (200 - ((mainApiState.value.value?.reviews?.get(
+                                                    (200 - ((reviews.value?.get(
                                                         currentIndex
                                                     )?.rating?.times(
                                                         20
                                                     ))?.toInt() ?: 0)),
-                                                    (mainApiState.value.value?.reviews?.get(
+                                                    (reviews.value?.get(
                                                         currentIndex
                                                     )?.rating?.times(
                                                         20
@@ -790,7 +817,7 @@ fun MovieDetailsScreen(
                                             )
                                             Spacer(modifier = Modifier.width(5.dp))
                                             Text(
-                                                text = mainApiState.value.value?.reviews?.get(currentIndex)?.rating.toString(),
+                                                text = reviews.value?.get(currentIndex)?.rating.toString(),
                                                 fontFamily = Manrope,
                                                 fontWeight = FontWeight.Medium,
                                                 color = colorResource(id = R.color.white),
@@ -817,7 +844,7 @@ fun MovieDetailsScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             if (
-                                (isUserReviewExists && mainApiState.value.value?.reviews?.get(currentIndex)?.author?.userId == profileState.value.value)
+                                (isUserReviewExists && reviews.value?.get(currentIndex)?.author?.userId == profileState.value.value)
                                 ||
                                 (!isUserReviewExists)
                                 ){
@@ -840,7 +867,7 @@ fun MovieDetailsScreen(
                                 ) {
                                     Text(
                                         text =
-                                        if (mainApiState.value.value?.reviews?.get(currentIndex)?.author?.userId != profileState.value.value)
+                                        if (reviews.value?.get(currentIndex)?.author?.userId != profileState.value.value)
                                             "Добавить отзыв"
                                         else
                                             "Изменить отзыв",
@@ -852,7 +879,7 @@ fun MovieDetailsScreen(
                                 }
                                 Spacer(modifier = Modifier.width(4.dp))
                             }
-                            if(isUserReviewExists && mainApiState.value.value?.reviews?.get(currentIndex)?.author?.userId == profileState.value.value){
+                            if(isUserReviewExists && reviews.value?.get(currentIndex)?.author?.userId == profileState.value.value){
                                 IconButton(
                                     modifier = Modifier
                                         .size(40.dp)
@@ -868,7 +895,7 @@ fun MovieDetailsScreen(
                                         ),
                                     enabled = currentIndex != 0,
                                     onClick = {
-                                        mainApiState.value.value?.reviews?.get(currentIndex)?.id?.let {
+                                        reviews.value?.get(currentIndex)?.id?.let {
                                             viewModel.deleteReview(id,
                                                 it
                                             )
@@ -910,7 +937,7 @@ fun MovieDetailsScreen(
                                     onClick = {
                                         currentIndex--
                                         currentMode =
-                                            if (mainApiState.value.value?.reviews?.get(currentIndex)?.author?.userId != profileState.value.value) ReviewMode.ADD
+                                            if (reviews.value?.get(currentIndex)?.author?.userId != profileState.value.value) ReviewMode.ADD
                                             else ReviewMode.EDIT
                                     }) {
                                     Icon(
@@ -929,7 +956,7 @@ fun MovieDetailsScreen(
                                     modifier = Modifier
                                         .size(40.dp)
                                         .background(
-                                            color = if (currentIndex == (mainApiState.value.value?.reviews?.size?.minus(
+                                            color = if (currentIndex == (reviews.value?.size?.minus(
                                                     1
                                                 ) ?: 0)
                                             ) colorResource(id = R.color.dark_input) else colorResource(
@@ -943,13 +970,13 @@ fun MovieDetailsScreen(
                                                 bottomEnd = 24.dp
                                             )
                                         ),
-                                    enabled = currentIndex != (mainApiState.value.value?.reviews?.size?.minus(
+                                    enabled = currentIndex != (reviews.value?.size?.minus(
                                         1
                                     ) ?: 0),
                                     onClick = {
                                         currentIndex++
                                         currentMode =
-                                            if (mainApiState.value.value?.reviews?.get(currentIndex)?.author?.userId.toString() != profileState.value.value.toString()) ReviewMode.ADD
+                                            if (reviews.value?.get(currentIndex)?.author?.userId.toString() != profileState.value.value.toString()) ReviewMode.ADD
                                             else ReviewMode.EDIT
                                     }) {
                                     Icon(
@@ -958,7 +985,7 @@ fun MovieDetailsScreen(
                                         modifier = Modifier
                                             .width(8.dp)
                                             .height(16.dp),
-                                        tint = if (currentIndex == (mainApiState.value.value?.reviews?.size?.minus(
+                                        tint = if (currentIndex == (reviews.value?.size?.minus(
                                                 1
                                             ) ?: 0)
                                         ) colorResource(id = R.color.hint_text) else colorResource(
@@ -975,13 +1002,27 @@ fun MovieDetailsScreen(
         }
     }
 
-    val obs = viewModel.deletedReviewState.observeAsState()
+    val obsDelete = viewModel.deletedReviewState.observeAsState()
 
-    if(obs.value?.isSuccess == true){
+    if(obsDelete.value?.isSuccess == true){
         viewModel.emitNothingDeleted()
         if(currentIndex>0){
             currentIndex--
         }
+        viewModel.updateReviewsOnly()
+    }
+
+    val obsAdd = viewModel.addedReviewState.observeAsState()
+
+    if(obsAdd.value?.isSuccess == true){
+        viewModel.emitNothingAdded()
+        viewModel.updateReviewsOnly()
+    }
+
+    val obsEdit = viewModel.editedReviewState.observeAsState()
+
+    if(obsEdit.value?.isSuccess == true){
+        viewModel.emitNothingEdited()
         viewModel.updateReviewsOnly()
     }
 
@@ -1000,7 +1041,6 @@ fun MovieDetailsScreen(
                 ) {
                     viewModel.addReview(id, isAnonymous, rating, reviewText)
                     isDialogVisible = false
-                    viewModel.updateReviewsOnly()
                 }
             )
         } else {
@@ -1010,7 +1050,7 @@ fun MovieDetailsScreen(
                 },
                 mode = currentMode,
                 onAccept = fun(isAnonymous: Boolean, rating: Int, reviewText: String) {
-                    mainApiState.value.value?.reviews?.get(currentIndex)?.id.let {
+                    reviews.value?.get(currentIndex)?.id.let {
                         if (it != null) {
                             viewModel.editReview(
                                 id, it, isAnonymous, rating, reviewText
@@ -1018,11 +1058,10 @@ fun MovieDetailsScreen(
                         }
                     }
                     isDialogVisible = false
-                    viewModel.updateReviewsOnly()
                 },
-                ratingValue = mainApiState.value.value?.reviews?.get(currentIndex)?.rating ?: 5,
-                reviewText = mainApiState.value.value?.reviews?.get(currentIndex)?.reviewText ?: "",
-                isAnonymous = mainApiState.value.value?.reviews?.get(currentIndex)?.isAnonymous ?: false
+                ratingValue = reviews.value?.get(currentIndex)?.rating ?: 5,
+                reviewText = reviews.value?.get(currentIndex)?.reviewText ?: "",
+                isAnonymous = reviews.value?.get(currentIndex)?.isAnonymous ?: false
             )
         }
     }
