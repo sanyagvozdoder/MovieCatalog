@@ -10,6 +10,7 @@ import com.example.testxml.common.StateMachine
 import com.example.testxml.data.remote.dto.Movie
 import com.example.testxml.data.remote.dto.MoviePageDto
 import com.example.testxml.domain.use_case.add_favorite_use_case.AddFavoriteUseCase
+import com.example.testxml.domain.use_case.database_use_cases.genre_use_cases.AddGenreUseCase
 import com.example.testxml.domain.use_case.get_movies_use_case.GetMoviesUseCase
 import com.example.testxml.presentation.activities.feed_screen.util.MovieStateHandler
 import kotlinx.coroutines.flow.collect
@@ -17,7 +18,8 @@ import kotlinx.coroutines.launch
 
 class FeedViewModel constructor(
     private val getMoviesUseCase: GetMoviesUseCase = GetMoviesUseCase(),
-    private val addFavoritesUseCase: AddFavoriteUseCase = AddFavoriteUseCase()
+    private val addFavoritesUseCase: AddFavoriteUseCase = AddFavoriteUseCase(),
+    private val addGenreUseCase: AddGenreUseCase = AddGenreUseCase()
 ):ViewModel() {
     private val _state = MutableLiveData(MovieStateHandler<MoviePageDto>())
     val state: LiveData<MovieStateHandler<MoviePageDto>> = _state
@@ -52,6 +54,12 @@ class FeedViewModel constructor(
     fun addFavorites(id:String){
         viewModelScope.launch {
             addFavoritesUseCase(id).collect()
+        }
+    }
+
+    fun addGenre(userLogin:String,genreName:String ){
+        viewModelScope.launch {
+            addGenreUseCase(userLogin,genreName).collect()
         }
     }
 }

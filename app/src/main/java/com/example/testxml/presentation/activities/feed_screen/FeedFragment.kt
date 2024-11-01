@@ -6,13 +6,16 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.animation.AccelerateInterpolator
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testxml.R
 import com.example.testxml.data.remote.dto.Movie
 import com.example.testxml.databinding.FeedFragmentBinding
 import com.example.testxml.presentation.activities.feed_screen.components.PosterAdapter
+import com.example.testxml.presentation.activities.main_activity.MainViewModel
 import com.example.testxml.presentation.activities.movie_details_screen.MovieDetailsActivity
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
@@ -23,9 +26,16 @@ import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
 class FeedFragment: Fragment(R.layout.feed_fragment) {
     private lateinit var binding: FeedFragmentBinding
     private var currentIndex = 0
+    private lateinit var userLogin:String
     val viewModel:FeedViewModel by viewModels()
+
+    private val mainViewModel: MainViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mainViewModel.loginData.observe(viewLifecycleOwner) { value ->
+            userLogin = value
+        }
 
         binding = FeedFragmentBinding.bind(view)
 
@@ -42,6 +52,12 @@ class FeedFragment: Fragment(R.layout.feed_fragment) {
         val genre1 = binding.genre1
         val genre2 = binding.genre2
         val genre3 = binding.genre3
+
+        genre1.setOnClickListener {
+            if(genre1.text != ""){
+                viewModel.addGenre(userLogin, genre1.text.toString())
+            }
+        }
 
         fun updateCurrentMovie(movie: Movie?){
             if (movie != null) {

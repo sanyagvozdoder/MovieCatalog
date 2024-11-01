@@ -8,12 +8,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testxml.common.StateMachineWithoutData
 import com.example.testxml.data.remote.dto.LoginUserDto
+import com.example.testxml.domain.use_case.database_use_cases.user_use_cases.AddUserUseCase
 import com.example.testxml.domain.use_case.login_user_use_case.LoginUserUseCase
 import com.example.testxml.presentation.utils.StateHandler
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class SignInViewModel constructor(
-    private val signInUseCase: LoginUserUseCase = LoginUserUseCase()
+    private val signInUseCase: LoginUserUseCase = LoginUserUseCase(),
+    private val addUserUserUseCase: AddUserUseCase = AddUserUseCase()
 ): ViewModel() {
     private val _state = MutableLiveData(StateHandler<Unit>())
     val state: LiveData<StateHandler<Unit>> = _state
@@ -28,6 +31,12 @@ class SignInViewModel constructor(
                 }
                 Log.d("penis",_state.value.toString())
             }
+        }
+    }
+
+    fun addUser(login:String){
+        viewModelScope.launch {
+            addUserUserUseCase(login).collect()
         }
     }
 }

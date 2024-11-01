@@ -9,7 +9,7 @@ import com.example.testxml.data.room.entities.Friend
 
 @Dao
 interface FriendDao {
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addFriend(friend: Friend)
 
     @Query("SELECT * FROM Friend WHERE userId = :userId")

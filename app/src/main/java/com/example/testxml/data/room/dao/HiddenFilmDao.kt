@@ -8,7 +8,7 @@ import com.example.testxml.data.room.entities.HiddenFilm
 
 @Dao
 interface HiddenFilmDao {
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addHiddenFilm(hiddenFilm: HiddenFilm)
 
     @Query("SELECT * FROM HiddenFilm WHERE userId = :userId")

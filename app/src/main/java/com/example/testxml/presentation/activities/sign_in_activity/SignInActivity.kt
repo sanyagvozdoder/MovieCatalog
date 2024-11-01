@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.testxml.R
 import com.example.testxml.presentation.activities.main_activity.MainActivity
+import com.example.testxml.presentation.activities.movie_details_screen.MovieDetailsActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class SignInActivity : AppCompatActivity() {
@@ -31,7 +32,9 @@ class SignInActivity : AppCompatActivity() {
 
         viewModel.state.observe(this){state->
             if (state.isSuccess){
-                startActivity(Intent(this, MainActivity::class.java))
+                viewModel.addUser(login.text.toString())
+                startActivity(Intent(this, MainActivity::class.java)
+                    .putExtra(MainActivity.login, login.text.toString()))
             }
         }
 

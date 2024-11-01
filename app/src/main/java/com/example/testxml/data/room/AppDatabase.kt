@@ -30,7 +30,7 @@ abstract class MoviesCatalogDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: MoviesCatalogDatabase? = null
 
-        fun getDatabase(context: Context): MoviesCatalogDatabase {
+        fun getDatabase(): MoviesCatalogDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     MyApplication.instance,

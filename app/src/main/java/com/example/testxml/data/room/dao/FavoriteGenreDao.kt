@@ -9,7 +9,7 @@ import com.example.testxml.data.room.entities.FavoriteGenre
 
 @Dao
 interface FavoriteGenreDao {
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addFavoriteGenre(genre: FavoriteGenre)
 
     @Query("SELECT * FROM FavoriteGenre WHERE userId = :userId")

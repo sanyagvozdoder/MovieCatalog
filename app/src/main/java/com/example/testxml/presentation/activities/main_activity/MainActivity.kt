@@ -6,14 +6,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.testxml.R
 import com.example.testxml.databinding.CoordinatorMainBinding
 
 class MainActivity:AppCompatActivity() {
+    companion object{
+        const val login = "login"
+    }
+
+    private lateinit var mainViewModel:MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val userLogin = intent.getStringExtra(login)
 
         val binding = CoordinatorMainBinding.inflate(layoutInflater)
         val view = binding.root
@@ -31,5 +39,10 @@ class MainActivity:AppCompatActivity() {
         val navController = navHostFragment.navController
         val bottomNavBar = binding.navBar
         bottomNavBar.setupWithNavController(navController)
+
+        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        if (userLogin != null) {
+            mainViewModel.setLoginData(userLogin)
+        }
     }
 }

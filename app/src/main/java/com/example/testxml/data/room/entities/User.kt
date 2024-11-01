@@ -7,23 +7,5 @@ import androidx.room.Relation
 
 @Entity
 data class User(
-    @PrimaryKey val userId: String,
-
-    @Relation(
-        parentColumn = "userId",
-        entityColumn = "userId"
-    )
-    val friends: List<Friend> = listOf(),
-
-    @Relation(
-        parentColumn = "userId",
-        entityColumn = "userId"
-    )
-    val favoriteGenres: List<FavoriteGenre> = listOf(),
-
-    @Relation(
-        parentColumn = "userId",
-        entityColumn = "userId"
-    )
-    val hiddenFilms: List<HiddenFilm> = listOf()
+    @PrimaryKey val userId: String
 )
