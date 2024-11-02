@@ -8,18 +8,17 @@ import com.example.testxml.domain.repository.FavoriteGenreRepository
 
 class FavoriteGenreRepositoryImpl constructor(
     private val db: MoviesCatalogDatabase = MoviesCatalogDatabase.getDatabase(),
-    private val userDao: FavoriteGenreDao = db.favoriteGenreDao()
+    private val genreDao: FavoriteGenreDao = db.favoriteGenreDao()
 ) :FavoriteGenreRepository {
     override suspend fun addFavoriteGenre(userId: String, genreName: String) {
-        Log.d("kuku", "here")
-        userDao.addFavoriteGenre(FavoriteGenre(userId,genreName))
+        genreDao.addFavoriteGenre(FavoriteGenre(userId,genreName))
     }
 
     override suspend fun getFavoriteGenresByUser(userId: String): List<FavoriteGenre> {
-        TODO("Not yet implemented")
+        return genreDao.getFavoriteGenresByUser(userId)
     }
 
     override suspend fun deleteFavoriteGenre(userId: String, genreName: String) {
-        TODO("Not yet implemented")
+        genreDao.deleteFavoriteGenre(FavoriteGenre(userId, genreName))
     }
 }

@@ -38,7 +38,6 @@ class PosterAdapter : RecyclerView.Adapter<PosterAdapter.PosterViewHolder>() {
     }
 
     fun setMovies(movies: List<String>) {
-        moviesList.clear()
         moviesList.addAll(movies)
         notifyDataSetChanged()
     }

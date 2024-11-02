@@ -50,6 +50,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/poster" />
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/posterPlaceholder"
+        android:layout_width="361dp"
+        android:layout_height="600dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.302"
+        app:cardCornerRadius="20dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/poster_placeholder2"/>
+    </androidx.cardview.widget.CardView>
+
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/poster"
         android:layout_width="361dp"
@@ -61,6 +79,8 @@
         app:layout_constraintVertical_bias="0.302">
 
     </com.yuyakaido.android.cardstackview.CardStackView>
+
+
 
     <LinearLayout
         android:layout_width="wrap_content"

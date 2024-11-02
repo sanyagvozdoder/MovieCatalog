@@ -5,5 +5,6 @@ data class MovieStateHandler<T>(
     val isErrorOccured:Boolean = false,
     val movies:T? = null,
     val isSuccess:Boolean = false,
-    val message:String = ""
+    val message:String = "",
+    val added:Int = 0
 )
