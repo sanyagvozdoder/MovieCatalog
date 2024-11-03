@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="110dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp">
+        <androidx.cardview.widget.CardView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:shape="ring"
+            app:cardCornerRadius="50dp">
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/blank_avatar" />
+
+        </androidx.cardview.widget.CardView>
+        <ImageButton
+            android:id="@+id/close_button"
+            android:shape="ring"
+            android:layout_gravity="end|top"
+            android:layout_width="24dp"
+            android:elevation="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_height="24dp"
+            android:background="@drawable/closae_icon_gradient"
+            android:src="@drawable/ic_close" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/nickName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/manrope_medium"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="14sp"/>
+</LinearLayout>

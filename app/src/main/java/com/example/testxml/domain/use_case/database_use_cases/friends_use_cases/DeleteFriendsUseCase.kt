@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 class DeleteFriendsUseCase constructor(
     private val repository: FriendsRepository = FriendsRepositoryImpl()
 ){
-    operator fun invoke(userId:String, friendId:String, avatarLink:String, name:String) : Flow<StateMachineWithoutData> = flow{
+    operator fun invoke(userId:String, friendId:String, avatarLink:String?, name:String) : Flow<StateMachineWithoutData> = flow{
         repository.deleteFriend(userId, friendId, avatarLink, name)
     }
 }

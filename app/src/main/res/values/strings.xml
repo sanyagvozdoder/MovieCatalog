@@ -12,4 +12,5 @@
     <string name="random_movie_screen">Случайный фильм</string>
     <string name="watch_movie_screen">Смотреть</string>
     <string name="all_films_movies_screen">Все фильмы</string>
+    <string name="friends_screen">Мои друзья</string>
 </resources>

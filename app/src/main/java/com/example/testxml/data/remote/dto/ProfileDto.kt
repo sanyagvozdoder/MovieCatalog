@@ -4,7 +4,7 @@ import com.example.testxml.domain.models.Profile
 
 data class ProfileDto(
     val avatarLink: String?,
-    val birthDate: String,
+    var birthDate: String,
     val email: String,
     val gender: Int,
     val id: String,

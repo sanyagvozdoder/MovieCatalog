@@ -14,11 +14,11 @@ class GetGenreUseCase constructor(
 ){
     operator fun invoke(userId:String) : Flow<StateMachine<List<FavoriteGenre>>> = flow{
         try {
-            emit(StateMachine.Loading())
+            //emit(StateMachine.Loading())
             val result = genreRepository.getFavoriteGenresByUser(userId)
             emit(StateMachine.Success<List<FavoriteGenre>>(result))
         }catch (e:Exception){
-            emit(StateMachine.Error(e.message?:""))
+            //emit(StateMachine.Error(e.message?:""))
         }
     }
 }

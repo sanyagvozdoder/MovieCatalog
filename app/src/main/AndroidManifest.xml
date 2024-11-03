@@ -33,6 +33,8 @@
         </activity>
         <activity android:name=".presentation.activities.movie_details_screen.MovieDetailsActivity">
         </activity>
+        <activity android:name=".presentation.activities.friends_activity.FriendsActivity">
+        </activity>
     </application>
 
 </manifest>

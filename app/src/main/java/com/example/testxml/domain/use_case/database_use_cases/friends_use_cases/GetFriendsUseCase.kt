@@ -15,11 +15,11 @@ class GetFriendsUseCase constructor(
 ){
     operator fun invoke(userId:String) : Flow<StateMachine<List<Friend>>> = flow{
         try {
-            emit(StateMachine.Loading())
+            //emit(StateMachine.Loading())
             val result = repository.getFriendsByUser(userId)
             emit(StateMachine.Success<List<Friend>>(result))
         }catch (e:Exception){
-            emit(StateMachine.Error(e.message?:""))
+            //emit(StateMachine.Error(e.message?:""))
         }
     }
 }
