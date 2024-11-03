@@ -53,7 +53,6 @@ class FriendsGridCarouselAdapter : RecyclerView.Adapter<FriendsGridCarouselAdapt
                 friendsList.removeAt(position)
                 notifyItemRemoved(position)
                 notifyItemRangeChanged(position, friendsList.size)
-                Log.d("penis",friendsList.toString())
             }
         })
     }
