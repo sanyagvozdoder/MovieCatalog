@@ -3,6 +3,7 @@ package com.example.testxml.presentation.activities.movie_details_screen.screen_
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -79,12 +80,12 @@ import kotlin.coroutines.coroutineContext
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MovieDetailsScreen(
-    id: String
+    id: String,
+    userLogin:String
 ) {
     val viewModel: MovieDetailsViewModel = viewModel {
         MovieDetailsViewModel(id)
     }
-
 
     val mainApiState = viewModel.mainState.collectAsState()
     val personState = viewModel.personState.collectAsState()
@@ -756,7 +757,20 @@ fun MovieDetailsScreen(
                                             contentScale = ContentScale.Crop,
                                             modifier = Modifier
                                                 .size(32.dp)
-                                                .clip(CircleShape),
+                                                .clip(CircleShape)
+                                                .clickable(
+                                                    enabled = if(reviews.value?.get(currentIndex)?.isAnonymous == false
+                                                        &&
+                                                        reviews.value.get(currentIndex)?.author?.userId != profileState.value.value)
+                                                        true else false,
+                                                    onClick = {
+                                                        viewModel.addFriend(userLogin,
+                                                            reviews.value.get(currentIndex)?.author?.userId!!,
+                                                            reviews.value.get(currentIndex)?.author?.avatar,
+                                                            reviews.value.get(currentIndex)?.author?.nickName!!)
+                                                    }
+
+                                                ),
                                         )
                                         Spacer(modifier = Modifier.width(8.dp))
                                         Column {
@@ -1065,10 +1079,4 @@ fun MovieDetailsScreen(
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun preview() {
-    MovieDetailsScreen("b6c5228b-91fb-43a1-a2ac-08d9b9f3d2a2")
 }

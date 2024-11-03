@@ -11,16 +11,18 @@ import com.example.testxml.presentation.activities.movie_details_screen.screen_c
 class MovieDetailsActivity:AppCompatActivity() {
     companion object{
         val key = "filmId"
+        val login = "login"
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val filmId = intent.getStringExtra(key)
+        val userLogin = intent.getStringExtra(login)
 
         setContent {
             MaterialTheme {
-                if (filmId != null) {
-                    MovieDetailsScreen(filmId)
+                if (filmId != null && userLogin != null) {
+                    MovieDetailsScreen(filmId, userLogin)
                 }
             }
         }

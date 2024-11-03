@@ -25,6 +25,7 @@ import com.example.testxml.domain.models.Profile
 import com.example.testxml.domain.models.UserReview
 import com.example.testxml.domain.use_case.add_favorite_use_case.AddFavoriteUseCase
 import com.example.testxml.domain.use_case.add_review_use_case.AddReviewUseCase
+import com.example.testxml.domain.use_case.database_use_cases.friends_use_cases.AddFriendUseCase
 import com.example.testxml.domain.use_case.delete_favorite_use_case.DeleteFavoriteUseCase
 import com.example.testxml.domain.use_case.delete_review_use_case.DeleteReviewUseCase
 import com.example.testxml.domain.use_case.edit_review_use_case.EditReviewUseCase
@@ -56,7 +57,8 @@ class MovieDetailsViewModel constructor(
     private val editReviewUseCase: EditReviewUseCase = EditReviewUseCase(),
     private val deleteReviewUseCase: DeleteReviewUseCase = DeleteReviewUseCase(),
     private val getProfileUseCase: GetProfileUseCase = GetProfileUseCase(),
-    private val getMovieReviewsUseCase: GetMovieReviewsUseCase = GetMovieReviewsUseCase()
+    private val getMovieReviewsUseCase: GetMovieReviewsUseCase = GetMovieReviewsUseCase(),
+    private val addFriendUseCase: AddFriendUseCase = AddFriendUseCase()
 ):ViewModel() {
     private val _mainState = MutableStateFlow(StateHandler<MovieDetail>())
     val mainState = _mainState.asStateFlow()
@@ -266,5 +268,11 @@ class MovieDetailsViewModel constructor(
         val finalDate = dateTime.dayOfMonth.toString()+ " " + monthName + " " + dateTime.year.toString()
 
         return finalDate
+    }
+
+    fun addFriend(userId:String, friendId:String, avatarLink:String?, name:String){
+        viewModelScope.launch {
+            addFriendUseCase(userId, friendId, avatarLink, name).collect()
+        }
     }
 }

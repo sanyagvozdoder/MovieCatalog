@@ -16,7 +16,7 @@ import com.example.testxml.data.room.entities.User
 
 @Database(
     entities = [User::class, Friend::class, FavoriteGenre::class, HiddenFilm::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class MoviesCatalogDatabase : RoomDatabase() {
@@ -36,7 +36,7 @@ abstract class MoviesCatalogDatabase : RoomDatabase() {
                     MyApplication.instance,
                     MoviesCatalogDatabase::class.java,
                     "movies_catalog_database"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 instance
             }

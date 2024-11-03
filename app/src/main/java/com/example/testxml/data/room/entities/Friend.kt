@@ -17,6 +17,6 @@ import androidx.room.PrimaryKey
 data class Friend(
     val userId: String,
     val friendId: String,
-    val avatarLink: String,
+    val avatarLink: String?,
     val name: String
 )

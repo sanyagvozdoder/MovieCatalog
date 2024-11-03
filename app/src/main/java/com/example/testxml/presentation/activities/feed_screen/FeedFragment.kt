@@ -196,7 +196,8 @@ class FeedFragment: Fragment(R.layout.feed_fragment) {
 
         customAdapter.setOnItemClickListener {
             startActivity(Intent(requireContext(),MovieDetailsActivity::class.java)
-                .putExtra(MovieDetailsActivity.key, viewModel._movies[currentIndex-1].id))
+                .putExtra(MovieDetailsActivity.key, viewModel._movies[currentIndex-1].id)
+                .putExtra(MovieDetailsActivity.login, userLogin))
         }
 
         cardStackView.apply {
