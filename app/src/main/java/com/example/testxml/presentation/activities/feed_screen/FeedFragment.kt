@@ -114,6 +114,7 @@ class FeedFragment: Fragment(R.layout.feed_fragment) {
             if (movie != null) {
                 title.text = movie.name
                 info.text = movie.country + " • " + movie.year
+                genre1.visibility = VISIBLE
                 genre2.visibility = GONE
                 genre3.visibility = GONE
                 genre1.text = movie.genres[0].name

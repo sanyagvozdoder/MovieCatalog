@@ -7,6 +7,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.testxml.R
@@ -39,6 +40,23 @@ class MainActivity:AppCompatActivity() {
         val navController = navHostFragment.navController
         val bottomNavBar = binding.navBar
         bottomNavBar.setupWithNavController(navController)
+        bottomNavBar.itemIconTintList = null
+
+        bottomNavBar.setOnItemSelectedListener { item ->
+            val navOptions = NavOptions.Builder()
+                .setLaunchSingleTop(true)
+                .setRestoreState(true)
+                .setPopUpTo(navController.graph.startDestinationId, false)
+                .build()
+
+            when (item.itemId) {
+                R.id.nav_feed -> navController.navigate(R.id.nav_feed, null, navOptions)
+                R.id.nav_films -> navController.navigate(R.id.nav_films, null, navOptions)
+                R.id.nav_favorite-> navController.navigate(R.id.nav_favorite, null, navOptions)
+                R.id.nav_profile-> navController.navigate(R.id.nav_profile, null, navOptions)
+            }
+            true
+        }
 
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         if (userLogin != null) {

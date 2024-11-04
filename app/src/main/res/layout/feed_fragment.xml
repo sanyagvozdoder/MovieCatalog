@@ -61,11 +61,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.302"
         app:cardCornerRadius="20dp">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/poster_placeholder2"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/poster_placeholder2"/>
     </androidx.cardview.widget.CardView>
 
     <com.yuyakaido.android.cardstackview.CardStackView
@@ -96,9 +96,10 @@
             android:id="@+id/genre1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="19dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="7dp"
             android:layout_marginBottom="32dp"
+            android:visibility="gone"
             android:background="@drawable/edit_shape"
             android:fontFamily="@font/manrope_medium"
             android:paddingHorizontal="12dp"
@@ -111,9 +112,10 @@
             android:id="@+id/genre2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="19dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="7dp"
             android:layout_marginBottom="32dp"
+            android:visibility="gone"
             android:background="@drawable/edit_shape"
             android:fontFamily="@font/manrope_medium"
             android:paddingHorizontal="12dp"
@@ -126,8 +128,9 @@
             android:id="@+id/genre3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="19dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="32dp"
+            android:visibility="gone"
             android:background="@drawable/edit_shape"
             android:fontFamily="@font/manrope_medium"
             android:paddingHorizontal="12dp"

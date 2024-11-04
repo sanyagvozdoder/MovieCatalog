@@ -123,4 +123,6 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.ui:ui-android:1.7.4")
     debugImplementation("androidx.compose.ui:ui-tooling:1.7.4")
+    implementation("com.google.accompanist:accompanist-insets:0.23.1")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.23.1")
 }

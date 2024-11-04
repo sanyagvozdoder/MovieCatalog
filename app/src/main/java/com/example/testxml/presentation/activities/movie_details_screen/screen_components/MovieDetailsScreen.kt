@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -67,6 +68,7 @@ import com.example.testxml.R
 import com.example.testxml.common.font.Manrope
 import com.example.testxml.presentation.activities.movie_details_screen.MovieDetailsViewModel
 import com.example.testxml.presentation.activities.movie_details_screen.util.ReviewMode
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -81,10 +83,11 @@ import kotlin.coroutines.coroutineContext
 @Composable
 fun MovieDetailsScreen(
     id: String,
-    userLogin:String
+    userLogin:String,
+    onBack:()->Unit
 ) {
     val viewModel: MovieDetailsViewModel = viewModel {
-        MovieDetailsViewModel(id)
+        MovieDetailsViewModel(id, userLogin)
     }
 
     val mainApiState = viewModel.mainState.collectAsState()
@@ -93,6 +96,7 @@ fun MovieDetailsScreen(
     val favoriteState = viewModel.favoriteState.collectAsState()
     val profileState = viewModel.profileState.collectAsState()
     val reviews = viewModel.reviews.collectAsState()
+    val genres = viewModel.genres.collectAsState()
 
     val lazyState = rememberLazyListState()
 
@@ -138,7 +142,7 @@ fun MovieDetailsScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(id = R.color.background))
-
+            .safeDrawingPadding()
     ) {
         Box(modifier = Modifier
             .fillMaxWidth()
@@ -162,12 +166,14 @@ fun MovieDetailsScreen(
                 modifier = Modifier
                     .fillMaxHeight(0.3f)
                     .fillMaxWidth()
-                    .background(brush = Brush.verticalGradient(
-                    listOf(
-                        colorResource(id = R.color.gray_alpha),
-                        colorResource(id = R.color.gray_alpha_non)
+                    .background(
+                        brush = Brush.verticalGradient(
+                            listOf(
+                                colorResource(id = R.color.gray_alpha),
+                                colorResource(id = R.color.gray_alpha_non)
+                            )
+                        )
                     )
-                ))
             )
         }
 
@@ -187,7 +193,8 @@ fun MovieDetailsScreen(
                             shape = RoundedCornerShape(8.dp)
                         )
                         .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)),
-                    onClick = { /*TODO*/ }) {
+                    onClick = onBack
+                ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_back),
                         contentDescription = null,
@@ -620,18 +627,48 @@ fun MovieDetailsScreen(
                     ) {
                         if (mainApiState.value.value != null) {
                             for (i in 0..<mainApiState.value.value!!.genres.size) {
-                                ContentBlock(
-                                    modifier = Modifier
+                                var isSelected = genres.value.any { it == mainApiState.value.value!!.genres[i].name }
+
+                                val modifier = if (!isSelected) {
+                                    Modifier
                                         .background(
                                             colorResource(id = R.color.background),
                                             shape = RoundedCornerShape(8.dp)
                                         )
-                                        .padding(horizontal = 12.dp, vertical = 8.dp)
+                                } else {
+                                    Modifier
+                                        .background(
+                                            brush = Brush.horizontalGradient(
+                                                colors = listOf(
+                                                    colorResource(id = R.color.red),
+                                                    colorResource(id = R.color.orange)
+                                                )
+                                            ),
+                                            shape = RoundedCornerShape(8.dp)
+                                        )
+                                }
+
+                                ContentBlock(
+                                    modifier = Modifier.padding(horizontal = 4.dp)
+                                        .clickable {
+                                            if (!isSelected) {
+                                                viewModel.addGenre(
+                                                    userLogin,
+                                                    mainApiState.value.value!!.genres[i].name
+                                                )
+                                            } else {
+                                                viewModel.deleteGenre(
+                                                    userLogin,
+                                                    mainApiState.value.value!!.genres[i].name
+                                                )
+                                            }
+                                        }.then(modifier)
                                 ) {
                                     Text(
                                         text = mainApiState.value.value!!.genres[i].name,
                                         fontFamily = Manrope,
                                         fontWeight = FontWeight.Medium,
+                                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
                                         color = colorResource(id = R.color.white),
                                         fontSize = 16.sp
                                     )
@@ -759,15 +796,18 @@ fun MovieDetailsScreen(
                                                 .size(32.dp)
                                                 .clip(CircleShape)
                                                 .clickable(
-                                                    enabled = if(reviews.value?.get(currentIndex)?.isAnonymous == false
+                                                    enabled = if (reviews.value?.get(currentIndex)?.isAnonymous == false
                                                         &&
-                                                        reviews.value.get(currentIndex)?.author?.userId != profileState.value.value)
+                                                        reviews.value.get(currentIndex)?.author?.userId != profileState.value.value
+                                                    )
                                                         true else false,
                                                     onClick = {
-                                                        viewModel.addFriend(userLogin,
+                                                        viewModel.addFriend(
+                                                            userLogin,
                                                             reviews.value.get(currentIndex)?.author?.userId!!,
                                                             reviews.value.get(currentIndex)?.author?.avatar,
-                                                            reviews.value.get(currentIndex)?.author?.nickName!!)
+                                                            reviews.value.get(currentIndex)?.author?.nickName!!
+                                                        )
                                                     }
 
                                                 ),

@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.testxml.R
@@ -28,8 +31,20 @@ class FriendsActivity:AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        WindowCompat.setDecorFitsSystemWindows(window,false)
+
+        WindowInsetsControllerCompat(window, view).let { controller ->
+            controller.hide(WindowInsetsCompat.Type.navigationBars())
+            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+
         userLogin = intent.getStringExtra(FriendsActivity.login).toString()
         viewModel.getFriends(userLogin)
+
+        val backBtn = binding.BackButton
+        backBtn.setOnClickListener{
+            finish()
+        }
 
         val friendsList = binding.friendsList
         friendsList.addItemDecoration(FriendsSpacingDecoration(3,4))
