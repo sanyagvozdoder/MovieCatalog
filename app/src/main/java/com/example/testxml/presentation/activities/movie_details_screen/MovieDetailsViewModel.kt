@@ -289,7 +289,6 @@ class MovieDetailsViewModel constructor(
 
     fun addGenre(userLogin:String,genreName:String){
         viewModelScope.launch {
-            Log.d("penis", "called")
             addGenreUseCase(userLogin,genreName).collect()
             getGenres(userLogin)
         }
@@ -297,7 +296,6 @@ class MovieDetailsViewModel constructor(
 
     fun deleteGenre(userLogin: String, genreName: String){
         viewModelScope.launch {
-            Log.d("penis", "called")
             deleteGenreUseCase(userLogin,genreName).collect()
             getGenres(userLogin)
         }
@@ -310,7 +308,6 @@ class MovieDetailsViewModel constructor(
                     is StateMachine.Error -> Unit
                     is StateMachine.Loading -> Unit
                     is StateMachine.Success -> {
-                        Log.d("penis", "called")
                         _genres.value = curState.data?.map{it.genreName}?.toMutableList()!!
                     }
                 }

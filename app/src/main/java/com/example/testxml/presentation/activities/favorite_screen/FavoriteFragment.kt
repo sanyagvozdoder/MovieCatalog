@@ -11,27 +11,41 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.example.testxml.R
+import com.example.testxml.presentation.activities.favorite_screen.components.FavoritesScreen
+import com.example.testxml.presentation.activities.main_activity.MainViewModel
 
-class FavoriteFragment: Fragment(R.layout.favorites_fragment) {
+class FavoriteFragment : Fragment(R.layout.favorites_fragment) {
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private lateinit var navController: NavController
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.favorites_fragment, container,false).apply{
-            findViewById<ComposeView>(R.id.compose_view).apply{
-                setViewCompositionStrategy(
-                    ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner)
-                )
-                setContent {
-                    Text(
-                        text = "ПРИВЕТ))",
-                        style = TextStyle(fontSize = 30.sp),
-                        color = Color.White
+        val rootView = inflater.inflate(R.layout.favorites_fragment, container, false)
+
+        navController = findNavController()
+
+        mainViewModel.loginData.observe(viewLifecycleOwner) { userLogin ->
+            userLogin?.let {
+                rootView.findViewById<ComposeView>(R.id.compose_view).apply {
+                    setViewCompositionStrategy(
+                        ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner)
                     )
+                    setContent {
+                        FavoritesScreen(userLogin) {
+                            navController.navigate(R.id.nav_feed)
+                        }
+                    }
                 }
             }
         }
+
+        return rootView
     }
 }
