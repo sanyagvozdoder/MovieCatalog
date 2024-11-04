@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso
 
 class GridCarouselAdapter : RecyclerView.Adapter<GridCarouselAdapter.PosterViewHolder>() {
     private val moviesList = mutableListOf<MovieGridCarousel>()
+    private lateinit var onItemClickListener: (String)->Unit
     class PosterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val posterImageView: ImageView = itemView.findViewById(R.id.poster_image)
         val ratingTextView: TextView = itemView.findViewById(R.id.rating)
@@ -27,12 +28,21 @@ class GridCarouselAdapter : RecyclerView.Adapter<GridCarouselAdapter.PosterViewH
         return PosterViewHolder(view)
     }
 
+    fun setOnItemClickListener(onItemClickListener: (String)->Unit) {
+        this.onItemClickListener = onItemClickListener
+    }
+
+
     override fun getItemCount(): Int {
         return moviesList.size
     }
 
     override fun onBindViewHolder(holder: PosterViewHolder, position: Int) {
         Picasso.get().load(moviesList[position].poster).into(holder.posterImageView)
+        holder.posterImageView.setOnClickListener(View.OnClickListener {
+            onItemClickListener(moviesList[position].id)
+        })
+
         holder.ratingTextView.text = moviesList[position].rating.toString()
         val red = 255 -  (moviesList[position].rating * 25.5)
         val green = (moviesList[position].rating * 25.5)

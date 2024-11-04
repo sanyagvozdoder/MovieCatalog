@@ -235,12 +235,19 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
         }
         val gridAdapter = GridCarouselAdapter()
 
+        gridAdapter.setOnItemClickListener {
+            startActivity(
+                Intent(requireContext(), MovieDetailsActivity::class.java)
+                    .putExtra(MovieDetailsActivity.key,it)
+                    .putExtra(MovieDetailsActivity.login, userLogin))
+        }
+
         gridCarousel.apply {
             layoutManager = gridManager
             adapter = gridAdapter
         }
 
-        var currentPage = 2
+        var currentPage = 3
 
         val scrollView = binding.scrollView
         scrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{ v, _, scrollY, _, _ ->

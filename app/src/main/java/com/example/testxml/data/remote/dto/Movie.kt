@@ -34,6 +34,7 @@ fun Movie.toMovieGridCarousel(): MovieGridCarousel {
     val averageRating = this.reviews.sumOf { it.rating }.toFloat() / this.reviews.size
 
     return MovieGridCarousel(
+        id = this.id,
         poster = this.poster,
         rating = format.format(averageRating).replace(",", ".").toFloat(),
         isFavorite = false
