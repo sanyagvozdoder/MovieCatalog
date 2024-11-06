@@ -22,6 +22,7 @@ import com.example.testxml.databinding.ProfileFragmentBinding
 import com.example.testxml.presentation.activities.friends_activity.FriendsActivity
 import com.example.testxml.presentation.activities.main_activity.MainViewModel
 import com.example.testxml.presentation.activities.movie_details_screen.MovieDetailsActivity
+import com.example.testxml.presentation.activities.welcome_activity.WelcomeActivity
 import com.squareup.picasso.Picasso
 import java.util.Calendar
 
@@ -83,6 +84,13 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
             Shader.TileMode.CLAMP
         )
         infoTitle.paint.shader = shader
+
+        logoutButton.setOnClickListener {
+            viewModel.deleteUser(userLogin)
+            viewModel.logoutUser()
+            startActivity(Intent(requireContext(),WelcomeActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+        }
 
         val editText = EditText(context).apply {
             hint = "Вставьте ссылку на ваше изображение"

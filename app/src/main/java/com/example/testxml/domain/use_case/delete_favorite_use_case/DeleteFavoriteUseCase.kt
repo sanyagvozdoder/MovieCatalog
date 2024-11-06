@@ -17,8 +17,6 @@ class DeleteFavoriteUseCase constructor(
             emit(StateMachineWithoutData.Loading())
             val response = repository.deleteFavorite(id)
 
-            Log.d("checkFavorite", response.toString())
-
             if (response.isSuccessful) {
                 emit(StateMachineWithoutData.Success())
             } else {

@@ -13,11 +13,14 @@ import com.example.testxml.data.remote.dto.toProfile
 import com.example.testxml.data.room.entities.Friend
 import com.example.testxml.domain.models.Profile
 import com.example.testxml.domain.use_case.database_use_cases.friends_use_cases.GetFriendsUseCase
+import com.example.testxml.domain.use_case.database_use_cases.user_use_cases.DeleteUserUseCase
 import com.example.testxml.domain.use_case.get_profile_use_case.GetProfileUseCase
+import com.example.testxml.domain.use_case.logout_user_use_case.LogoutUserUseCase
 import com.example.testxml.domain.use_case.update_profile_use_case.UpdateProfileUseCase
 import com.example.testxml.presentation.activities.feed_screen.util.MovieStateHandler
 import com.example.testxml.presentation.activities.sign_up_activity.util.Month
 import com.example.testxml.presentation.utils.StateHandler
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -25,7 +28,9 @@ import java.time.format.DateTimeFormatter
 class ProfileViewModel constructor(
     private val getProfileUseCase: GetProfileUseCase = GetProfileUseCase(),
     private val updateProfileUseCase: UpdateProfileUseCase = UpdateProfileUseCase(),
-    private val getFriendsUseCase: GetFriendsUseCase = GetFriendsUseCase()
+    private val getFriendsUseCase: GetFriendsUseCase = GetFriendsUseCase(),
+    private val deleteUserUseCase: DeleteUserUseCase = DeleteUserUseCase(),
+    private val logoutUserUseCase:LogoutUserUseCase = LogoutUserUseCase()
 ) : ViewModel() {
     private val _profileState = MutableLiveData(StateHandler<Profile>())
     val profileState: LiveData<StateHandler<Profile>> = _profileState
@@ -99,5 +104,17 @@ class ProfileViewModel constructor(
         val finalDate = dateTime.dayOfMonth.toString()+ " " + monthName + " " + dateTime.year.toString()
 
         return finalDate
+    }
+
+    fun deleteUser(userLogin:String){
+        viewModelScope.launch {
+            deleteUserUseCase(userLogin).collect()
+        }
+    }
+
+    fun logoutUser(){
+        viewModelScope.launch {
+            logoutUserUseCase().collect()
+        }
     }
 }

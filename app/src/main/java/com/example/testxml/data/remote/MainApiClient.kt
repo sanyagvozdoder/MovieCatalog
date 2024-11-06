@@ -1,5 +1,7 @@
 package com.example.testxml.data.remote
 
+import com.example.testxml.data.remote.util.UnauthorizedInterceptor
+import com.example.testxml.presentation.components.UnauthorizedEventImpl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -7,11 +9,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 object OkHTTPClient{
-    private val loggingInterceptor = HttpLoggingInterceptor()
+    private val interceptor = UnauthorizedInterceptor()
 
     val okHTTP : OkHttpClient by lazy {
         OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
+            .addInterceptor(interceptor)
             .build()
     }
 }

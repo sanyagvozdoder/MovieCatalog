@@ -2,13 +2,14 @@ package com.example.testxml.domain.use_case.logout_user_use_case
 
 import com.example.testxml.common.StateMachineWithoutData
 import com.example.testxml.data.repository.AuthRepositoryImpl
+import com.example.testxml.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
 class LogoutUserUseCase(
-    private val repository: AuthRepositoryImpl
+    private val repository: AuthRepository = AuthRepositoryImpl()
 ) {
     operator fun invoke() : Flow<StateMachineWithoutData> = flow{
         try {

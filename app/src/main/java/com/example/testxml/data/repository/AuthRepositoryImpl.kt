@@ -1,5 +1,7 @@
 package com.example.testxml.data.repository
 
+import com.example.testxml.common.sharedprefs.deleteInSharedPrefs
+import com.example.testxml.core.MyApplication
 import com.example.testxml.data.remote.MainApiClient
 import com.example.testxml.data.remote.MainApiService
 import com.example.testxml.data.remote.dto.LoginUserDto
@@ -20,7 +22,7 @@ class AuthRepositoryImpl constructor(
     }
 
     override suspend fun logoutUser(): Response<Unit> {
+        deleteInSharedPrefs(MyApplication.instance)
         return api.logoutUser()
     }
-
 }

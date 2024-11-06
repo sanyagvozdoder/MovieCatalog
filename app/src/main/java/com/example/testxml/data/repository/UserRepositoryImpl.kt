@@ -13,4 +13,7 @@ class UserRepositoryImpl constructor(
         userDao.addUser(User(userId))
     }
 
+    override suspend fun deleteUser(userId: String) {
+        userDao.deleteUser(User(userId))
+    }
 }

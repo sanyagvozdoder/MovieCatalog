@@ -327,7 +327,9 @@ class SignUpActivity:AppCompatActivity() {
             if (state.isSuccess){
                 viewModel.addUser(login.text.toString())
                 startActivity(Intent(this, MainActivity::class.java)
-                    .putExtra(MainActivity.login, login.text.toString()))
+                    .putExtra(MainActivity.login, login.text.toString())
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                )
             }
         }
     }

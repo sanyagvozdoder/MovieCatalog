@@ -145,6 +145,7 @@ class FeedFragment: Fragment(R.layout.feed_fragment) {
                     viewModel.addFavorites(viewModel._movies[currentIndex-1].id)
                 }
                 if(direction == Direction.Left){
+                    viewModel.deleteFavorites(viewModel._movies[currentIndex-1].id)
                     viewModel.hideFilm(userLogin, viewModel._movies[currentIndex-1].id)
                 }
                 if (customAdapter.itemCount - currentIndex <= 2

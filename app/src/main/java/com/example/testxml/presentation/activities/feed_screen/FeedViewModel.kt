@@ -16,6 +16,7 @@ import com.example.testxml.domain.use_case.database_use_cases.film_use_cases.Get
 import com.example.testxml.domain.use_case.database_use_cases.genre_use_cases.AddGenreUseCase
 import com.example.testxml.domain.use_case.database_use_cases.genre_use_cases.DeleteGenreUseCase
 import com.example.testxml.domain.use_case.database_use_cases.genre_use_cases.GetGenreUseCase
+import com.example.testxml.domain.use_case.delete_favorite_use_case.DeleteFavoriteUseCase
 import com.example.testxml.domain.use_case.get_movies_use_case.GetMoviesUseCase
 import com.example.testxml.presentation.activities.feed_screen.util.MovieStateHandler
 import com.example.testxml.presentation.utils.StateHandler
@@ -29,7 +30,8 @@ class FeedViewModel constructor(
     private val getGenreUseCase:GetGenreUseCase = GetGenreUseCase(),
     private val deleteGenreUseCase: DeleteGenreUseCase = DeleteGenreUseCase(),
     private val addHiddenFimUseCase: AddHiddenFimUseCase = AddHiddenFimUseCase(),
-    private val getHiddenFilmsUseCase: GetHiddenFilmsUseCase = GetHiddenFilmsUseCase()
+    private val getHiddenFilmsUseCase: GetHiddenFilmsUseCase = GetHiddenFilmsUseCase(),
+    private val deleteFavoriteUseCase: DeleteFavoriteUseCase = DeleteFavoriteUseCase(),
 ):ViewModel() {
     private val _state = MutableLiveData(MovieStateHandler<MoviePageDto>())
     val state: LiveData<MovieStateHandler<MoviePageDto>> = _state
@@ -136,6 +138,12 @@ class FeedViewModel constructor(
                     }
                 }
             }
+        }
+    }
+
+    fun deleteFavorites(id:String){
+        viewModelScope.launch {
+            deleteFavoriteUseCase(id).collect()
         }
     }
 }

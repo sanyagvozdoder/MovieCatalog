@@ -136,7 +136,7 @@ class MoviesViewModel constructor(
     fun getRandomMovie(){
         viewModelScope.launch {
             val randomPage = randomInt(1, pageInfo?.pageCount ?: 5)
-            val randomFilmIndex = randomInt(0, pageInfo?.pageSize ?: 6)
+            val randomFilmIndex = randomInt(0, pageInfo?.pageSize ?: 5)
             getMoviesUseCase(randomPage).collect{curState->
                 when(curState){
                     is StateMachine.Error -> Unit

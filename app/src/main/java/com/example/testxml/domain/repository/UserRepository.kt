@@ -4,4 +4,6 @@ import com.example.testxml.data.room.entities.User
 
 interface UserRepository {
     suspend fun addUser(userId:String)
+
+    suspend fun deleteUser(userId:String)
 }

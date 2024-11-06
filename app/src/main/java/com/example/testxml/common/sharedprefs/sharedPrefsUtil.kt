@@ -12,3 +12,9 @@ fun getFromSharedPrefs(context: Context):String?{
     val pref = context.getSharedPreferences("kinohits", Context.MODE_PRIVATE)
     return pref.getString("token","")
 }
+
+fun deleteInSharedPrefs(context: Context){
+    val pref = context.getSharedPreferences("kinohits", Context.MODE_PRIVATE).edit()
+    pref.putString("token", null)
+    pref.apply()
+}

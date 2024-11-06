@@ -17,27 +17,34 @@
             android:name=".presentation.activities.launch_activity.LaunchActivity"
             android:launchMode="singleInstance"
             android:exported="true"
-            android:theme="@style/Base.Theme.TestXML">
+            android:theme="@style/Base.Theme.TestXML"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.activities.welcome_activity.WelcomeActivity">
+            android:name=".presentation.activities.welcome_activity.WelcomeActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".presentation.activities.sign_in_activity.SignInActivity">
+            android:name=".presentation.activities.sign_in_activity.SignInActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".presentation.activities.main_activity.MainActivity">
+            android:name=".presentation.activities.main_activity.MainActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".presentation.activities.sign_up_activity.SignUpActivity">
+            android:name=".presentation.activities.sign_up_activity.SignUpActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".presentation.activities.movie_details_screen.MovieDetailsActivity">
+        <activity android:name=".presentation.activities.movie_details_screen.MovieDetailsActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".presentation.activities.friends_activity.FriendsActivity">
+        <activity android:name=".presentation.activities.friends_activity.FriendsActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
