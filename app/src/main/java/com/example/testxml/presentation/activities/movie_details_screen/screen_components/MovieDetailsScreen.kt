@@ -146,7 +146,7 @@ fun MovieDetailsScreen(
     ) {
         Box(modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.5f)
+            .fillMaxHeight(0.6f)
             .clip(
                 RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
             ),
@@ -158,7 +158,7 @@ fun MovieDetailsScreen(
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.FillBounds,
                 modifier = Modifier
                     .fillMaxSize(),
             )
@@ -844,7 +844,7 @@ fun MovieDetailsScreen(
                                         modifier = Modifier
                                             .background(
                                                 color = Color(
-                                                    (200 - ((reviews.value?.get(
+                                                    (255 - ((reviews.value?.get(
                                                         currentIndex
                                                     )?.rating?.times(
                                                         20

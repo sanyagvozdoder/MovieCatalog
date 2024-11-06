@@ -1,5 +1,6 @@
 package com.example.testxml.presentation.activities.favorite_screen
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.testxml.R
 import com.example.testxml.presentation.activities.favorite_screen.components.FavoritesScreen
 import com.example.testxml.presentation.activities.main_activity.MainViewModel
+import com.example.testxml.presentation.activities.movie_details_screen.MovieDetailsActivity
 
 class FavoriteFragment : Fragment(R.layout.favorites_fragment) {
     private val mainViewModel: MainViewModel by activityViewModels()
@@ -38,9 +40,18 @@ class FavoriteFragment : Fragment(R.layout.favorites_fragment) {
                         ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner)
                     )
                     setContent {
-                        FavoritesScreen(userLogin) {
-                            navController.navigate(R.id.nav_feed)
-                        }
+                        FavoritesScreen(
+                            userLogin,
+                            placeholderOnClick = {
+                                navController.navigate(R.id.nav_feed)
+                            },
+                            movieDetailsOnClick = fun(id:String){
+                                startActivity(
+                                    Intent(requireContext(), MovieDetailsActivity::class.java)
+                                        .putExtra(MovieDetailsActivity.key, id)
+                                        .putExtra(MovieDetailsActivity.login, userLogin))
+                            }
+                        )
                     }
                 }
             }

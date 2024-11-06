@@ -149,7 +149,7 @@ class FeedFragment: Fragment(R.layout.feed_fragment) {
                 }
                 if (customAdapter.itemCount - currentIndex <= 2
                     &&
-                    viewModel.state.value?.movies?.pageInfo?.currentPage?.plus(1)!! <= viewModel.state.value?.movies?.pageInfo?.pageCount!!
+                    viewModel.state.value?.movies?.pageInfo?.currentPage?.plus(1)?: 1 <= viewModel.state.value?.movies?.pageInfo?.pageCount ?: 6
                 ){
                     viewModel.getMovies(viewModel.state.value?.movies?.pageInfo?.currentPage?.plus(1)!!)
                 }
