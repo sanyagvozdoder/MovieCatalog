@@ -2,7 +2,7 @@ package com.example.testxml.domain.models
 
 data class Profile(
     val avatarLink: String?,
-    val birthDate: String,
+    var birthDate: String,
     val email: String,
     val gender: Int,
     val id: String,

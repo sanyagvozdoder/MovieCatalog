@@ -1,22 +1,26 @@
 package com.example.testxml.presentation.activities.sign_up_activity
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.util.Patterns
-import android.widget.Button
-import android.widget.EditText
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.testxml.R
+import com.example.testxml.databinding.SignUpActivityBinding
 import com.example.testxml.presentation.activities.main_activity.MainActivity
 import com.example.testxml.presentation.activities.sign_up_activity.util.Month
 import com.example.testxml.presentation.activities.sign_up_activity.util.Sex
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.Calendar
+
 
 class SignUpActivity:AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,23 +29,32 @@ class SignUpActivity:AppCompatActivity() {
 
         val viewModel: SignUpViewModel by viewModels()
 
-        val bottomsheet = layoutInflater.inflate(R.layout.bottom_sheet_sign_up, null)
+        val binding = SignUpActivityBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        viewModel.state.observe(this){state->
-            if (state.isSuccess){
-                startActivity(Intent(this, MainActivity::class.java))
-            }
+        val screenHeight = resources.displayMetrics.heightPixels
+
+        val imageBack = binding.imageView3
+        imageBack.layoutParams.height = minOf((screenHeight * 0.35).toInt(), imageBack.layoutParams.height)
+
+        val backBtn = binding.BackButton
+        backBtn.setOnClickListener{
+            finish()
         }
 
-        val date = bottomsheet.findViewById<EditText>(R.id.date)
+        val date = binding.date
         date.showSoftInputOnFocus = false
-        val login = bottomsheet.findViewById<EditText>(R.id.login)
-        val email = bottomsheet.findViewById<EditText>(R.id.email)
-        val name = bottomsheet.findViewById<EditText>(R.id.name)
-        val password = bottomsheet.findViewById<EditText>(R.id.password)
-        val confirmPassword = bottomsheet.findViewById<EditText>(R.id.passwordRepeat)
+        date.isFocusableInTouchMode = false
+        date.isClickable = true
+        date.isCursorVisible = false
+        val login = binding.login
+        val email = binding.email
+        val name = binding.name
+        val password = binding.password
+        val confirmPassword = binding.passwordRepeat
 
-        val registerButton = bottomsheet.findViewById<Button>(R.id.btnReg)
+        val registerButton = binding.btnReg
 
         var cal = Calendar.getInstance()
 
@@ -83,7 +96,19 @@ class SignUpActivity:AppCompatActivity() {
         }
 
         login.addTextChangedListener(object : TextWatcher {
+            @SuppressLint("ClickableViewAccessibility")
             override fun afterTextChanged(s: Editable?) {
+                val clear = binding.clearLogin
+                if(login.text.toString().isNotEmpty()){
+                    clear.visibility = VISIBLE
+                    clear.setOnClickListener {
+                        login.setText("")
+                    }
+                }
+                else{
+                    clear.visibility = INVISIBLE
+                }
+
                 updateButtonState()
             }
 
@@ -93,7 +118,19 @@ class SignUpActivity:AppCompatActivity() {
         })
 
         email.addTextChangedListener(object : TextWatcher {
+            @SuppressLint("ClickableViewAccessibility")
             override fun afterTextChanged(s: Editable?) {
+                val clear = binding.clearEmail
+                if(email.text.toString().isNotEmpty()){
+                    clear.visibility = VISIBLE
+                    clear.setOnClickListener {
+                        email.setText("")
+                    }
+                }
+                else{
+                    clear.visibility = INVISIBLE
+                }
+
                 updateButtonState()
             }
 
@@ -103,7 +140,19 @@ class SignUpActivity:AppCompatActivity() {
         })
 
         name.addTextChangedListener(object : TextWatcher {
+            @SuppressLint("ClickableViewAccessibility")
             override fun afterTextChanged(s: Editable?) {
+                val clear = binding.clearName
+                if(name.text.toString().isNotEmpty()){
+                    clear.visibility = VISIBLE
+                    clear.setOnClickListener {
+                        name.setText("")
+                    }
+                }
+                else{
+                    clear.visibility = INVISIBLE
+                }
+
                 updateButtonState()
             }
 
@@ -114,6 +163,13 @@ class SignUpActivity:AppCompatActivity() {
 
         date.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                if(date.text.toString().isNotEmpty()){
+                    date.compoundDrawableTintList = ColorStateList.valueOf(getColor(R.color.white))
+                }
+                else{
+                    date.compoundDrawableTintList = ColorStateList.valueOf(getColor(R.color.hint_text))
+                }
+
                 updateButtonState()
             }
 
@@ -124,6 +180,34 @@ class SignUpActivity:AppCompatActivity() {
 
         password.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                val passIcon = binding.passIc
+
+                if(password.text.toString().isNotEmpty()){
+                    passIcon.visibility = VISIBLE
+
+                    if(password.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD){
+                        passIcon.setImageDrawable(getDrawable(R.drawable.ic_show_wrap))
+                    }
+
+                    else if(password.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD){
+                        passIcon.setImageDrawable(getDrawable(R.drawable.ic_hide_wrap))
+                    }
+
+                    passIcon.setOnClickListener {
+                        if(password.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD){
+                            passIcon.setImageDrawable(getDrawable(R.drawable.ic_show_wrap))
+                            password.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                        }
+                        else if(password.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD){
+                            passIcon.setImageDrawable(getDrawable(R.drawable.ic_hide_wrap))
+                            password.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                        }
+                    }
+                }
+                else{
+                    passIcon.visibility = INVISIBLE
+                }
+
                 updateButtonState()
             }
 
@@ -134,6 +218,35 @@ class SignUpActivity:AppCompatActivity() {
 
         confirmPassword.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+
+                val passIcon = binding.passIcRepeat
+
+                if(confirmPassword.text.toString().isNotEmpty()){
+                    passIcon.visibility = VISIBLE
+
+                    if(confirmPassword.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD){
+                        passIcon.setImageDrawable(getDrawable(R.drawable.ic_show_wrap))
+                    }
+
+                    else if(confirmPassword.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD){
+                        passIcon.setImageDrawable(getDrawable(R.drawable.ic_hide_wrap))
+                    }
+
+                    passIcon.setOnClickListener {
+                        if(confirmPassword.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD){
+                            passIcon.setImageDrawable(getDrawable(R.drawable.ic_show_wrap))
+                            confirmPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                        }
+                        else if(confirmPassword.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD){
+                            passIcon.setImageDrawable(getDrawable(R.drawable.ic_hide_wrap))
+                            confirmPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                        }
+                    }
+                }
+                else{
+                    passIcon.visibility = INVISIBLE
+                }
+
                 updateButtonState()
             }
 
@@ -144,8 +257,8 @@ class SignUpActivity:AppCompatActivity() {
 
         updateButtonState()
 
-        val manState = bottomsheet.findViewById<Button>(R.id.man)
-        val womanState = bottomsheet.findViewById<Button>(R.id.woman)
+        val manState = binding.man
+        val womanState = binding.woman
 
         var sexState = Sex.MAN
 
@@ -210,9 +323,12 @@ class SignUpActivity:AppCompatActivity() {
             }
         }
 
-        val dialog = BottomSheetDialog(this)
-        dialog.setCancelable(false)
-        dialog.setContentView(bottomsheet)
-        dialog.show()
+        viewModel.state.observe(this){state->
+            if (state.isSuccess){
+                viewModel.addUser(login.text.toString())
+                startActivity(Intent(this, MainActivity::class.java)
+                    .putExtra(MainActivity.login, login.text.toString()))
+            }
+        }
     }
 }

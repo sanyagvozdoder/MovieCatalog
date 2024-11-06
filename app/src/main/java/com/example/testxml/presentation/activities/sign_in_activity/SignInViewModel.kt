@@ -29,7 +29,6 @@ class SignInViewModel constructor(
                     is StateMachineWithoutData.Error -> StateHandler(isErrorOccured = true, message = state.message.toString())
                     is StateMachineWithoutData.Loading -> StateHandler(isLoading = true)
                 }
-                Log.d("penis",_state.value.toString())
             }
         }
     }

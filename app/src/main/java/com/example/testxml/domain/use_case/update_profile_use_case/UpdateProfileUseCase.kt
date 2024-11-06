@@ -31,7 +31,7 @@ class UpdateProfileUseCase constructor(
                 )
             )
 
-            Log.d("penis", response.toString())
+            response.errorBody()?.string()?.let { Log.d("penis", it) }
 
             if (response.isSuccessful) {
                 emit(StateMachineWithoutData.Success())

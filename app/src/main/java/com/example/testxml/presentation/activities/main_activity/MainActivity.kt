@@ -28,6 +28,7 @@ class MainActivity:AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+
         WindowCompat.setDecorFitsSystemWindows(window,false)
 
         WindowInsetsControllerCompat(window, view).let { controller ->

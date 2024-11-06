@@ -15,4 +15,6 @@
     <string name="friends_screen">Мои друзья</string>
     <string name="enter_welcome">Войти в аккаунт</string>
     <string name="register_welcome">Зарегистрироваться</string>
+    <string name="hint_login">Логин</string>
+    <string name="hint_password">Пароль</string>
 </resources>

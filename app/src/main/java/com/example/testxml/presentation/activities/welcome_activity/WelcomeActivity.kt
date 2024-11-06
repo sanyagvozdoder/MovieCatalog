@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.example.testxml.R
 import com.example.testxml.databinding.CoordinatorMainBinding
 import com.example.testxml.databinding.WelcomeActivityBinding
@@ -19,6 +22,13 @@ class WelcomeActivity : AppCompatActivity() {
         val binding = WelcomeActivityBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        WindowCompat.setDecorFitsSystemWindows(window,false)
+
+        WindowInsetsControllerCompat(window, view).let { controller ->
+            controller.hide(WindowInsetsCompat.Type.navigationBars())
+            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
 
         val loginButton = binding.loginButton
         loginButton.setOnClickListener {

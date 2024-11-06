@@ -8,7 +8,12 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.example.testxml.R
+import com.example.testxml.databinding.CoordinatorMainBinding
+import com.example.testxml.databinding.SignInActivityBinding
 import com.example.testxml.presentation.activities.main_activity.MainActivity
 import com.example.testxml.presentation.activities.movie_details_screen.MovieDetailsActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -20,11 +25,31 @@ class SignInActivity : AppCompatActivity() {
 
         val viewModel:SignInViewModel by viewModels()
 
-        val bottomsheet = layoutInflater.inflate(R.layout.bottom_sheet_sign_in, null)
+        val binding = SignInActivityBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        val loginBtn = bottomsheet.findViewById<Button>(R.id.btnLogin)
-        val login = bottomsheet.findViewById<EditText>(R.id.login)
-        val password = bottomsheet.findViewById<EditText>(R.id.password)
+        WindowCompat.setDecorFitsSystemWindows(window,false)
+
+        WindowInsetsControllerCompat(window, view).let { controller ->
+            controller.hide(WindowInsetsCompat.Type.navigationBars())
+            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+
+        val screenHeight = resources.displayMetrics.heightPixels
+
+        val imageBack = binding.imageView3
+        imageBack.layoutParams.height = minOf((screenHeight * 0.75).toInt(), imageBack.layoutParams.height)
+
+        val backBtn = binding.BackButton
+        val loginBtn = binding.btnLogin
+        val login = binding.login
+        val password = binding.password
+
+
+        backBtn.setOnClickListener{
+            finish()
+        }
 
         loginBtn.setOnClickListener{
             viewModel.signIn(applicationContext, login.text.toString(), password.text.toString())
@@ -76,10 +101,5 @@ class SignInActivity : AppCompatActivity() {
         })
 
         updateButtonState()
-
-        val dialog = BottomSheetDialog(this)
-        dialog.setCancelable(false)
-        dialog.setContentView(bottomsheet)
-        dialog.show()
     }
 }

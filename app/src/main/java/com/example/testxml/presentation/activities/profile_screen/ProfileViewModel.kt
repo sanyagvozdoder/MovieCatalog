@@ -37,6 +37,7 @@ class ProfileViewModel constructor(
     val friendsState: LiveData<StateHandler<List<Friend>>> = _friendsState
 
     var updatedAvatarLink:String? = null
+    var regularDate:String? = null
 
     fun getProfile(){
         viewModelScope.launch {
@@ -45,6 +46,7 @@ class ProfileViewModel constructor(
                     is StateMachine.Error -> StateHandler(isErrorOccured = true, message = curState.message.toString())
                     is StateMachine.Loading -> StateHandler(isLoading = true)
                     is StateMachine.Success -> {
+                        regularDate = curState.data?.birthDate
                         curState.data?.birthDate = curState.data?.let { castDate(it.birthDate) }.toString()
                         StateHandler(isSuccess = true, value = curState.data?.toProfile())
                     }
@@ -55,6 +57,7 @@ class ProfileViewModel constructor(
 
     fun updateProfile(avatarLink:String){
         viewModelScope.launch{
+            profileState.value?.value?.birthDate = regularDate.toString()
             profileState.value?.value?.copy(avatarLink = avatarLink)?.let {
                 updateProfileUseCase(it).collect{curState->
                     when(curState){
@@ -77,7 +80,6 @@ class ProfileViewModel constructor(
                     is StateMachine.Error -> Unit
                     is StateMachine.Loading -> Unit
                     is StateMachine.Success -> {
-                        //Log.d("penis", curState.data.toString())
                         _friendsState.value = StateHandler(isSuccess = true, value = curState.data)
                     }
                 }

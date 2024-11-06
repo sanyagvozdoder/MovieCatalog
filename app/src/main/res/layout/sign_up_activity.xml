@@ -2,333 +2,307 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/gridLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/background"
-        android:padding="8dp"
-        app:alignmentMode="alignMargins"
-        app:columnCount="3"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="348dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/background_sign_up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:rowCount="6">
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="-8dp"
-        android:layout_marginTop="-8dp"
-        android:layout_marginRight="4dp"
-        android:background="@drawable/image_welcome1"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient"
-        app:layout_column="0"
-        app:layout_columnWeight="1"
-        app:layout_row="0"
-        app:layout_rowWeight="1" />
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="36dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:layout_width="4dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="-4dp"
-        android:layout_marginRight="4dp"
-        android:background="@drawable/image_welcome2"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient"
-        app:layout_column="1"
-        app:layout_columnWeight="1"
-        app:layout_row="0"
-        app:layout_rowWeight="1" />
+        <ImageButton
+            android:id="@+id/BackButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/edit_shape"
+            android:src="@drawable/ic_back" />
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="-8dp"
-        android:layout_marginRight="-8dp"
-        android:background="@drawable/image_welcome3"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient"
-        app:layout_column="2"
-        app:layout_columnWeight="1"
-        app:layout_row="0"
-        app:layout_rowWeight="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:fontFamily="@font/manrope_bold"
+            android:text="@string/register_string"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+    </LinearLayout>
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="-8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/image_welcome4"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient_mid"
-        app:layout_column="0"
-        app:layout_columnWeight="1"
-        app:layout_row="1"
-        app:layout_rowWeight="1" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="32dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="4dp"
-        android:background="@drawable/image_welcome5"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient_mid"
-        app:layout_column="1"
-        app:layout_columnWeight="1"
-        app:layout_row="1"
-        app:layout_rowWeight="1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/edit_shape"
+            android:padding="4dp">
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="-8dp"
-        android:background="@drawable/image_welcome6"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient_mid"
-        app:layout_column="2"
-        app:layout_columnWeight="1"
-        app:layout_row="1"
-        app:layout_rowWeight="1" />
+            <EditText
+                android:id="@+id/login"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/hint_login"
+                android:background="@null"
+                android:fontFamily="@font/manrope_medium"
+                android:layout_marginStart="16dp"
+                android:gravity="center_vertical"
+                android:inputType="text"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/hint_text" />
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="-8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="4dp"
-        android:background="@drawable/image_welcome7"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient_reverse"
-        app:layout_column="0"
-        app:layout_columnWeight="1"
-        app:layout_row="2"
-        app:layout_rowWeight="1" />
+            <ImageButton
+                android:id="@+id/clear_login"
+                android:layout_marginVertical="12dp"
+                android:layout_width="wrap_content"
+                android:visibility="invisible"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="8dp"
+                android:background="@null"
+                android:src="@drawable/test"
+                app:tint="@color/white" />
+        </LinearLayout>
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="4dp"
-        android:background="@drawable/image_welcome8"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient_reverse"
-        app:layout_column="1"
-        app:layout_columnWeight="1"
-        app:layout_row="2"
-        app:layout_rowWeight="1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/edit_shape"
+            android:padding="4dp">
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="-8dp"
-        android:background="@drawable/image_welcome9"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient_reverse"
-        app:layout_column="2"
-        app:layout_columnWeight="1"
-        app:layout_row="2"
-        app:layout_rowWeight="1" />
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Электронная почта"
+                android:background="@null"
+                android:fontFamily="@font/manrope_medium"
+                android:layout_marginStart="16dp"
+                android:gravity="center_vertical"
+                android:inputType="text"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/hint_text" />
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="-8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="4dp"
-        android:background="@drawable/image_welcome10"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient_reverse"
-        app:layout_column="0"
-        app:layout_columnWeight="1"
-        app:layout_row="3"
-        app:layout_rowWeight="1" />
+            <ImageButton
+                android:id="@+id/clear_email"
+                android:layout_marginVertical="12dp"
+                android:layout_width="wrap_content"
+                android:visibility="invisible"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="8dp"
+                android:background="@null"
+                android:src="@drawable/test"
+                app:tint="@color/white" />
+        </LinearLayout>
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="4dp"
-        android:background="@drawable/image_welcome11"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient_reverse"
-        app:layout_column="1"
-        app:layout_columnWeight="1"
-        app:layout_row="3"
-        app:layout_rowWeight="1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/edit_shape"
+            android:padding="4dp">
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="-8dp"
-        android:background="@drawable/image_welcome12"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient_reverse"
-        app:layout_column="2"
-        app:layout_columnWeight="1"
-        app:layout_row="3"
-        app:layout_rowWeight="1" />
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Имя"
+                android:background="@null"
+                android:fontFamily="@font/manrope_medium"
+                android:layout_marginStart="16dp"
+                android:gravity="center_vertical"
+                android:inputType="text"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/hint_text" />
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="-8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="4dp"
-        android:background="@drawable/image_welcome13"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient_mid_reverse"
-        app:layout_column="0"
-        app:layout_columnWeight="1"
-        app:layout_row="4"
-        app:layout_rowWeight="1" />
+            <ImageButton
+                android:id="@+id/clear_name"
+                android:layout_marginVertical="12dp"
+                android:layout_width="wrap_content"
+                android:visibility="invisible"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="8dp"
+                android:background="@null"
+                android:src="@drawable/test"
+                app:tint="@color/white" />
+        </LinearLayout>
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="4dp"
-        android:background="@drawable/image_welcome14"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient_mid_reverse"
-        app:layout_column="1"
-        app:layout_columnWeight="1"
-        app:layout_row="4"
-        app:layout_rowWeight="1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/edit_shape"
+            android:padding="4dp">
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="-8dp"
-        android:background="@drawable/image_welcome15"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient_mid_reverse"
-        app:layout_column="2"
-        app:layout_columnWeight="1"
-        app:layout_row="4"
-        app:layout_rowWeight="1" />
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginVertical="10dp"
+                android:hint="Пароль"
+                android:background="@null"
+                android:fontFamily="@font/manrope_medium"
+                android:layout_marginStart="16dp"
+                android:gravity="center_vertical"
+                android:inputType="textPassword"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/hint_text" />
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="-8dp"
-        android:layout_marginTop="-8dp"
-        android:layout_marginRight="4dp"
-        android:background="@drawable/image_welcome16"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient_reverse"
-        app:layout_column="0"
-        app:layout_columnWeight="1"
-        app:layout_row="5"
-        app:layout_rowWeight="1" />
+            <ImageButton
+                android:id="@+id/pass_ic"
+                android:layout_width="wrap_content"
+                android:visibility="invisible"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="8dp"
+                android:background="@null"
+                app:tint="@color/white" />
+        </LinearLayout>
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="4dp"
-        android:background="@drawable/image_welcome17"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient_reverse"
-        app:layout_column="1"
-        app:layout_columnWeight="1"
-        app:layout_row="5"
-        app:layout_rowWeight="1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/edit_shape"
+            android:padding="4dp">
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="-8dp"
-        android:background="@drawable/image_welcome18"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/background_gradient_reverse"
-        app:layout_column="2"
-        app:layout_columnWeight="1"
-        app:layout_row="5"
-        app:layout_rowWeight="1" />
+            <EditText
+                android:id="@+id/passwordRepeat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginVertical="10dp"
+                android:hint="Подтвердите пароль"
+                android:background="@null"
+                android:fontFamily="@font/manrope_medium"
+                android:layout_marginStart="16dp"
+                android:gravity="center_vertical"
+                android:inputType="textPassword"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/hint_text" />
 
-    </androidx.gridlayout.widget.GridLayout>
+            <ImageButton
+                android:id="@+id/pass_ic_repeat"
+                android:layout_width="wrap_content"
+                android:visibility="invisible"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="8dp"
+                android:background="@null"
+                app:tint="@color/white" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/welcomeText"
-        android:layout_width="369dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="85dp"
-        android:layout_marginBottom="708dp"
-        android:fontFamily="@font/manrope_bold"
-        android:gravity="start"
-        android:lineSpacingMultiplier="1.2"
-        android:text="@string/register_string"
-        android:textColor="@android:color/white"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="2"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/gridLayout" />
+        <EditText
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_shape"
+            android:textColor="@color/white"
+            android:textColorHint="@color/hint_text"
+            android:fontFamily="@font/manrope_medium"
+            android:hint="Дата рождения"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="14dp"
+            android:textSize="14sp"
+            android:drawableEnd="@drawable/ic_date_wrap"
+            android:drawableTint="@color/hint_text"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:inputType="date" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/BackButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="60dp"
-        android:backgroundTint="@color/dark_input"
-        android:importantForAccessibility="no"
-        android:insetLeft="0dp"
-        android:insetTop="0dp"
-        android:insetRight="0dp"
-        app:icon="@drawable/ic_back"
-        android:insetBottom="0dp"
-        app:iconGravity="textStart"
-        app:iconPadding="0dp"
-        app:iconTint="@color/white"
-        app:cornerRadius="8dp"
-        app:layout_constraintStart_toStartOf="@+id/gridLayout"
-        app:layout_constraintTop_toTopOf="@+id/gridLayout" />
+        <LinearLayout
+            android:id="@+id/sex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/man"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/manrope_bold"
+                android:gravity="center"
+                android:text="Мужчина"
+                android:background="@drawable/orange_sex_gradient_left"
+                android:backgroundTint="@null"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/woman"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/default_sex_shape_right"
+                android:backgroundTint="@null"
+                android:fontFamily="@font/manrope_bold"
+                android:gravity="center"
+                android:text="Женщина"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnReg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@null"
+            android:fontFamily="@font/manrope_bold"
+            android:paddingVertical="14dp"
+            android:textAllCaps="false"
+            android:text="Зарегистрироваться"
+            android:textColor="@color/hint_text"
+            android:textSize="16sp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

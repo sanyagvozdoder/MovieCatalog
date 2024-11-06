@@ -8,14 +8,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testxml.common.StateMachineWithoutData
 import com.example.testxml.data.remote.dto.RegisterUserDto
+import com.example.testxml.domain.use_case.database_use_cases.user_use_cases.AddUserUseCase
 import com.example.testxml.domain.use_case.register_user_use_case.RegisterUserUseCase
 import com.example.testxml.presentation.activities.sign_up_activity.util.Month
 import com.example.testxml.presentation.activities.sign_up_activity.util.Sex
 import com.example.testxml.presentation.utils.StateHandler
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class SignUpViewModel constructor(
-    val registerUserUseCase: RegisterUserUseCase = RegisterUserUseCase()
+    private val registerUserUseCase: RegisterUserUseCase = RegisterUserUseCase(),
+    private val addUserUserUseCase: AddUserUseCase = AddUserUseCase()
 ):ViewModel() {
     private val _state = MutableLiveData(StateHandler<Unit>())
     val state: LiveData<StateHandler<Unit>> = _state
@@ -32,7 +35,6 @@ class SignUpViewModel constructor(
             name = name
         )
 
-        Log.d("penis", regDto.birthDate.toString())
 
         viewModelScope.launch {
             registerUserUseCase(context, regDto).collect{ state->
@@ -41,8 +43,13 @@ class SignUpViewModel constructor(
                     is StateMachineWithoutData.Error -> StateHandler(isErrorOccured = true, message = state.message.toString())
                     is StateMachineWithoutData.Loading -> StateHandler(isLoading = true)
                 }
-                Log.d("penis",_state.value.toString())
             }
+        }
+    }
+
+    fun addUser(login:String){
+        viewModelScope.launch {
+            addUserUserUseCase(login).collect()
         }
     }
 
