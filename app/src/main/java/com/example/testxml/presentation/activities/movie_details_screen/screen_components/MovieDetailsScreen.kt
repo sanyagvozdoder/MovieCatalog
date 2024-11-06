@@ -158,7 +158,7 @@ fun MovieDetailsScreen(
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxSize(),
             )

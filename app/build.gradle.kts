@@ -70,9 +70,6 @@ dependencies {
     //cardView
     implementation("androidx.cardview:cardview:1.0.0")
 
-    //splashscreen
-    implementation("androidx.core:core-splashscreen:1.0.1")
-
     //grid
     implementation("androidx.gridlayout:gridlayout:1.0.0")
 

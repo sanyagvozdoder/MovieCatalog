@@ -5,7 +5,7 @@ import android.content.Context
 fun putInSharedPrefs(context: Context, key:String,value: String){
     val pref = context.getSharedPreferences("kinohits", Context.MODE_PRIVATE).edit()
     pref.putString(key, value)
-    pref.commit()
+    pref.apply()
 }
 
 fun getFromSharedPrefs(context: Context):String?{

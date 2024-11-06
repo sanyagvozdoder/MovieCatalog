@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TestXML</string>
+    <string name="app_name">MovieCatalog</string>
     <string name="welcome_title">Добро пожаловать\n в MovieCatalog</string>
     <string name="sign_in_title">Вход в аккаунт</string>
     <string name="register_string">Регистрация</string>

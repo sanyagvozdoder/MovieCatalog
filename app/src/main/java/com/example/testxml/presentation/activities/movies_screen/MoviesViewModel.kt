@@ -80,7 +80,7 @@ class MoviesViewModel constructor(
                                 previousFilms = mutableListOf()
                                 previousFilms.add(movie.toMovieGridCarousel())
                             }
-                            if(favoriteState.value?.movies?.any { it.id == movie.id } == true){
+                            if(favoriteState.value?.movies?.any { it.id == movie.id } == true && index<listMovies.size){
                                 listMovies[index].isFavorite = true
                             }
                         }

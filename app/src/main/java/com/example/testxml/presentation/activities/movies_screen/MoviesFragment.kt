@@ -21,6 +21,8 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -42,6 +44,7 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
     private val viewModel: MoviesViewModel by viewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var userLogin:String
+    private lateinit var navController: NavController
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,11 +55,17 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
         }
 
         binding = MoviesFragmentBinding.bind(view)
+        navController = findNavController()
 
         val randomBtn = binding.randomButton
 
         viewModel.getFavorites()
         viewModel.getTopMovies(1)
+
+        val allFavoritesBtn = binding.allButton
+        allFavoritesBtn.setOnClickListener{
+            navController.navigate(R.id.nav_favorite)
+        }
 
         val carousel = binding.favoriteCarousel
         val manager = LinearLayoutManager(requireContext())
