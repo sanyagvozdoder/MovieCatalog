@@ -1,139 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background">
-
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:src="@drawable/app_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/posterPlaceholder"
-        android:layout_width="381dp"
-        android:layout_height="580dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.302"
-        app:cardCornerRadius="20dp">
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/poster_placeholder2"/>
-    </androidx.cardview.widget.CardView>
-
-    <com.yuyakaido.android.cardstackview.CardStackView
-        android:id="@+id/poster"
-        android:layout_width="match_parent"
-        android:layout_height="580dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
-
-    </com.yuyakaido.android.cardstackview.CardStackView>
-
-    <LinearLayout
-        android:id="@+id/info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/poster">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_marginHorizontal="24dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:fontFamily="@font/manrope_bold"
-            android:maxLines="1"
-            android:text=""
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/yearcountry"
-            android:layout_width="match_parent"
-            android:layout_marginHorizontal="24dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/manrope_bold"
-            android:text=""
-            android:textAlignment="center"
-            android:textColor="@color/desc"
-            android:textSize="16sp" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout4"
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:layout_marginTop="48dp"
+            android:src="@drawable/app_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/posterPlaceholder"
+            android:layout_width="381dp"
+            android:layout_height="580dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.302"
+            app:cardCornerRadius="20dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/poster_placeholder2"/>
+        </androidx.cardview.widget.CardView>
+
+        <com.yuyakaido.android.cardstackview.CardStackView
+            android:id="@+id/poster"
+            android:layout_width="match_parent"
+            android:layout_height="580dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+        </com.yuyakaido.android.cardstackview.CardStackView>
+
+        <LinearLayout
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/poster">
 
             <TextView
-                android:id="@+id/genre1"
-                android:layout_width="wrap_content"
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="24dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/edit_shape"
-                android:fontFamily="@font/manrope_medium"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/manrope_bold"
+                android:maxLines="1"
+                android:text=""
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:visibility="gone"
-                 />
+                android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/genre2"
-                android:layout_width="wrap_content"
+                android:id="@+id/yearcountry"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="24dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/edit_shape"
-                android:fontFamily="@font/manrope_medium"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"
-                android:visibility="gone"
+                android:fontFamily="@font/manrope_bold"
+                android:text=""
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textColor="@color/desc"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/genre3"
+            <LinearLayout
+                android:id="@+id/linearLayout4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/edit_shape"
-                android:fontFamily="@font/manrope_medium"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:visibility="gone"
-                />
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/genre1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/edit_shape"
+                    android:fontFamily="@font/manrope_medium"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                     />
+
+                <TextView
+                    android:id="@+id/genre2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/edit_shape"
+                    android:fontFamily="@font/manrope_medium"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:visibility="gone"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/genre3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/edit_shape"
+                    android:fontFamily="@font/manrope_medium"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <FrameLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000"
+        android:visibility="gone">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/orange" />
+    </FrameLayout>
+</FrameLayout>

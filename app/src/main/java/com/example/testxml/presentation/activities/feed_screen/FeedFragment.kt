@@ -209,7 +209,12 @@ class FeedFragment: Fragment(R.layout.feed_fragment) {
 
 
         viewModel.state.observe(viewLifecycleOwner){state->
+            if(stateForObserve == 0 && state.isLoading){
+                binding.overlay.visibility = View.VISIBLE
+            }
+
             if (state.isSuccess && state.movies != null && stateForObserve == 0 ){
+                binding.overlay.visibility = View.GONE
                 if(viewModel._movies.size != 0){
                     customAdapter.setMovies(viewModel._movies.map { it.poster })
                     stateForObserve = 1

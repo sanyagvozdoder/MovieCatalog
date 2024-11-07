@@ -276,7 +276,11 @@ class MoviesFragment : Fragment(R.layout.movies_fragment) {
 
         viewModel.topState.observe(viewLifecycleOwner){state->
             if (state.isSuccess && state.movies != null){
+                binding.overlay.visibility = View.GONE
                 topAdapter.setMovies(state.movies)
+            }
+            else if (state.isLoading){
+                binding.overlay.visibility = View.VISIBLE
             }
         }
 

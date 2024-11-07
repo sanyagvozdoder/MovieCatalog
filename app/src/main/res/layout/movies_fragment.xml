@@ -21,6 +21,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ProgressBar
+                android:id="@+id/overlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/orange" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/top_carousel"
                 android:layout_width="match_parent"
