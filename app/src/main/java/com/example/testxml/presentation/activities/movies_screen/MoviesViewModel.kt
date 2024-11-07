@@ -74,18 +74,18 @@ class MoviesViewModel constructor(
                         }
 
                         curState.data?.movies?.forEachIndexed{index, movie ->
+                            val movieGrid = movie.toMovieGridCarousel()
+
+                            if(favoriteState.value?.movies?.any { it.id == movie.id } == true){
+                                movieGrid.isFavorite = true
+                            }
+
                             if(index<=4){
-                                listMovies.add(movie.toMovieGridCarousel())
+                                listMovies.add(movieGrid)
                             }
                             else{
                                 previousFilms = mutableListOf()
-                                previousFilms.add(movie.toMovieGridCarousel())
-                            }
-                        }
-
-                        listMovies.forEach {movie->
-                            if(favoriteState.value?.movies?.any { it.id == movie.id } == true){
-                                movie.isFavorite = true
+                                previousFilms.add(movieGrid)
                             }
                         }
 
