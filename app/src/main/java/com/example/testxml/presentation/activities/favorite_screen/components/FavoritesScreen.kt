@@ -37,7 +37,7 @@ fun FavoritesScreen(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ){
-            CircularProgressIndicator(color = colorResource(id = R.color.orange), modifier = Modifier.fillMaxSize(0.2f))
+            CircularProgressIndicator(color = colorResource(id = R.color.orange), modifier = Modifier.fillMaxSize(0.1f))
         }
     }
     else if(genresState.value.isNullOrEmpty() && favoritesFilms.value.value.isNullOrEmpty()){
