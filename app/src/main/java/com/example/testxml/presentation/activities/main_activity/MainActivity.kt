@@ -47,17 +47,17 @@ class MainActivity:AppCompatActivity() {
             val navOptions = NavOptions.Builder()
                 .setLaunchSingleTop(true)
                 .setRestoreState(true)
-                .setPopUpTo(navController.graph.startDestinationId, false)
                 .build()
 
             when (item.itemId) {
                 R.id.nav_feed -> navController.navigate(R.id.nav_feed, null, navOptions)
                 R.id.nav_films -> navController.navigate(R.id.nav_films, null, navOptions)
-                R.id.nav_favorite-> navController.navigate(R.id.nav_favorite, null, navOptions)
-                R.id.nav_profile-> navController.navigate(R.id.nav_profile, null, navOptions)
+                R.id.nav_favorite -> navController.navigate(R.id.nav_favorite, null, navOptions)
+                R.id.nav_profile -> navController.navigate(R.id.nav_profile, null, navOptions)
             }
             true
         }
+
 
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         if (userLogin != null) {

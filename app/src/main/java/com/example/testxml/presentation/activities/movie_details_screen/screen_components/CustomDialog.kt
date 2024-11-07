@@ -312,13 +312,22 @@ fun CustomDialog(
                         },
                         modifier = Modifier
                             .background(brush = Brush.horizontalGradient(
-                                colors = listOf(
-                                    colorResource(id = R.color.red),
-                                    colorResource(id = R.color.orange)
-                                )
+                                colors = if(descValue!="") {
+                                    listOf(
+                                        colorResource(id = R.color.red),
+                                        colorResource(id = R.color.orange)
+                                    )
+                                }
+                                else{
+                                    listOf(
+                                        colorResource(id = R.color.dark_input),
+                                        colorResource(id = R.color.dark_input)
+                                    )
+                                }
                             ),
                                 shape = RoundedCornerShape(8.dp))
-                            .padding(horizontal = 12.dp)
+                            .padding(horizontal = 12.dp),
+                        enabled = descValue!=""
                     ) {
                         Text(
                             text = "Отправить",

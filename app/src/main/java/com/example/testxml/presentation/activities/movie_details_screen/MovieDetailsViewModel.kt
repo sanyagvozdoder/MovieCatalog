@@ -20,12 +20,14 @@ import com.example.testxml.data.remote.dto.ReviewDetail
 import com.example.testxml.data.remote.dto.UserReviewDto
 import com.example.testxml.data.remote.dto.toMovieDetail
 import com.example.testxml.data.remote.dto.toProfile
+import com.example.testxml.data.room.entities.Friend
 import com.example.testxml.domain.models.MovieDetail
 import com.example.testxml.domain.models.Profile
 import com.example.testxml.domain.models.UserReview
 import com.example.testxml.domain.use_case.add_favorite_use_case.AddFavoriteUseCase
 import com.example.testxml.domain.use_case.add_review_use_case.AddReviewUseCase
 import com.example.testxml.domain.use_case.database_use_cases.friends_use_cases.AddFriendUseCase
+import com.example.testxml.domain.use_case.database_use_cases.friends_use_cases.GetFriendsUseCase
 import com.example.testxml.domain.use_case.database_use_cases.genre_use_cases.AddGenreUseCase
 import com.example.testxml.domain.use_case.database_use_cases.genre_use_cases.DeleteGenreUseCase
 import com.example.testxml.domain.use_case.database_use_cases.genre_use_cases.GetGenreUseCase
@@ -65,7 +67,8 @@ class MovieDetailsViewModel constructor(
     private val addFriendUseCase: AddFriendUseCase = AddFriendUseCase(),
     private val addGenreUseCase: AddGenreUseCase = AddGenreUseCase(),
     private val getGenreUseCase: GetGenreUseCase = GetGenreUseCase(),
-    private val deleteGenreUseCase: DeleteGenreUseCase = DeleteGenreUseCase()
+    private val deleteGenreUseCase: DeleteGenreUseCase = DeleteGenreUseCase(),
+    private val getFriendsUseCase: GetFriendsUseCase = GetFriendsUseCase()
 ):ViewModel() {
     private val _mainState = MutableStateFlow(StateHandler<MovieDetail>())
     val mainState = _mainState.asStateFlow()
@@ -87,6 +90,9 @@ class MovieDetailsViewModel constructor(
 
     private val _editedReviewState = MutableLiveData(StateHandler<Unit>())
     val editedReviewState:LiveData<StateHandler<Unit>> = _editedReviewState
+
+    private val _friendsState = MutableStateFlow(mutableListOf<Friend>())
+    val friendsState = _friendsState.asStateFlow()
 
     fun emitNothingDeleted(){
         _deletedReviewState.value = StateHandler(isNothing = true)
@@ -113,7 +119,7 @@ class MovieDetailsViewModel constructor(
         getMovieDetails(id)
         getFavorites()
         getProfile()
-        getGenres(userLogin)
+        getGenres()
     }
     fun getMovieDetails(id:String){
         viewModelScope.launch {
@@ -134,7 +140,7 @@ class MovieDetailsViewModel constructor(
 
                         curState?.data?.reviews?.forEach {it.createDateTime = castDate(it.createDateTime) }
                         _reviews.value = curState?.data?.reviews!!
-                        Log.d("reviews", _reviews.value.size.toString())
+                        getFriends()
                     }
                 }
             }
@@ -150,7 +156,6 @@ class MovieDetailsViewModel constructor(
                     is StateMachine.Success -> {
                         curState?.data?.forEach {it.createDateTime = castDate(it.createDateTime) }
                         _reviews.value = curState?.data!!
-                        Log.d("reviews", _reviews.value.size.toString())
                     }
                 }
             }
@@ -284,24 +289,25 @@ class MovieDetailsViewModel constructor(
     fun addFriend(userId:String, friendId:String, avatarLink:String?, name:String){
         viewModelScope.launch {
             addFriendUseCase(userId, friendId, avatarLink, name).collect()
+            getFriends()
         }
     }
 
-    fun addGenre(userLogin:String,genreName:String){
+    fun addGenre(genreName:String){
         viewModelScope.launch {
             addGenreUseCase(userLogin,genreName).collect()
-            getGenres(userLogin)
+            getGenres()
         }
     }
 
-    fun deleteGenre(userLogin: String, genreName: String){
+    fun deleteGenre(genreName: String){
         viewModelScope.launch {
             deleteGenreUseCase(userLogin,genreName).collect()
-            getGenres(userLogin)
+            getGenres()
         }
     }
 
-    fun getGenres(userLogin:String){
+    fun getGenres(){
         viewModelScope.launch {
             getGenreUseCase(userLogin).collect{ curState ->
                 when(curState){
@@ -309,6 +315,26 @@ class MovieDetailsViewModel constructor(
                     is StateMachine.Loading -> Unit
                     is StateMachine.Success -> {
                         _genres.value = curState.data?.map{it.genreName}?.toMutableList()!!
+                    }
+                }
+            }
+        }
+    }
+
+    fun getFriends(){
+        viewModelScope.launch{
+            getFriendsUseCase(userLogin).collect{curState->
+                when(curState){
+                    is StateMachine.Error -> Unit
+                    is StateMachine.Loading -> Unit
+                    is StateMachine.Success -> {
+                        _friendsState.value.clear()
+                        curState.data?.forEach { friend ->
+                            val friendReview = _reviews.value.find { it.author.userId == friend.friendId }
+                            if(friendReview!=null && friendReview.rating > 6){
+                                _friendsState.value.add(friend)
+                            }
+                        }
                     }
                 }
             }

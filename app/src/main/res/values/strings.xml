@@ -17,4 +17,6 @@
     <string name="register_welcome">Зарегистрироваться</string>
     <string name="hint_login">Логин</string>
     <string name="hint_password">Пароль</string>
+    <string name="error_sign_in">Ошибка при входе. Проверьте данные.</string>
+    <string name="error_sign_up">Ошибка при регистрации. Попробуйте еще раз.</string>
 </resources>

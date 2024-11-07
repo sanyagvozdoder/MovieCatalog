@@ -17,7 +17,6 @@ class GetProfileUseCase constructor(
         try {
             emit(StateMachine.Loading())
             val response = repository.getProfileInfo()
-            Log.d("penis",response.toString())
             if (response.isSuccessful){
                 emit(StateMachine.Success(response.body()))
             }

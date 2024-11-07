@@ -10,6 +10,7 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Patterns
+import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.activity.viewModels
@@ -325,11 +326,19 @@ class SignUpActivity:AppCompatActivity() {
 
         viewModel.state.observe(this){state->
             if (state.isSuccess){
+                binding.overlay.visibility = GONE
                 viewModel.addUser(login.text.toString())
                 startActivity(Intent(this, MainActivity::class.java)
                     .putExtra(MainActivity.login, login.text.toString())
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 )
+            }
+            else if(state.isErrorOccured){
+                binding.overlay.visibility = GONE
+                binding.errorMsg.visibility = VISIBLE
+            }
+            else if(state.isLoading){
+                binding.overlay.visibility = VISIBLE
             }
         }
     }

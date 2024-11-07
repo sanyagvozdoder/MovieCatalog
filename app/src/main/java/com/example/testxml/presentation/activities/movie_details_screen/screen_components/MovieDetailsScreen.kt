@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
@@ -57,6 +58,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.times
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
@@ -83,8 +85,8 @@ import kotlin.coroutines.coroutineContext
 @Composable
 fun MovieDetailsScreen(
     id: String,
-    userLogin:String,
-    onBack:()->Unit
+    userLogin: String,
+    onBack: () -> Unit
 ) {
     val viewModel: MovieDetailsViewModel = viewModel {
         MovieDetailsViewModel(id, userLogin)
@@ -97,6 +99,7 @@ fun MovieDetailsScreen(
     val profileState = viewModel.profileState.collectAsState()
     val reviews = viewModel.reviews.collectAsState()
     val genres = viewModel.genres.collectAsState()
+    val friends = viewModel.friendsState.collectAsState()
 
     val lazyState = rememberLazyListState()
 
@@ -104,7 +107,7 @@ fun MovieDetailsScreen(
         mutableStateOf(false)
     }
 
-    var currentMode by remember{
+    var currentMode by remember {
         mutableStateOf(ReviewMode.ADD)
     }
 
@@ -119,15 +122,14 @@ fun MovieDetailsScreen(
         mutableStateOf(false)
     }
 
-    if (profileState.value.isSuccess && mainApiState.value.isSuccess){
+    if (profileState.value.isSuccess && mainApiState.value.isSuccess) {
         isUserReviewExists = reviews.value?.any {
             it?.author?.userId == profileState.value.value
         } == true
 
-        if (isUserReviewExists){
+        if (isUserReviewExists) {
             currentMode = ReviewMode.EDIT
-        }
-        else{
+        } else {
             currentMode = ReviewMode.ADD
         }
     }
@@ -144,14 +146,15 @@ fun MovieDetailsScreen(
             .background(colorResource(id = R.color.background))
             .safeDrawingPadding()
     ) {
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.6f)
-            .clip(
-                RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
-            ),
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.6f)
+                .clip(
+                    RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
+                ),
             contentAlignment = Alignment.BottomCenter
-        ){
+        ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(mainApiState.value.value?.poster)
@@ -308,6 +311,59 @@ fun MovieDetailsScreen(
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
+            }
+
+            if (friends.value.size != 0) {
+                item {
+                    var itemsCount by remember{
+                        mutableStateOf(0)
+                    }
+                    ContentBlock(
+                        modifier = Modifier
+                            .fillMaxWidth(0.9f)
+                            .background(
+                                colorResource(id = R.color.dark_input),
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Row{
+                                for (i in 0..2) {
+                                    if (i < friends.value.size) {
+                                        AsyncImage(
+                                            model = ImageRequest.Builder(LocalContext.current)
+                                                .data(friends.value[i].avatarLink)
+                                                .crossfade(true)
+                                                .build(),
+                                            contentDescription = null,
+                                            error = painterResource(
+                                                id = R.drawable.blank_avatar
+                                            ),
+                                            contentScale = ContentScale.Crop,
+                                            modifier = Modifier
+                                                .size(32.dp)
+                                                .offset(x = (-8 * i).dp)
+                                                .clip(CircleShape)
+                                        )
+                                        itemsCount = i
+                                    }
+                                }
+                            }
+                            Text(
+                                text = if (friends.value.size != 1) "нравится ${friends.value.size} вашим друзьям" else "нравится 1 вашему другу",
+                                color = colorResource(id = R.color.white),
+                                fontFamily = Manrope,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 16.sp,
+                                modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp).offset(x = itemsCount * -8.dp)
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
             }
 
             item {
@@ -627,7 +683,8 @@ fun MovieDetailsScreen(
                     ) {
                         if (mainApiState.value.value != null) {
                             for (i in 0..<mainApiState.value.value!!.genres.size) {
-                                var isSelected = genres.value.any { it == mainApiState.value.value!!.genres[i].name }
+                                var isSelected =
+                                    genres.value.any { it == mainApiState.value.value!!.genres[i].name }
 
                                 val modifier = if (!isSelected) {
                                     Modifier
@@ -649,26 +706,29 @@ fun MovieDetailsScreen(
                                 }
 
                                 ContentBlock(
-                                    modifier = Modifier.padding(horizontal = 4.dp)
+                                    modifier = Modifier
+                                        .padding(horizontal = 4.dp)
                                         .clickable {
                                             if (!isSelected) {
                                                 viewModel.addGenre(
-                                                    userLogin,
                                                     mainApiState.value.value!!.genres[i].name
                                                 )
                                             } else {
                                                 viewModel.deleteGenre(
-                                                    userLogin,
                                                     mainApiState.value.value!!.genres[i].name
                                                 )
                                             }
-                                        }.then(modifier)
+                                        }
+                                        .then(modifier)
                                 ) {
                                     Text(
                                         text = mainApiState.value.value!!.genres[i].name,
                                         fontFamily = Manrope,
                                         fontWeight = FontWeight.Medium,
-                                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                                        modifier = Modifier.padding(
+                                            horizontal = 12.dp,
+                                            vertical = 8.dp
+                                        ),
                                         color = colorResource(id = R.color.white),
                                         fontSize = 16.sp
                                     )
@@ -777,10 +837,13 @@ fun MovieDetailsScreen(
                                         AsyncImage(
                                             model = ImageRequest.Builder(LocalContext.current)
                                                 .data(
-                                                    if(reviews.value?.get(currentIndex)?.isAnonymous == false || reviews.value?.get(currentIndex)?.author?.userId == profileState.value.value){
-                                                            reviews.value?.get(
-                                                                currentIndex
-                                                            )?.author?.avatar
+                                                    if (reviews.value?.get(currentIndex)?.isAnonymous == false || reviews.value?.get(
+                                                            currentIndex
+                                                        )?.author?.userId == profileState.value.value
+                                                    ) {
+                                                        reviews.value?.get(
+                                                            currentIndex
+                                                        )?.author?.avatar
                                                     } else {
                                                         null
                                                     }
@@ -815,15 +878,16 @@ fun MovieDetailsScreen(
                                         Spacer(modifier = Modifier.width(8.dp))
                                         Column {
                                             Text(
-                                                text = if(reviews.value?.get(currentIndex)?.isAnonymous == false || reviews.value?.get(currentIndex)?.author?.userId == profileState.value.value ){
+                                                text = if (reviews.value?.get(currentIndex)?.isAnonymous == false || reviews.value?.get(
+                                                        currentIndex
+                                                    )?.author?.userId == profileState.value.value
+                                                ) {
                                                     reviews.value?.get(
                                                         currentIndex
                                                     )?.author?.nickName.toString()
-                                                }
-                                                else{
+                                                } else {
                                                     "Анонимный пользователь"
-                                                }
-                                                ,
+                                                },
                                                 fontFamily = Manrope,
                                                 fontWeight = FontWeight.Medium,
                                                 color = colorResource(id = R.color.white),
@@ -901,7 +965,7 @@ fun MovieDetailsScreen(
                                 (isUserReviewExists && reviews.value?.get(currentIndex)?.author?.userId == profileState.value.value)
                                 ||
                                 (!isUserReviewExists)
-                                ){
+                            ) {
                                 TextButton(
                                     modifier = Modifier
                                         .background(
@@ -933,7 +997,7 @@ fun MovieDetailsScreen(
                                 }
                                 Spacer(modifier = Modifier.width(4.dp))
                             }
-                            if(isUserReviewExists && reviews.value?.get(currentIndex)?.author?.userId == profileState.value.value){
+                            if (isUserReviewExists && reviews.value?.get(currentIndex)?.author?.userId == profileState.value.value) {
                                 IconButton(
                                     modifier = Modifier
                                         .size(40.dp)
@@ -950,7 +1014,8 @@ fun MovieDetailsScreen(
                                     enabled = currentIndex != 0,
                                     onClick = {
                                         reviews.value?.get(currentIndex)?.id?.let {
-                                            viewModel.deleteReview(id,
+                                            viewModel.deleteReview(
+                                                id,
                                                 it
                                             )
                                         }
@@ -1058,9 +1123,9 @@ fun MovieDetailsScreen(
 
     val obsDelete = viewModel.deletedReviewState.observeAsState()
 
-    if(obsDelete.value?.isSuccess == true){
+    if (obsDelete.value?.isSuccess == true) {
         viewModel.emitNothingDeleted()
-        if(currentIndex>0){
+        if (currentIndex > 0) {
             currentIndex--
         }
         viewModel.updateReviewsOnly()
@@ -1068,14 +1133,14 @@ fun MovieDetailsScreen(
 
     val obsAdd = viewModel.addedReviewState.observeAsState()
 
-    if(obsAdd.value?.isSuccess == true){
+    if (obsAdd.value?.isSuccess == true) {
         viewModel.emitNothingAdded()
         viewModel.updateReviewsOnly()
     }
 
     val obsEdit = viewModel.editedReviewState.observeAsState()
 
-    if(obsEdit.value?.isSuccess == true){
+    if (obsEdit.value?.isSuccess == true) {
         viewModel.emitNothingEdited()
         viewModel.updateReviewsOnly()
     }

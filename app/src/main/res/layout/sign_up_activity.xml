@@ -1,308 +1,343 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ImageView
-        android:id="@+id/imageView3"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="348dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/background_sign_up"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="36dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="348dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/background_sign_up"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/BackButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/edit_shape"
-            android:src="@drawable/ic_back" />
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:fontFamily="@font/manrope_bold"
-            android:text="@string/register_string"
-            android:textColor="@color/white"
-            android:textSize="24sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="32dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="36dp"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="@drawable/edit_shape"
-            android:padding="4dp">
-
-            <EditText
-                android:id="@+id/login"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/hint_login"
-                android:background="@null"
-                android:fontFamily="@font/manrope_medium"
-                android:layout_marginStart="16dp"
-                android:gravity="center_vertical"
-                android:inputType="text"
-                android:textSize="14sp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/hint_text" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
-                android:id="@+id/clear_login"
-                android:layout_marginVertical="12dp"
+                android:id="@+id/BackButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_shape"
+                android:src="@drawable/ic_back" />
+
+            <TextView
                 android:layout_width="wrap_content"
-                android:visibility="invisible"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="8dp"
-                android:background="@null"
-                android:src="@drawable/test"
-                app:tint="@color/white" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/edit_shape"
-            android:padding="4dp">
-
-            <EditText
-                android:id="@+id/email"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Электронная почта"
-                android:background="@null"
-                android:fontFamily="@font/manrope_medium"
-                android:layout_marginStart="16dp"
-                android:gravity="center_vertical"
-                android:inputType="text"
-                android:textSize="14sp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/hint_text" />
-
-            <ImageButton
-                android:id="@+id/clear_email"
-                android:layout_marginVertical="12dp"
-                android:layout_width="wrap_content"
-                android:visibility="invisible"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="8dp"
-                android:background="@null"
-                android:src="@drawable/test"
-                app:tint="@color/white" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/edit_shape"
-            android:padding="4dp">
-
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Имя"
-                android:background="@null"
-                android:fontFamily="@font/manrope_medium"
-                android:layout_marginStart="16dp"
-                android:gravity="center_vertical"
-                android:inputType="text"
-                android:textSize="14sp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/hint_text" />
-
-            <ImageButton
-                android:id="@+id/clear_name"
-                android:layout_marginVertical="12dp"
-                android:layout_width="wrap_content"
-                android:visibility="invisible"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="8dp"
-                android:background="@null"
-                android:src="@drawable/test"
-                app:tint="@color/white" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/edit_shape"
-            android:padding="4dp">
-
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginVertical="10dp"
-                android:hint="Пароль"
-                android:background="@null"
-                android:fontFamily="@font/manrope_medium"
-                android:layout_marginStart="16dp"
-                android:gravity="center_vertical"
-                android:inputType="textPassword"
-                android:textSize="14sp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/hint_text" />
-
-            <ImageButton
-                android:id="@+id/pass_ic"
-                android:layout_width="wrap_content"
-                android:visibility="invisible"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="8dp"
-                android:background="@null"
-                app:tint="@color/white" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/edit_shape"
-            android:padding="4dp">
-
-            <EditText
-                android:id="@+id/passwordRepeat"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginVertical="10dp"
-                android:hint="Подтвердите пароль"
-                android:background="@null"
-                android:fontFamily="@font/manrope_medium"
-                android:layout_marginStart="16dp"
-                android:gravity="center_vertical"
-                android:inputType="textPassword"
-                android:textSize="14sp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/hint_text" />
-
-            <ImageButton
-                android:id="@+id/pass_ic_repeat"
-                android:layout_width="wrap_content"
-                android:visibility="invisible"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="8dp"
-                android:background="@null"
-                app:tint="@color/white" />
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edit_shape"
-            android:textColor="@color/white"
-            android:textColorHint="@color/hint_text"
-            android:fontFamily="@font/manrope_medium"
-            android:hint="Дата рождения"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="14dp"
-            android:textSize="14sp"
-            android:drawableEnd="@drawable/ic_date_wrap"
-            android:drawableTint="@color/hint_text"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical"
-            android:inputType="date" />
-
-        <LinearLayout
-            android:id="@+id/sex"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/man"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginLeft="16dp"
                 android:fontFamily="@font/manrope_bold"
-                android:gravity="center"
-                android:text="Мужчина"
-                android:background="@drawable/orange_sex_gradient_left"
-                android:backgroundTint="@null"
-                android:textAllCaps="false"
+                android:text="@string/register_string"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/woman"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/default_sex_shape_right"
-                android:backgroundTint="@null"
-                android:fontFamily="@font/manrope_bold"
-                android:gravity="center"
-                android:text="Женщина"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textSize="24sp" />
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnReg"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
             android:layout_marginTop="32dp"
-            android:backgroundTint="@null"
-            android:fontFamily="@font/manrope_bold"
-            android:paddingVertical="14dp"
-            android:textAllCaps="false"
-            android:text="Зарегистрироваться"
-            android:textColor="@color/hint_text"
-            android:textSize="16sp" />
-    </LinearLayout>
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/edit_shape"
+                android:padding="4dp">
+
+                <EditText
+                    android:id="@+id/login"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/hint_login"
+                    android:background="@null"
+                    android:fontFamily="@font/manrope_medium"
+                    android:layout_marginStart="16dp"
+                    android:gravity="center_vertical"
+                    android:inputType="text"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/hint_text" />
+
+                <ImageButton
+                    android:id="@+id/clear_login"
+                    android:layout_marginVertical="12dp"
+                    android:layout_width="wrap_content"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@null"
+                    android:src="@drawable/test"
+                    app:tint="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/edit_shape"
+                android:padding="4dp">
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Электронная почта"
+                    android:background="@null"
+                    android:fontFamily="@font/manrope_medium"
+                    android:layout_marginStart="16dp"
+                    android:gravity="center_vertical"
+                    android:inputType="text"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/hint_text" />
+
+                <ImageButton
+                    android:id="@+id/clear_email"
+                    android:layout_marginVertical="12dp"
+                    android:layout_width="wrap_content"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@null"
+                    android:src="@drawable/test"
+                    app:tint="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/edit_shape"
+                android:padding="4dp">
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Имя"
+                    android:background="@null"
+                    android:fontFamily="@font/manrope_medium"
+                    android:layout_marginStart="16dp"
+                    android:gravity="center_vertical"
+                    android:inputType="text"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/hint_text" />
+
+                <ImageButton
+                    android:id="@+id/clear_name"
+                    android:layout_marginVertical="12dp"
+                    android:layout_width="wrap_content"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@null"
+                    android:src="@drawable/test"
+                    app:tint="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/edit_shape"
+                android:padding="4dp">
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginVertical="10dp"
+                    android:hint="Пароль"
+                    android:background="@null"
+                    android:fontFamily="@font/manrope_medium"
+                    android:layout_marginStart="16dp"
+                    android:gravity="center_vertical"
+                    android:inputType="textPassword"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/hint_text" />
+
+                <ImageButton
+                    android:id="@+id/pass_ic"
+                    android:layout_width="wrap_content"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@null"
+                    app:tint="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/edit_shape"
+                android:padding="4dp">
+
+                <EditText
+                    android:id="@+id/passwordRepeat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginVertical="10dp"
+                    android:hint="Подтвердите пароль"
+                    android:background="@null"
+                    android:fontFamily="@font/manrope_medium"
+                    android:layout_marginStart="16dp"
+                    android:gravity="center_vertical"
+                    android:inputType="textPassword"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/hint_text" />
+
+                <ImageButton
+                    android:id="@+id/pass_ic_repeat"
+                    android:layout_width="wrap_content"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@null"
+                    app:tint="@color/white" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_shape"
+                android:textColor="@color/white"
+                android:textColorHint="@color/hint_text"
+                android:fontFamily="@font/manrope_medium"
+                android:hint="Дата рождения"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
+                android:textSize="14sp"
+                android:drawableEnd="@drawable/ic_date_wrap"
+                android:drawableTint="@color/hint_text"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:inputType="date" />
+
+            <LinearLayout
+                android:id="@+id/sex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/man"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/manrope_bold"
+                    android:gravity="center"
+                    android:text="Мужчина"
+                    android:background="@drawable/orange_sex_gradient_left"
+                    android:backgroundTint="@null"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/woman"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/default_sex_shape_right"
+                    android:backgroundTint="@null"
+                    android:fontFamily="@font/manrope_bold"
+                    android:gravity="center"
+                    android:text="Женщина"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/errorMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:visibility="invisible"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/manrope_medium"
+                android:textSize="14sp"
+                android:text="@string/error_sign_up"
+                android:textColor="@color/red"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnReg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@null"
+                android:fontFamily="@font/manrope_bold"
+                android:paddingVertical="14dp"
+                android:textAllCaps="false"
+                android:text="Зарегистрироваться"
+                android:textColor="@color/hint_text"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/orange" />
+    </FrameLayout>
+
+</FrameLayout>
 

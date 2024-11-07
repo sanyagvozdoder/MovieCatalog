@@ -9,21 +9,25 @@
         android:id="@+id/nav_feed"
         android:name="com.example.testxml.presentation.activities.feed_screen.FeedFragment"
         android:label="Feed"
+        app:defaultNavHost="true"
         tools:layout="@layout/feed_fragment" />
 
     <fragment
         android:id="@+id/nav_films"
         android:name="com.example.testxml.presentation.activities.movies_screen.MoviesFragment"
         android:label="Films"
+        app:defaultNavHost="true"
         tools:layout="@layout/movies_fragment" />
 
     <fragment
         android:id="@+id/nav_favorite"
         android:name="com.example.testxml.presentation.activities.favorite_screen.FavoriteFragment"
+        app:defaultNavHost="true"
         android:label="Favorite" />
 
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.example.testxml.presentation.activities.profile_screen.ProfileFragment"
+        app:defaultNavHost="true"
         android:label="Profile" />
 </navigation>
